@@ -9,9 +9,25 @@ class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="이메일")
 
     class Meta:
-        model = get_user_model()
-        fields = '__all__'
-        # fields = ('username', 'password1', 'password2', 'email')
+        model = User
+        print(model)
+        # fields = '__all__'
+        fields = ('username', 'password1', 'password2', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        self.fields["username"].help_text = "기호, 영어 소문자, 숫자를 혼합하여 8자리 이상"
+        
+        self.fields["password1"].widget.attrs.update(
+            {"class": "form-control", }
+        )
+        self.fields["password1"].help_text = "기호, 영어 소문자, 숫자를 혼합하여 8자리 이상"
+
+        self.fields["password2"].widget.attrs.update(
+            {"class": "form-control", }
+        )
+        self.fields["password2"].help_text = "확인을 위해 이전과 동일한 비밀번호"
+
 
 # class LoginForm(forms.Form):
 #     username = forms.CharField()
