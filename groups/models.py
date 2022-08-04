@@ -13,7 +13,7 @@ class Group(models.Model):
     # blackList = models.ManyToManyField('User')
 
     #이미지 업로드 경로 추가 
-    image = models.ImageField(blank=True, upload_to='groups/%Y%m%d', verbose_name="사진")
+    image = models.ImageField(blank=True, upload_to='groups/%Y%m%d', verbose_name='사진')
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
