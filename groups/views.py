@@ -21,9 +21,14 @@ def create(request):
             group.head = request.user.username
             group.code = request.user.username
             group.save()
-            group.member.add(request.user.id)
-
-        return redirect('/groups/')
+            group.members.add(request.user.id)
+            return redirect(f'/groups/group/{group.id}')
+        else:
+            form = GroupForm()
+            context = {
+            'form' : form
+            }
+            return render(request, template_name='groups/create.html', context=context)
     else:
         form = GroupForm()
         context = {
@@ -31,8 +36,27 @@ def create(request):
         }
         return render(request, template_name='groups/create.html', context=context)
 
-def join(requsest):
-    pass
+def join(request):
+    if request.method == 'POST':
+        code = request.POST['code']
+        user = request.user.id
+
+        # 케이스별로 예외처리 논의 필요
+        try:
+            group = Group.objects.get(code=code)
+        except Group.DoesNotExist:
+            return redirect('/groups/join/')
+        
+        try:
+            group.blackList.get(id=user)
+            return redirect('/groups/join/')
+        except:
+            group.members.add(user)
+            return redirect(f'/groups/group/{group.id}')  
+              
+
+    else:
+        return render(request, template_name='groups/join.html')
 
 def detail(request, id):
     group = Group.objects.get(id = id)

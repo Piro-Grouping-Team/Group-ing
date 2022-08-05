@@ -16,9 +16,11 @@
     </p>
     <p>그룹 소개 : {{group.introduction}}</p>
     <p>그룹 목적 : {{group.purpose}}</p>
+    <p>그룹 멤버 :
     {% for member in members %}
-    <p>그룹 멤버 : {{member}}</p>
+     | {{member}}
     {% endfor %}
+    </p>
     <p>그룹 코드 : {{group.code}}</p>
 
 </body>
