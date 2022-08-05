@@ -10,7 +10,7 @@ class Group(models.Model):
     purpose = models.TextField(null=True, blank=True, verbose_name='그룹 목적')
     # tendency = models.ForeignKey() => 키워드에서 외래키 걸기
     
-    member = models.ManyToManyField(User, related_name='member_group')
+    members = models.ManyToManyField(User, related_name='members_group')
     blackList = models.ManyToManyField(User, blank=True, related_name='blackList_group')
 
     #이미지 업로드 경로 추가 

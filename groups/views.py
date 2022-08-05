@@ -6,9 +6,12 @@ from logins.models import User
 
 # Create your views here.
 def main(request):
-    group = Group.objects.first()
-    print(group)
-    return render(request, 'groups/main.html')
+    currentUser= request.user.id
+    groups = Group.objects.filter(members=currentUser)
+    context = {
+        'groups' : groups
+    }
+    return render(request, 'groups/main.html', context=context)
 
 def create(request):
     if request.method == 'POST':
@@ -19,6 +22,7 @@ def create(request):
             group.code = request.user.username
             group.save()
             group.member.add(request.user.id)
+
         return redirect('/groups/')
     else:
         form = GroupForm()
@@ -31,4 +35,10 @@ def join(requsest):
     pass
 
 def detail(request, id):
-    pass
+    group = Group.objects.get(id = id)
+    members = group.members.all()
+    context = {
+        'group' : group,
+        'members' : members
+    }
+    return render(request, template_name='groups/detail.html', context=context)
