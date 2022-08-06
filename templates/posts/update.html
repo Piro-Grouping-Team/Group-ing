@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form
+      action="{% url 'posts:update' post.logId %}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <input type='text' name='logTitle' placeholder='제목' value='{{post.logTitle}}'></input>
+      <p>날짜</p>
+      <input type="date" name="logDate" value="{{post.logDate}}" min="2022-01-01" max="2022-12-31">
+      <select name='openRange'> 
+        {% for open in openRanges %}
+        <option value='{{open.id}}' {% if open.id == post.openRange %} selected {% endif %}>{{open.name}}</option>
+        {% endfor %}
+      </select>
+      <p>키워드???</p>
+
+      <p>이미지 {{ post.image.url }}</p>
+      <input type='file' name='logImgs[]' value='{{ post.logImgs }}' multiple ></input>
+
+      <textarea name='logContent' rows='30' cols='30' placeholder='본문내용' >
+        {{post.logContent}}
+      </textarea>
+
+      <div>
+        <input type="submit" value="제출" />
+      </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form
+      action="{% url 'posts:create' %}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <input type='text' name='logTitle' placeholder='제목'></input>
+      <p>날짜</p>
+      <input type="date" name="logDate" value="2022-08-23" min="2022-01-01" max="2022-12-31">
+      <select name='openRange'>
+        {% for open in openRanges %}
+        <option value='{{open.id}}'>{{open.name}}</option>
+        {% endfor %}
+      </select>
+      <p>키워드???</p>
+
+      <input type='file' name='logImgs[]' multiple>이미지</input>
+
+      <textarea name='logContent' rows='30' cols='30' placeholder='본문내용'></textarea>
+
+      <div>
+        <input type="submit" value="제출" />
+      </div>
+    </form>
+  </body>
+</html>
