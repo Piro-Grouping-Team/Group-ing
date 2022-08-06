@@ -14,5 +14,11 @@
         <input type="text" name="code" placehoder="그룹 코드 입력">
         <input type="submit" value="그룹 참여" />
     </form>
+    {% if messages %}
+	    {% for message in messages %}
+		    {{ message.tags }}
+		    {{ message.message }}
+	    {% endfor %}
+    {% endif %}
 </body>
 </html>

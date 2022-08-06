@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-
+from django.contrib import messages
 from groups.forms import GroupForm
 from .models import Group
 from logins.models import User
@@ -42,13 +42,15 @@ def join(request):
         user = request.user.id
 
         # 케이스별로 예외처리 논의 필요
-        try:
+        try:    
             group = Group.objects.get(code=code)
         except Group.DoesNotExist:
+            messages.error(request, '유효하지 않은 그룹 코드입니다.')
             return redirect('/groups/join/')
         
         try:
             group.blackList.get(id=user)
+            messages.error(request, '그룹의 블랙리스트에 등록되어있습니다.')
             return redirect('/groups/join/')
         except:
             group.members.add(user)
