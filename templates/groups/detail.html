@@ -11,9 +11,11 @@
     group detail page
     <h3>그룹명 : {{group.name}}</h3>
     <h5>그룹장 : {{group.head}}</h5>
+    {% if group.image %}
     <p>그룹 대표 이미지 : 
         <img src="{{group.image.url}}" alt="이미지 없음" />
     </p>
+    {% endif %}
     <p>그룹 소개 : {{group.introduction}}</p>
     <p>그룹 목적 : {{group.purpose}}</p>
     <p>그룹 멤버 :
