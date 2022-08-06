@@ -4,5 +4,4 @@ from .models import MeetingMember
 # Register your models here.
 @admin.register(MeetingMember)
 class MeetingMemberAdmin(admin.ModelAdmin):
-    list_display = ('meetId')
-    
+    pass    
