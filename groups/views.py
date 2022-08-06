@@ -6,6 +6,7 @@ from logins.models import User
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def main(request):
     currentUser= request.user.id
     groups = Group.objects.filter(members=currentUser)
@@ -61,8 +62,6 @@ def join(request):
             except:
                 group.members.add(user)
                 return redirect(f'/groups/group/{group.id}')  
-              
-
     else:
         return render(request, template_name='groups/join.html')
 
@@ -84,3 +83,22 @@ def leave(request, id):
         group.members.remove(user)
     
     return redirect('/groups/')
+
+def modify(request, id):
+    group = Group.objects.get(id=id)
+    if request.method == 'POST':
+        form = GroupForm(request.POST, request.FILES)
+        if form.is_valid():
+            group.name = form.cleaned_data['name']
+            group.introduction = form.cleaned_data['introduction']
+            group.purpose = form.cleaned_data['purpose']
+            group.image = form.cleaned_data['image']
+            group.save()
+            return redirect(f'/groups/group/{group.id}')
+    else:
+        form = GroupForm(instance=group)
+        context = {
+            'form' : form,
+            'group' : group
+        }
+        return render(request, template_name='groups/modify.html', context=context)

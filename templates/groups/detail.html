@@ -16,6 +16,8 @@
             {% csrf_token %}
             <button>그룹 떠나기</button>
       </form>
+    {% else %}
+        <a href="{% url 'groups:modify' group.id %}">그룹 정보 수정</a>
     {% endif %}
 
     {% if group.image %}
