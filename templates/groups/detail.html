@@ -11,6 +11,13 @@
     group detail page
     <h3>그룹명 : {{group.name}}</h3>
     <h5>그룹장 : {{group.head}}</h5>
+    {% if user.username != group.head %}
+        <form action="{% url 'groups:leave' group.id %}" method="POST">
+            {% csrf_token %}
+            <button>그룹 떠나기</button>
+      </form>
+    {% endif %}
+
     {% if group.image %}
     <p>그룹 대표 이미지 : 
         <img src="{{group.image.url}}" alt="이미지 없음" />

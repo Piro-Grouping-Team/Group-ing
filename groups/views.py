@@ -68,9 +68,19 @@ def join(request):
 
 def detail(request, id):
     group = Group.objects.get(id = id)
+    user = request.user
     members = group.members.all()
     context = {
         'group' : group,
-        'members' : members
+        'members' : members,
+        'user' : user
     }
     return render(request, template_name='groups/detail.html', context=context)
+
+def leave(request, id):
+    if request.method == 'POST':
+        user = request.user.id
+        group = Group.objects.get(id=id)
+        group.members.remove(user)
+    
+    return redirect('/groups/')
