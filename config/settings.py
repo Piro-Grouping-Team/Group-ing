@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'logins',
     'groups',
     'meetings',
+    'meetingsMember',
 ]
 
 MIDDLEWARE = [

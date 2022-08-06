@@ -33,5 +33,8 @@ def update(request, meetId):
 
 #todo 디테일 페이지 - 모집중/ 투표중/ 픽스  
 def detail(request, meetId):
+
+    
+
     return render(request, 'meetings/detail.html')
 
