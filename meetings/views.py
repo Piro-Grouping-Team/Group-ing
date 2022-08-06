@@ -33,11 +33,10 @@ def create(request,id):
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
 
-
         meetings = Meetings(meetName=meetName,meetGroupId=meetGroupId,  meetTime=meetTime, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate)
         meetings.save()
 
-        return redirect('{% url meetings:detail %}'+str(meetings.id))
+        return redirect('meetings:detail',id,meetings.id)
 
     group = Group.objects.get(id=id)
     context = {
@@ -52,7 +51,7 @@ def update(request, meetId):
 
 #todo 디테일 페이지 - 모집중/ 투표중/ 픽스  
 @login_required
-def detail(request, id, meetId):
+def detail(request, id,meetId):
     groupId =id
     meeting = Meetings.objects.get(id=meetId)
 
