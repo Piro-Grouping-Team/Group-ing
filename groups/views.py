@@ -3,6 +3,7 @@ from django.contrib import messages
 from groups.forms import GroupForm
 from .models import Group
 from logins.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def main(request):
@@ -53,8 +54,13 @@ def join(request):
             messages.error(request, '그룹의 블랙리스트에 등록되어있습니다.')
             return redirect('/groups/join/')
         except:
-            group.members.add(user)
-            return redirect(f'/groups/group/{group.id}')  
+            try: 
+                group.members.get(id=user)
+                messages.error(request, '이미 해당 그룹의 멤버입니다.')
+                return redirect('/groups/join/')
+            except:
+                group.members.add(user)
+                return redirect(f'/groups/group/{group.id}')  
               
 
     else:
