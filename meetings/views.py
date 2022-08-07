@@ -46,8 +46,27 @@ def create(request,id):
     return render(request, 'meetings/create.html',context)
 
 @login_required
-def update(request, meetId):
-    return render(request, 'meetings/update.html')
+def update(request, id, meetId):
+    group = Group.objects.get(id=id)
+    if request.method =='POST':
+        meetings = Meetings.objects.get(id=meetId)
+
+        meetings.meetName = request.POST['meetName']
+        meetings.meetTime = request.POST['meetTime']
+        meetings.meetPlace = request.POST['meetPlace']
+        meetings.startDate = request.POST['startDate']
+        meetings.endDate = request.POST['endDate']
+        meetings.save()
+
+        return redirect('meetings:detail',id,meetings.id)
+    
+    meetings = Meetings.objects.get(id=meetId)
+    context = {
+        'meeting': meetings,
+        'group': group,
+
+    }
+    return render(request, 'meetings/update.html',context)
 
 #todo 디테일 페이지 - 모집중/ 투표중/ 픽스  
 @login_required

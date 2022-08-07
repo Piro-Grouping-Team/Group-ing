@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form
+      action="{% url 'meetings:update' id=group.id meetId=meeting.id %}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <span>약속 이름:</span>
+      <input type="text" name="meetName" value='{{meeting.meetName}}'/>
+      <span>날짜:</span>
+      <input type="date" name="meetTime" value='{{meeting.meetTime}}'/>
+      <span>장소:</span>
+      <input type="text" name="meetPlace" value='{{meeting.meetPlace}}'/>
+
+      <span> 모집 시작일 {{meeting.meetStart}}</span>
+      <input id="stDate" type="date" name="startDate" value='{{meeting.meetStart}}'/>
+      <span> 모집 종료일 {{meeting.meetEnd}}</span>
+      <input id="edDate" type="date" name="endDate" value='{{meeting.meetEnd}}'/>
+      <input type="submit">약속 등록</input>
+    </form>
+    
+  </body>
+  <script>
+    
+  </script>
+</html>
