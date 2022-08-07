@@ -21,6 +21,9 @@
     </header>
     {% block content %}
     <main>
+      {% load socialaccount %}
+      <a href=" {% provider_login_url 'naver' %}">네이버 로그인</a>
+      <a href=" {% provider_login_url 'google' %}">구글 로그인</a>
       {% if user.is_authenticated %}
       <div class="main-desc">
         <i class="fa-regular fa-lightbulb fa-2xl"></i>

@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
+    'six',
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.google',
     'logins',
     'groups',
-
 ]
 
 MIDDLEWARE = [
@@ -134,3 +140,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'logins.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+# # 메일을 호스트하는 서버
+EMAIL_PORT = '587'
+# # gmail과의 통신하는 포트
+EMAIL_HOST_USER = 'xb253q@gmail.com'
+# # 발신할 이메일
+EMAIL_HOST_PASSWORD = 'islcxprwjzcgdspo'
+# # 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True
+# # TLS 보안 방법
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'

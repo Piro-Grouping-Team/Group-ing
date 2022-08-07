@@ -1,33 +1,51 @@
-from dataclasses import field
+# from dataclasses import field
 from django import forms
 from .models import User
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(label="이메일")
-
+    username = forms.CharField(
+        min_length=5,
+        max_length=20,
+        label='계정이름'
+    )
+    password1 = forms.CharField(
+        min_length=8,
+        max_length=16,
+        label='비밀번호',
+        widget=forms.PasswordInput,
+    )
+    password2 = forms.CharField(
+        min_length=8,
+        max_length=16,
+        label='비밀번호 확인',
+        widget=forms.PasswordInput,
+    )
     class Meta:
         model = User
-        print(model)
-        # fields = '__all__'
-        fields = ('username', 'password1', 'password2', 'email')
+        fields = (
+            'username', 
+            'password1', 
+            'password2', 
+            'name',
+            'email', 
+            )
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
-        self.fields["username"].help_text = "기호, 영어 소문자, 숫자를 혼합하여 8자리 이상"
-        
+        self.fields['username'].help_text = '5~20자 길이'
+
+        self.fields['password1'].help_text = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요"
+
         self.fields["password1"].widget.attrs.update(
             {"class": "form-control", }
         )
-        self.fields["password1"].help_text = "기호, 영어 소문자, 숫자를 혼합하여 8자리 이상"
 
         self.fields["password2"].widget.attrs.update(
             {"class": "form-control", }
         )
         self.fields["password2"].help_text = "확인을 위해 이전과 동일한 비밀번호"
-
 
 # class LoginForm(forms.Form):
 #     username = forms.CharField()

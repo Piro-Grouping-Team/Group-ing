@@ -9,4 +9,6 @@
   <input type="submit" value="로그인" />
 </form>
 <a href="{% url 'logins:signup' %}">회원가입</a>
+{% load socialaccount %}
+<a href=" {% provider_login_url 'naver' %}">네이버 로그인</a>
 {% endif %}
