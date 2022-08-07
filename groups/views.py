@@ -102,3 +102,15 @@ def modify(request, id):
             'group' : group
         }
         return render(request, template_name='groups/modify.html', context=context)
+
+def members(request, id):
+    group = Group.objects.get(id=id)
+    members = group.members.all()
+    user = request.user.username
+
+    context = {
+        'group' : group,
+        'members' : members, 
+        'user' : user,
+    }
+    return render(request, template_name='groups/members.html', context=context)

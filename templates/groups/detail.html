@@ -20,6 +20,8 @@
         <a href="{% url 'groups:modify' group.id %}">그룹 정보 수정</a>
     {% endif %}
 
+    <a href="{% url 'groups:members' group.id%}">그룹 멤버</a>
+
     {% if group.image %}
     <p>그룹 대표 이미지 : 
         <img src="{{group.image.url}}" alt="이미지 없음" />
@@ -27,11 +29,6 @@
     {% endif %}
     <p>그룹 소개 : {{group.introduction}}</p>
     <p>그룹 목적 : {{group.purpose}}</p>
-    <p>그룹 멤버 :
-    {% for member in members %}
-     | {{member}}
-    {% endfor %}
-    </p>
     <p>그룹 코드 : {{group.code}}</p>
 
 </body>
