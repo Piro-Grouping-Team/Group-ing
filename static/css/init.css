@@ -1,4 +1,33 @@
-h1 {
-  color: white;
-  text-align: center;
+@import url("./reset.css");
+
+@media (max-width: 767px) {
+  /* 모바일 */
+
+  .container {
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    padding: 4rem 0 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btitle {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .stitle {
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* 데스크탑 일반 */
 }

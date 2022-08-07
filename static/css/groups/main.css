@@ -1,0 +1,7 @@
+@import url(../init.css);
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

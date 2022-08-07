@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GruopCreate</title>
-</head>
-<body>
-    group create page
+  {% load static %}
 
-    <form action="/groups/create/" enctype="multipart/form-data" method="POST">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/create.css' %}" />
+    <title>GruopCreate</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          새로운 그룹을 <br />
+          만들어요!
+        </div>
+      </div>
+      <form
+        action="/groups/create/"
+        enctype="multipart/form-data"
+        method="POST"
+      >
         {% csrf_token %}
         <table>
-            {{form.as_table}}
+          {{form.as_table}}
         </table>
-        <input type="submit" value="그룹 생성" />
-    </form>
-</body>
+        <input class="create" type="submit" value="그룹을 만들어봐요!" />
+      </form>
+    </div>
+  </body>
 </html>
