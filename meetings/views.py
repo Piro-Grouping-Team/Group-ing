@@ -11,20 +11,28 @@ from django.contrib.auth.decorators import login_required
 #필터링 공개범위 :개인 그룹 전체
 # 검색 a. 키워드 b. 제목
 #목록 페이지 썸네일과 제목
-@login_required
-def main(request):
 
-    
-    meetings = Meetings.objects.all()
+@login_required
+def main(request, id):
+    curgroup = Group.objects.get(id=id)
+    print('flase')
+    if curgroup.members.filter(id = request.user.id).exists() == False:
+        print('그룹에 속해있지 않아요 ')
+        # todo 다이렉션 설정 필요
+        return redirect('meetings:main', id)
+    #그룹내 약속정보들 가져오기
+    group = Group.objects.get(id=id)
+    meetings = Meetings.objects.filter(meetGroupId=group)
 
     context = {
         'meetings': meetings,
     }
-    return render(request, 'meetings/main.html')
+    return render(request, 'meetings/main.html',context)
 
 #todo 생성페이지
 @login_required
 def create(request,id):
+    #todo 그룹에 속한 사람인지 판별
     if request.method =='POST':
         meetGroupId = Group.objects.get(id=id)
         meetName = request.POST['meetName']
@@ -47,6 +55,7 @@ def create(request,id):
 
 @login_required
 def update(request, id, meetId):
+    # todo 약속을 만든사람인지 판별
     group = Group.objects.get(id=id)
     if request.method =='POST':
         meetings = Meetings.objects.get(id=meetId)
@@ -71,11 +80,11 @@ def update(request, id, meetId):
 #todo 디테일 페이지 - 모집중/ 투표중/ 픽스  
 @login_required
 def detail(request, id,meetId):
-    groupId =id
     meeting = Meetings.objects.get(id=meetId)
-
+    group = Group.objects.get(id=id)
     context = {
         'meeting': meeting,
+        'group': group,
     }
 
     return render(request, 'meetings/detail.html',context)
