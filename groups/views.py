@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from groups.forms import GroupForm
+from groups.utils import groupCodeGenerate
 from .models import Group
 from logins.models import User
 from django.contrib.auth.decorators import login_required
@@ -21,7 +22,8 @@ def create(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.head = request.user.username
-            group.code = request.user.username
+            group.save()
+            group.code =  groupCodeGenerate(request.user.username, group.id)
             group.save()
             group.members.add(request.user.id)
             return redirect(f'/groups/group/{group.id}')
