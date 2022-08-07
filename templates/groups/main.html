@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/groups/main.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>GroupMain</title>
   </head>
   <body>
@@ -16,9 +20,22 @@
       </div>
       <ul class="groups">
         {% for group in groups %}
-        <li class="group">
-          <a href="{% url 'groups:detail' group.id %}">{{group.name}}</a>
-        </li>
+        <a class="group" href="{% url 'groups:detail' group.id %}">
+          <div class="group-img_box">
+            <img
+              class="group-img"
+              src="{{group.image.url}}"
+              alt="이미지 없음"
+            />
+          </div>
+          <div class="group-tag_box">
+            <div class="group-name">{{group.name}}</div>
+            <ul class="tags">
+              <li class="tag">사교적인</li>
+              <li class="tag">게임</li>
+            </ul>
+          </div>
+        </a>
         {% endfor %}
       </ul>
 
@@ -26,10 +43,16 @@
       <a href="{% url 'groups:detail' group.id %}">그룹 참여하기</a>
       {% endcomment %}
 
-      <div class="newgroup">+</div>
-
-      <a class="create" href="{% url 'groups:create' %}">그룹 생성하기</a>
-      <a class="join" href="{% url 'groups:join' %}">그룹 참여하기</a>
+      <button class="new-btn"><i class="fa-solid fa-circle-plus"></i></button>
+      <div class="modal">
+        <a class="create modal-list" href="{% url 'groups:create' %}"
+          >그룹 생성하기</a
+        >
+        <a class="join modal-list" href="{% url 'groups:join' %}"
+          >그룹 참여하기</a
+        >
+      </div>
     </div>
+    <script src="{% static 'js/groups/main.js' %}"></script>
   </body>
 </html>
