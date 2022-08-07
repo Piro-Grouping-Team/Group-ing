@@ -3,8 +3,10 @@ from django.contrib import messages
 from groups.forms import GroupForm
 from .models import Group
 from logins.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def main(request):
     currentUser= request.user.id
     groups = Group.objects.filter(members=currentUser)
@@ -53,18 +55,62 @@ def join(request):
             messages.error(request, '그룹의 블랙리스트에 등록되어있습니다.')
             return redirect('/groups/join/')
         except:
-            group.members.add(user)
-            return redirect(f'/groups/group/{group.id}')  
-              
-
+            try: 
+                group.members.get(id=user)
+                messages.error(request, '이미 해당 그룹의 멤버입니다.')
+                return redirect('/groups/join/')
+            except:
+                group.members.add(user)
+                return redirect(f'/groups/group/{group.id}')  
     else:
         return render(request, template_name='groups/join.html')
 
 def detail(request, id):
     group = Group.objects.get(id = id)
+    user = request.user
     members = group.members.all()
     context = {
         'group' : group,
-        'members' : members
+        'members' : members,
+        'user' : user
     }
     return render(request, template_name='groups/detail.html', context=context)
+
+def leave(request, id):
+    if request.method == 'POST':
+        user = request.user.id
+        group = Group.objects.get(id=id)
+        group.members.remove(user)
+    
+    return redirect('/groups/')
+
+def modify(request, id):
+    group = Group.objects.get(id=id)
+    if request.method == 'POST':
+        form = GroupForm(request.POST, request.FILES)
+        if form.is_valid():
+            group.name = form.cleaned_data['name']
+            group.introduction = form.cleaned_data['introduction']
+            group.purpose = form.cleaned_data['purpose']
+            group.image = form.cleaned_data['image']
+            group.save()
+            return redirect(f'/groups/group/{group.id}')
+    else:
+        form = GroupForm(instance=group)
+        context = {
+            'form' : form,
+            'group' : group
+        }
+        return render(request, template_name='groups/modify.html', context=context)
+
+def members(request, id):
+    group = Group.objects.get(id=id)
+    members = group.members.all()
+    user = request.user.username
+
+    context = {
+        'group' : group,
+        'members' : members, 
+        'user' : user,
+    }
+    return render(request, template_name='groups/members.html', context=context)
