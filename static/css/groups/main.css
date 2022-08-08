@@ -1,7 +1,7 @@
 @import url(../init.css);
 
 .groups {
-  padding: 0.5rem;
+  padding: 0.5rem 0 6rem;
 
   display: flex;
   flex-direction: column;
@@ -60,21 +60,23 @@
   align-self: center;
 
   position: fixed;
+  bottom: 3rem;
 }
 
 .modal {
-  width: 100%;
-  margin: 0.5rem 0 0.5rem;
+  width: 100vw;
+  padding: 1rem 0 0.5rem;
 
   position: fixed;
   bottom: 0;
 
+  align-self: center;
   display: none;
   flex-direction: column;
 
-  border: 1px solid black;
+  background: white;
 }
 
 .modal-list {
-  padding: 1rem;
+  padding: 1.5rem;
 }

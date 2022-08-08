@@ -12,34 +12,36 @@
     <div class="container">
       <div class="title">
         <div class="btitle">
-          새로운 그룹을 <br />
-          만들어요!
+          그룹 정보를 <br />
+          수정해요
         </div>
       </div>
-      <form
-        action="{% url 'groups:modify' group.id %}"
-        enctype="multipart/form-data"
-        method="POST"
-      >
-        {% csrf_token %}
-        <div class="create-box">
-          <div class="">그룹 이름이 무엇인가요?</div>
-          {{ form.name }}
-        </div>
-        <div class="create-box">
-          <div class="">그룹 목적은요?</div>
-          {{ form.purpose }}
-        </div>
-        <div class="create-box">
-          <div class="">그룹을 자랑해주세요!</div>
-          {{ form.introduction }}
-        </div>
-        <div class="create-box">
-          <div class="">그룹을 대표할 이미지를 골라주세요</div>
-          {{ form.image }}
-        </div>
-        <input type="submit" value="그룹 정보 수정" />
-      </form>
+      <div class="create-group">
+        <form
+          action="{% url 'groups:modify' group.id %}"
+          enctype="multipart/form-data"
+          method="POST"
+        >
+          {% csrf_token %}
+          <div class="create-box">
+            <div class="create-quest">그룹 이름이 무엇인가요?</div>
+            {{ form.name }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹 목적은요?</div>
+            {{ form.purpose }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹을 자랑해주세요!</div>
+            {{ form.introduction }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
+            {{ form.image }}
+          </div>
+          <input class="btn create-btn" type="submit" value="완료" />
+        </form>
+      </div>
     </div>
   </body>
 </html>

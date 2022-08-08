@@ -25,22 +25,26 @@
         >
           {% csrf_token %}
           <div class="create-box">
-            <div class="">그룹 이름이 무엇인가요?</div>
+            <div class="create-quest">그룹 이름이 무엇인가요?</div>
             {{ form.name }}
           </div>
           <div class="create-box">
-            <div class="">그룹 목적은요?</div>
+            <div class="create-quest">그룹 목적은요?</div>
             {{ form.purpose }}
           </div>
           <div class="create-box">
-            <div class="">그룹을 자랑해주세요!</div>
+            <div class="create-quest">그룹을 자랑해주세요!</div>
             {{ form.introduction }}
           </div>
           <div class="create-box">
-            <div class="">그룹을 대표할 이미지를 골라주세요</div>
+            <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
             {{ form.image }}
           </div>
-          <input class="create-btn" type="submit" value="그룹을 만들어봐요!" />
+          <input
+            class="btn create-btn"
+            type="submit"
+            value="그룹을 만들어봐요!"
+          />
         </form>
       </div>
     </div>
