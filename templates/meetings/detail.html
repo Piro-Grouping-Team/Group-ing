@@ -23,5 +23,18 @@
     </div>
     <div>기간범위 시작{{ meeting.meetStart }}</div>
     <div>기간범위 끝{{ meeting.meetEnd }}</div>
+
+
+    <div>
+      <a href='{% url 'meetings:main' id=group.id %}'>약속목록</a>
+      <a href='{% url 'meetings:update' id=group.id meetId=meeting.id %}'>
+        약속 수정
+      </a>
+
+      <form action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}" method='post'>
+        {% csrf_token %}
+        <input type="submit" value="약속 삭제">
+      </form>
+    </div>
   </body>
 </html>

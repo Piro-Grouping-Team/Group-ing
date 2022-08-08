@@ -1,10 +1,10 @@
 from email.policy import default
 from django.db import models
-from groups.models import Group
+from groups.models import Group,User
 
 # Create your models here.
 class Meetings(models.Model):
-    meetHead = models.CharField(max_length=100)
+    meetHead = models.ForeignKey(User, on_delete=models.CASCADE)
     meetGroupId = models.ForeignKey(Group, on_delete=models.CASCADE)
     meetName = models.CharField(max_length=100)
     meetTime = models.DateField()

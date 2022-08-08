@@ -2,7 +2,7 @@ from multiprocessing import context
 from tokenize import group
 from tracemalloc import start
 from django.shortcuts import render, redirect
-from .models import Meetings, Group
+from .models import Meetings, Group, User
 
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -14,14 +14,14 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def main(request, id):
-    curgroup = Group.objects.get(id=id)
-    print('flase')
-    if curgroup.members.filter(id = request.user.id).exists() == False:
+    group = Group.objects.get(id=id)
+    
+    if group.members.filter(id = request.user.id).exists() == False:
         print('그룹에 속해있지 않아요 ')
         # todo 다이렉션 설정 필요
         return redirect('meetings:main', id)
+
     #그룹내 약속정보들 가져오기
-    group = Group.objects.get(id=id)
     meetings = Meetings.objects.filter(meetGroupId=group)
 
     context = {
@@ -32,8 +32,15 @@ def main(request, id):
 #todo 생성페이지
 @login_required
 def create(request,id):
-    #todo 그룹에 속한 사람인지 판별
+    group = Group.objects.get(id=id)
+    if group.members.filter(id = request.user.id).exists() == False:
+        print('그룹에 속해있지 않아요 ')
+        # todo 다이렉션 설정 필요
+        return redirect('meetings:main', id)
+
+
     if request.method =='POST':
+        meetHead = User.objects.get(id=request.user.id)
         meetGroupId = Group.objects.get(id=id)
         meetName = request.POST['meetName']
         meetTime = request.POST['meetTime']
@@ -41,12 +48,11 @@ def create(request,id):
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
 
-        meetings = Meetings(meetName=meetName,meetGroupId=meetGroupId,  meetTime=meetTime, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate)
+        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId,  meetTime=meetTime, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate)
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
 
-    group = Group.objects.get(id=id)
     context = {
         'group': group,
         }
@@ -57,14 +63,18 @@ def create(request,id):
 def update(request, id, meetId):
     # todo 약속을 만든사람인지 판별
     group = Group.objects.get(id=id)
+    meetings = Meetings.objects.get(id=meetId)
+
+
+    if meetings.meetHead.id != request.user.id:
+        print('작성자가 아닙니다')
+        return redirect('meetings:main', id)
+    
     if request.method =='POST':
-        meetings = Meetings.objects.get(id=meetId)
 
         meetings.meetName = request.POST['meetName']
         meetings.meetTime = request.POST['meetTime']
         meetings.meetPlace = request.POST['meetPlace']
-        meetings.startDate = request.POST['startDate']
-        meetings.endDate = request.POST['endDate']
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
@@ -82,6 +92,12 @@ def update(request, id, meetId):
 def detail(request, id,meetId):
     meeting = Meetings.objects.get(id=meetId)
     group = Group.objects.get(id=id)
+
+    if group.members.filter(id = request.user.id).exists() == False:
+        print('그룹에 속해있지 않아요')
+        # todo 다이렉션 설정 필요
+        return redirect('meetings:main', id)
+
     context = {
         'meeting': meeting,
         'group': group,
@@ -89,3 +105,14 @@ def detail(request, id,meetId):
 
     return render(request, 'meetings/detail.html',context)
 
+@login_required
+def delete(request, id, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    group = Group.objects.get(id=id)
+
+    if meeting.meetHead.id != request.user.id:
+        print('작성자가 아닙니다')
+        return redirect('meetings:main', id)
+
+    meeting.delete()
+    return redirect('meetings:main', id)
