@@ -5,11 +5,11 @@ let flag = 1;
 newBtn.addEventListener("click", (event) => {
   if (flag == 0) {
     modal.style.display = "none";
-    newBtn.innerHTML = `<i class="fa-solid fa-circle-plus"></i>`;
+    newBtn.innerHTML = `<i class="fa-solid fa-circle-plus fa-lg"></i>`;
     flag = 1;
   } else {
     modal.style.display = "flex";
-    newBtn.innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
+    newBtn.innerHTML = `<i class="fa-solid fa-circle-xmark fa-lg"></i>`;
     flag = 0;
   }
 });

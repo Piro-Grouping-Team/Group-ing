@@ -43,7 +43,9 @@
       <a href="{% url 'groups:detail' group.id %}">그룹 참여하기</a>
       {% endcomment %}
 
-      <button class="new-btn"><i class="fa-solid fa-circle-plus"></i></button>
+      <button class="new-btn">
+        <i class="fa-solid fa-circle-plus fa-lg"></i>
+      </button>
       <div class="modal">
         <a class="create modal-list" href="{% url 'groups:create' %}"
           >그룹 생성하기</a

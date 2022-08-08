@@ -129,10 +129,7 @@ table {
 }
 
 button {
-  background: inherit;
-  border: none;
-  border-radius: 0;
-  padding: 0;
+  all: unset;
   cursor: pointer;
 }
 
@@ -151,6 +148,11 @@ input {
   -webkit-appearance: none; /* Safari and Chrome */
   -moz-appearance: none; /* Firefox */
   appearance: none;
+  border: none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -162,4 +164,12 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input:focus {
   outline: none;
+}
+
+textarea {
+  border: none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
 }

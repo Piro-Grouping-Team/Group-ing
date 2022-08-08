@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/join.css' %}" />
     <title>GroupJoin</title>
-</head>
-<body>
-    group join page
-
-    <form action="/groups/join/" method="POST">
-        {% csrf_token %}
-        <input type="text" name="code" placehoder="그룹 코드 입력">
-        <input type="submit" value="그룹 참여" />
-    </form>
-    {% if messages %}
-	    {% for message in messages %}
-		    {{ message.tags }}
-		    {{ message.message }}
-	    {% endfor %}
-    {% endif %}
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="inform">그룹 코드를 입력하세요!</div>
+        <form class="content-core" action="/groups/join/" method="POST">
+          {% csrf_token %}
+          <input
+            class="content-input"
+            type="text"
+            name="code"
+            placeholder="공유받은 그룹 코드를 입력해주세요"
+          />
+          <input class="btn content-btn" type="submit" value="참여하기" />
+        </form>
+        {% if messages %} {% for message in messages %} {{ message.tags }} {{
+        message.message }} {% endfor %} {% endif %}
+      </div>
+    </div>
+  </body>
 </html>
