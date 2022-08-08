@@ -1,4 +1,3 @@
-from turtle import back
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
@@ -39,7 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(        
        max_length=255,
        verbose_name='이메일',
-       unique=True,    
     )
     username = models.CharField(
         max_length=20,  
@@ -58,16 +56,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
        return self.is_admin
-# class User(AbstractBaseUser, PermissionsMixin):
-#     GENDER_CHOICES = (
-#         ('male', '남성'),
-#         ('female', '여성'),
-#         ('none', '선택안함')
-#     )
-#     socialID = models.CharField(max_length=30, null=True)
-#     socialPW = models.CharField(max_length=20, null=True)
-#     phoneNumber = models.IntegerField(null=True)
-#     gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
-#     age = models.IntegerField(null=True)
-#     nickName = models.CharField(max_length=10, null=True)
-#     intro = models.CharField(max_length=100, null=True)
