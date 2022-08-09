@@ -41,6 +41,10 @@
           </div>
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
+        <form action="{% url 'groups:leave' group.id %}" method="POST">
+          {% csrf_token %}
+          <button class="btn leave-btn">그룹 떠나기</button>
+        </form>
       </div>
     </div>
   </body>

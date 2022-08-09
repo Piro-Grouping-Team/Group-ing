@@ -10,11 +10,17 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>GroupDetail</title>
   </head>
   <body>
     <div class="container">
-      <a href="{% url 'groups:main' %}">목록으로</a>
       <div class="header">
         {% if group.image %}
         <div class="group-img_box">
@@ -23,12 +29,12 @@
         {% endif %}
         <div class="title-self">
           <div class="btitle">{{group.name}}</div>
-          <div class="stitle">{{group.introduction}}</div>
+          <div class="stitle">{{group.purpose}}</div>
         </div>
         {% if user.username != group.head %}
         <form action="{% url 'groups:leave' group.id %}" method="POST">
           {% csrf_token %}
-          <button>그룹 떠나기</button>
+          <button><i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
         {% else %}
         <a href="{% url 'groups:modify' group.id %}"
@@ -36,20 +42,31 @@
         ></a>
         {% endif %}
       </div>
+      <input
+        class="customLook"
+        name="tags"
+        readonly
+        value="활동적인, 술, 자기개발"
+      />
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
-      <div class="container-body">
-        <div class="head">그룹장 : {{group.head}}</div>
-        <div>그룹 목적 : {{group.purpose}}</div>
-        <div>그룹 코드 : {{group.code}}</div>
-      </div>
-      <div>
-        {% for meeting in meetings %}
-            <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}">약속이름{{ meeting.meetName }}</a>
-        {% endfor %}
-      </div>
+      <div class="group-code">그룹 코드 : {{group.code}}</div>
+      <div class="group-intro">" {{group.introduction}} "</div>
+      <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
+    </div>
+    <div>
+      {% for meeting in meetings %}
+      <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}"
+        >약속이름{{ meeting.meetName }}</a
+      >
+      {% endfor %}
+    </div>
 
     <a href="{% url 'meetings:create' group.id %}">약속 생성하러 가기</a>
-    </div>
+    <script>
+      const input = document.querySelector("input[name=tags]");
+      new Tagify(input);
+    </script>
   </body>
+</html>

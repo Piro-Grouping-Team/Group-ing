@@ -26,6 +26,15 @@ form {
   border-radius: 0.5rem;
 }
 
+.tagify__input {
+  display: flex !important;
+}
+
+.tagify__dropdown__wrapper {
+  border: 1px solid black !important;
+  border-radius: 0.5rem;
+}
+
 .create-btn {
   margin: 4rem 0 4rem;
   align-self: center;

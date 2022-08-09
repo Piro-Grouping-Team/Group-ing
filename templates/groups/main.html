@@ -10,6 +10,13 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>GroupMain</title>
   </head>
   <body>
@@ -30,10 +37,12 @@
           </div>
           <div class="group-tag_box">
             <div class="group-name">{{group.name}}</div>
-            <ul class="tags">
-              <li class="tag">사교적인</li>
-              <li class="tag">게임</li>
-            </ul>
+            <input
+              class="customLook"
+              name="tags"
+              readonly
+              value="활동적인, 술, 자기개발"
+            />
           </div>
         </a>
         {% endfor %}
@@ -55,6 +64,12 @@
         >
       </div>
     </div>
-    <script src="{% static 'js/groups/main.js' %}"></script>
   </body>
+  <script src="{% static 'js/groups/main.js' %}"></script>
+  <script>
+    const inputs = document.querySelectorAll("input[name=tags]");
+    for (i in inputs) {
+      new Tagify(inputs[i]);
+    }
+  </script>
 </html>
