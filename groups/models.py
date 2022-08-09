@@ -1,4 +1,5 @@
 from django.db import models
+from keywords.models import Keyword
 from logins.models import User
 
 # Create your models here.
@@ -12,6 +13,7 @@ class Group(models.Model):
     
     members = models.ManyToManyField(User, related_name='members_group')
     blackList = models.ManyToManyField(User, blank=True, related_name='blackList_group')
+    keywords = models.ManyToManyField(Keyword, blank=True, related_name='keywords_group')
 
     #이미지 업로드 경로 추가 
     image = models.ImageField(null=True, blank=True, upload_to='groups/%Y%m%d', verbose_name='그룹 대표사진')

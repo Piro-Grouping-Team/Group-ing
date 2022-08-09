@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'groups',
     'meetings',
     'meetingsMember',
+    'keywords'
 ]
 
 MIDDLEWARE = [
