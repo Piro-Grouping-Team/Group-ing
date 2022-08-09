@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 import os
 from django.shortcuts import redirect, render
 from django.contrib import messages
