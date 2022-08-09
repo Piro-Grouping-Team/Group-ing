@@ -23,4 +23,5 @@ urlpatterns = [
     # path('', include('groups.urls')),
     path('', include('logins.urls')),
     path('groups/', include('groups.urls')),
+    path('groups/group/<int:id>/', include('meetings.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
