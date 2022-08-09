@@ -1,10 +1,10 @@
+import os
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from groups.forms import GroupForm
 from groups.utils import groupCodeGenerate
 from .models import Group
-from logins.models import User
-from django.contrib.auth.decorators import login_required
+from config import settings
 
 # Create your views here.
 
@@ -90,19 +90,30 @@ def modify(request, id):
     group = Group.objects.get(id=id)
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
+        imageCancel = request.POST.get('image-clear', False)
+        if imageCancel:
+            os.remove(os.path.join(settings.MEDIA_ROOT, group.image.path))
+            group.image = ''
+
         if form.is_valid():
             group.name = form.cleaned_data['name']
             group.introduction = form.cleaned_data['introduction']
             group.purpose = form.cleaned_data['purpose']
-            group.image = form.cleaned_data['image']
+            # group.image = form.cleaned_data['image']           
+            if form.cleaned_data['image']:
+                group.image = form.cleaned_data['image']
+            else:
+                group.image = group.image
             group.save()
             return redirect(f'/groups/group/{group.id}')
     else:
         form = GroupForm(instance=group)
+    
         context = {
             'form' : form,
             'group' : group
         }
+
         return render(request, template_name='groups/modify.html', context=context)
 
 def members(request, id):
