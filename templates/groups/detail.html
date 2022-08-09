@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupDetail</title>
+</head>
+<body>
+    <a href="{% url 'groups:main' %}">목록으로</a>
+    group detail page
+    <h3>그룹명 : {{group.name}}</h3>
+    <h5>그룹장 : {{group.head}}</h5>
+    {% if user.username != group.head %}
+        <form action="{% url 'groups:leave' group.id %}" method="POST">
+            {% csrf_token %}
+            <button>그룹 떠나기</button>
+      </form>
+    {% else %}
+        <a href="{% url 'groups:modify' group.id %}">그룹 정보 수정</a>
+    {% endif %}
+
+    <a href="{% url 'groups:members' group.id%}">그룹 멤버</a>
+
+    {% if group.image %}
+    <p>그룹 대표 이미지 : 
+        <img src="{{group.image.url}}" alt="이미지 없음" />
+    </p>
+    {% endif %}
+    <p>그룹 소개 : {{group.introduction}}</p>
+    <p>그룹 목적 : {{group.purpose}}</p>
+    <p>그룹 코드 : {{group.code}}</p>
+
+</body>
+</html>
