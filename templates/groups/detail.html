@@ -44,28 +44,12 @@
         <div>그룹 목적 : {{group.purpose}}</div>
         <div>그룹 코드 : {{group.code}}</div>
       </div>
-    </div>
-  </body>
-</html>
-
-    <a href="{% url 'groups:members' group.id%}">그룹 멤버</a>
-
-    {% if group.image %}
-    <p>그룹 대표 이미지 : 
-        <img src="{{group.image.url}}" alt="이미지 없음" />
-    </p>
-    {% endif %}
-    <p>그룹 소개 : {{group.introduction}}</p>
-    <p>그룹 목적 : {{group.purpose}}</p>
-    <p>그룹 코드 : {{group.code}}</p>
-
-
-    <div>
+      <div>
         {% for meeting in meetings %}
             <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}">약속이름{{ meeting.meetName }}</a>
         {% endfor %}
-    </div>
+      </div>
 
     <a href="{% url 'meetings:create' group.id %}">약속 생성하러 가기</a>
-</body>
-</html>
+    </div>
+  </body>
