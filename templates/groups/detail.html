@@ -14,7 +14,6 @@
   </head>
   <body>
     <div class="container">
-      <a href="{% url 'groups:main' %}">목록으로</a>
       <div class="header">
         {% if group.image %}
         <div class="group-img_box">
@@ -23,12 +22,12 @@
         {% endif %}
         <div class="title-self">
           <div class="btitle">{{group.name}}</div>
-          <div class="stitle">{{group.introduction}}</div>
+          <div class="stitle">{{group.purpose}}</div>
         </div>
         {% if user.username != group.head %}
         <form action="{% url 'groups:leave' group.id %}" method="POST">
           {% csrf_token %}
-          <button>그룹 떠나기</button>
+          <button><i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
         {% else %}
         <a href="{% url 'groups:modify' group.id %}"
@@ -39,11 +38,9 @@
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
-      <div class="container-body">
-        <div class="head">그룹장 : {{group.head}}</div>
-        <div>그룹 목적 : {{group.purpose}}</div>
-        <div>그룹 코드 : {{group.code}}</div>
-      </div>
+      <div class="group-code">그룹 코드 : {{group.code}}</div>
+      <div class="group-intro">" {{group.introduction}} "</div>
+      <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
     </div>
   </body>
 </html>

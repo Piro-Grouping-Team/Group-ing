@@ -13,3 +13,7 @@ newBtn.addEventListener("click", (event) => {
     flag = 0;
   }
 });
+
+window.addEventListener("click", (event) => {
+  event.target === modal ? none : false;
+});

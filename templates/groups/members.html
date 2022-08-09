@@ -5,7 +5,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/groups/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/groups/members.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>GruopCreate</title>
   </head>
   <body>
@@ -16,12 +20,17 @@
           사람들
         </div>
       </div>
-
-      {% for member in members %}
-      <p>{{member}}</p>
-      {% if group.head == user%}
-      <p>>>모달창 연결</p>
-      {% endif %} {% endfor %}
+      <div class="members">
+        <div class="members-head">그룹장 {{group.head}}</div>
+        {% for member in members %}
+        <div class="members-mem">
+          <div>{{member}}</div>
+          {% if group.head == user%}
+          <div><i class="fa-solid fa-chevrons-right"></i></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </body>
 </html>

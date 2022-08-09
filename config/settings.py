@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-w7n#sr1oyltd-v&_%)b^0x7uw#75=djp#r1=qvfedv!j#9%qxl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'logins',
     'groups',
+    'django_tagify',
 
 ]
 
