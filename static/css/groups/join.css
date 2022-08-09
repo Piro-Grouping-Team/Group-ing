@@ -1,0 +1,33 @@
+@import url(../init.css);
+
+.content {
+  margin: auto;
+
+  align-self: center;
+  justify-self: center;
+}
+
+.inform {
+  padding: 1rem;
+
+  font-size: 1.25rem;
+  font-weight: bold;
+
+  text-align: center;
+}
+
+.content-core {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.content-input {
+  padding: 0.3rem 0 0.3rem;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 3px solid black;
+
+  color: rgb(#c4c4c4);
+}

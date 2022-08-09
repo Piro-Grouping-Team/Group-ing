@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/modify.css' %}" />
     <title>GruopCreate</title>
-</head>
-<body>
-    group modify page
-    <form action="{% url 'groups:modify' group.id %}" enctype="multipart/form-data" method="POST">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type="submit" value="그룹 정보 수정" />
-    </form>
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          그룹 정보를 <br />
+          수정해요
+        </div>
+      </div>
+      <div class="create-group">
+        <form
+          action="{% url 'groups:modify' group.id %}"
+          enctype="multipart/form-data"
+          method="POST"
+        >
+          {% csrf_token %}
+          <div class="create-box">
+            <div class="create-quest">그룹 이름이 무엇인가요?</div>
+            {{ form.name }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹 목적은요?</div>
+            {{ form.purpose }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹을 자랑해주세요!</div>
+            {{ form.introduction }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
+            {{ form.image }}
+          </div>
+          <input class="btn create-btn" type="submit" value="완료" />
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

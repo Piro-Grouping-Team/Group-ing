@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/main.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>GroupMain</title>
-</head>
-<body>
-    group main page
-    <a href="{% url 'groups:create' %}">그룹 생성하기</a>
-    <a href="{% url 'groups:join' %}">그룹 참여하기</a>
-    {% for group in groups %}
-    <h3><a href="{% url 'groups:detail' group.id %}">{{group.name}}</a></h3>
-    {% endfor %}
-    {% comment %} <a href="{% url 'groups:detail' group.id %}">그룹 참여하기</a> {% endcomment %}
-</body>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">내 그룹</div>
+        <div class="stitle">나는 어떤 그룹에 있을까?</div>
+      </div>
+      <ul class="groups">
+        {% for group in groups %}
+        <a class="group" href="{% url 'groups:detail' group.id %}">
+          <div class="group-img_box">
+            <img
+              class="group-img"
+              src="{{group.image.url}}"
+              alt="이미지 없음"
+            />
+          </div>
+          <div class="group-tag_box">
+            <div class="group-name">{{group.name}}</div>
+            <ul class="tags">
+              <li class="tag">사교적인</li>
+              <li class="tag">게임</li>
+            </ul>
+          </div>
+        </a>
+        {% endfor %}
+      </ul>
+
+      {% comment %}
+      <a href="{% url 'groups:detail' group.id %}">그룹 참여하기</a>
+      {% endcomment %}
+
+      <button class="new-btn">
+        <i class="fa-solid fa-circle-plus fa-lg"></i>
+      </button>
+      <div class="modal">
+        <a class="create modal-list" href="{% url 'groups:create' %}"
+          >그룹 생성하기</a
+        >
+        <a class="join modal-list" href="{% url 'groups:join' %}"
+          >그룹 참여하기</a
+        >
+      </div>
+    </div>
+    <script src="{% static 'js/groups/main.js' %}"></script>
+  </body>
 </html>

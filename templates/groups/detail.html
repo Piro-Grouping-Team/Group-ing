@@ -1,24 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>GroupDetail</title>
-</head>
-<body>
-    <a href="{% url 'groups:main' %}">목록으로</a>
-    group detail page
-    <h3>그룹명 : {{group.name}}</h3>
-    <h5>그룹장 : {{group.head}}</h5>
-    {% if user.username != group.head %}
+  </head>
+  <body>
+    <div class="container">
+      <a href="{% url 'groups:main' %}">목록으로</a>
+      <div class="header">
+        {% if group.image %}
+        <div class="group-img_box">
+          <img class="group-img" src="{{group.image.url}}" alt="이미지 없음" />
+        </div>
+        {% endif %}
+        <div class="title-self">
+          <div class="btitle">{{group.name}}</div>
+          <div class="stitle">{{group.introduction}}</div>
+        </div>
+        {% if user.username != group.head %}
         <form action="{% url 'groups:leave' group.id %}" method="POST">
-            {% csrf_token %}
-            <button>그룹 떠나기</button>
-      </form>
-    {% else %}
-        <a href="{% url 'groups:modify' group.id %}">그룹 정보 수정</a>
-    {% endif %}
+          {% csrf_token %}
+          <button>그룹 떠나기</button>
+        </form>
+        {% else %}
+        <a href="{% url 'groups:modify' group.id %}"
+          ><i class="fa-solid fa-pen-to-square"></i
+        ></a>
+        {% endif %}
+      </div>
+      <a class="members" href="{% url 'groups:members' group.id%}"
+        >누가 있나요?</a
+      >
+      <div class="container-body">
+        <div class="head">그룹장 : {{group.head}}</div>
+        <div>그룹 목적 : {{group.purpose}}</div>
+        <div>그룹 코드 : {{group.code}}</div>
+      </div>
+    </div>
+  </body>
+</html>
 
     <a href="{% url 'groups:members' group.id%}">그룹 멤버</a>
 

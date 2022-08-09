@@ -1,4 +1,53 @@
-h1 {
-  color: white;
-  text-align: center;
+@import url("./reset.css");
+
+@media (max-width: 767px) {
+  /* 모바일 */
+
+  .container {
+    height: 100vh;
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    padding: 4rem 0 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    position: sticky;
+    top: 0;
+
+    background: white;
+  }
+
+  .btitle {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .stitle {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: rgb(#545454);
+  }
+
+  .btn {
+    width: 70vw;
+    padding: 0.7rem 0 0.7rem;
+
+    background-color: white;
+
+    border: 1px solid black;
+    border-radius: 0.3rem;
+
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* 데스크탑 일반 */
 }
