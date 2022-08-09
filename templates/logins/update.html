@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form action="{% url 'logins:update' user.id %}" method="POST">
+      {% csrf_token %}
+      <h2>
+        {{user.name}}
+      </h2>
+      <p>
+        아이디
+        <input
+          type="text"
+          name="id"
+          value="{{user.username}}"
+          placeholder="ID"
+        />
+        비밀번호
+        <input
+          type="text"
+          name="password"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+        비밀번호확인
+        <input
+          type="text"
+          name="id"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+        닉네임
+        <input
+          type="text"
+          name="nickname"
+          value="{{user.nickname}}"
+          placeholder= "nickname"
+        />
+        이메일
+        <input
+          type="text"
+          name="email"
+          value="{{user.email}}"
+          placeholder= "example@example.com"
+
+        />
+        Phonenumber
+        <input
+          type="number"
+          name="age"
+          value="{{user.age}}"
+          placeholder="전화번호"
+        />
+        주소
+        <input
+          type="text"
+          name="address"
+          id="address_kakao"
+          value="{{user.address}}"
+          placeholder = "주소"
+        />
+        상세주소
+        <input
+          type="text"
+          name="addressDetail"
+          value="{{user.addressDetail}}"
+          placeholder = "상세주소"
+        />
+        성별 
+        <select name="gender">
+            <option value="">---</option>
+            {% for gender in genders %}
+            <option value="{{gender}}">{{gender}}</option>
+            {% endfor %}
+      </p>
+      <div>
+        <input type="submit" value="제출" />
+      </div>
+    </form>
+    <a href="{% url 'logins:main' %}">Home</a>
+  </body>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+  window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+</script>
+</html>

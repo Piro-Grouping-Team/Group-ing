@@ -93,6 +93,9 @@ def userUpdate(request, id):
         context={'user':user, 'genders':genders}
         return render(request, template_name='logins/update.html', context=context)
 
+def mypage(request):
+    return render(request, 'logins/mypage.html')
+
 # class SignUp(APIView):
 #     def post(self, request):
 #         serializer = UserSerializer(data=request.data)

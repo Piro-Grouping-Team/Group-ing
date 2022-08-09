@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GROUP-ING</title>
+    <script
+      src="https://kit.fontawesome.com/0dee369a16.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        {% if user.is_authenticated %} {% else %}
+        <h1>같이</h1>
+        <h1>그룹핑 해요!</h1>
+        {% endif %}
+      </nav>
+    </header>
+    <main>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <div class="signup-form">
+          {{form.as_p}}
+          <input type="submit" value="그룹핑에 오신 걸 환영합니다!" class="submit" />
+        </div>
+      </form>
+    </main>
+  </body>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+</script>
+</html>
