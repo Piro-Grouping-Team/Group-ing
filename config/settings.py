@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-w7n#sr1oyltd-v&_%)b^0x7uw#75=djp#r1=qvfedv!j#9%qxl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'logins',
     'groups',
+    'meetings',
+    'meetingsMember',
 ]
 
 MIDDLEWARE = [
@@ -65,7 +67,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
