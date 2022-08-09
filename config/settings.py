@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+import logins.my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,16 +149,18 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+SECRET_KEY = logins.my_settings.SECRET_KEY
+
+EMAIL_BACKEND = logins.my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_HOST = logins.my_settings.EMAIL['EMAIL_HOST']
 # # 메일을 호스트하는 서버
-EMAIL_PORT = '587'
+EMAIL_PORT = logins.my_settings.EMAIL['EMAIL_PORT']
 # # gmail과의 통신하는 포트
-EMAIL_HOST_USER = 'xb253q@gmail.com'
+EMAIL_HOST_USER = logins.my_settings.EMAIL['EMAIL_HOST_USER']
 # # 발신할 이메일
-EMAIL_HOST_PASSWORD = 'islcxprwjzcgdspo'
+EMAIL_HOST_PASSWORD = logins.my_settings.EMAIL['EMAIL_HOST_PASSWORD']
 # # 발신할 메일의 비밀번호
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = logins.my_settings.EMAIL['EMAIL_USE_TLS']
 # # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
