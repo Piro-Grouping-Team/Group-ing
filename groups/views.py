@@ -90,7 +90,11 @@ def modify(request, id):
     group = Group.objects.get(id=id)
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
+
+        #취소 박스 선택 값 가져오기
         imageCancel = request.POST.get('image-clear', False)
+
+        #취소가 선택됬다면 이미지 경로에서 이미지 삭제 후 그룹 이미지 필드값을 빈 문자열로 재설정
         if imageCancel:
             os.remove(os.path.join(settings.MEDIA_ROOT, group.image.path))
             group.image = ''
