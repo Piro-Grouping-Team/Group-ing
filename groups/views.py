@@ -4,6 +4,7 @@ from django.contrib import messages
 from groups.forms import GroupForm
 from groups.utils import groupCodeGenerate
 from .models import Group
+from meetings.models import Meetings
 from config import settings
 
 # Create your views here.
@@ -71,10 +72,14 @@ def detail(request, id):
     group = Group.objects.get(id = id)
     user = request.user
     members = group.members.all()
+
+    #그룹내 약속정보들 가져오기
+    meetings = Meetings.objects.filter(meetGroupId=group)
     context = {
         'group' : group,
         'members' : members,
-        'user' : user
+        'user' : user,
+        'meetings': meetings,
     }
     return render(request, template_name='groups/detail.html', context=context)
 

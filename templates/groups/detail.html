@@ -31,5 +31,13 @@
     <p>그룹 목적 : {{group.purpose}}</p>
     <p>그룹 코드 : {{group.code}}</p>
 
+
+    <div>
+        {% for meeting in meetings %}
+            <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}">약속이름{{ meeting.meetName }}</a>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'meetings:create' group.id %}">약속 생성하러 가기</a>
 </body>
 </html>
