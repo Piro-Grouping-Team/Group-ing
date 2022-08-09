@@ -12,23 +12,6 @@ from django.contrib.auth.decorators import login_required
 # 검색 a. 키워드 b. 제목
 #목록 페이지 썸네일과 제목
 
-@login_required
-def main(request, id):
-    group = Group.objects.get(id=id)
-    
-    if group.members.filter(id = request.user.id).exists() == False:
-        print('그룹에 속해있지 않아요 ')
-        # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
-
-    #그룹내 약속정보들 가져오기
-    meetings = Meetings.objects.filter(meetGroupId=group)
-
-    context = {
-        'meetings': meetings,
-    }
-    return render(request, 'meetings/main.html',context)
-
 #todo 생성페이지
 @login_required
 def create(request,id):
