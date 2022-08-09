@@ -19,7 +19,7 @@ def create(request,id):
     if group.members.filter(id = request.user.id).exists() == False:
         print('그룹에 속해있지 않아요 ')
         # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
 
     if request.method =='POST':
@@ -51,7 +51,7 @@ def update(request, id, meetId):
 
     if meetings.meetHead.id != request.user.id:
         print('작성자가 아닙니다')
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
     
     if request.method =='POST':
 
@@ -79,7 +79,7 @@ def detail(request, id,meetId):
     if group.members.filter(id = request.user.id).exists() == False:
         print('그룹에 속해있지 않아요')
         # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
     context = {
         'meeting': meeting,
@@ -95,7 +95,7 @@ def delete(request, id, meetId):
 
     if meeting.meetHead.id != request.user.id:
         print('작성자가 아닙니다')
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
     meeting.delete()
-    return redirect('meetings:main', id)
+    return redirect('groups:detail', id)
