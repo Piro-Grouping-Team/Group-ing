@@ -34,6 +34,11 @@ class UserManager(BaseUserManager):
        
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
+    GENDER_CHOICES=(
+        ('male', '남성'),
+        ('female', '여성'),
+        ('None', '선택안함'),
+    )
     objects = UserManager()
     email = models.EmailField(        
        max_length=255,
@@ -44,6 +49,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
     )
     name = models.CharField(max_length=20, null=False, blank=False, verbose_name='이름')
+    nickname = models.CharField(max_length=20, null = True, unique=True, verbose_name='닉네임')
+    age = models.IntegerField(null=True, verbose_name='나이')
+    address = models.CharField(max_length=100, verbose_name='주소')
+    addressDetail = models.CharField(max_length=100, verbose_name='상세주소')
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, verbose_name='성별')
+    
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -56,3 +67,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
        return self.is_admin
+
+       

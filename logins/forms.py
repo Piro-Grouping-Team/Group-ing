@@ -29,7 +29,12 @@ class SignUpForm(UserCreationForm):
             'password1', 
             'password2', 
             'name',
-            'email', 
+            'nickname',
+            'age',
+            'email',
+            'address',
+            'addressDetail',
+            'gender',
             )
 
     def __init__(self, *args, **kwargs):
@@ -46,6 +51,14 @@ class SignUpForm(UserCreationForm):
             {"class": "form-control", }
         )
         self.fields["password2"].help_text = "확인을 위해 이전과 동일한 비밀번호"
+
+        self.fields["address"].widget.attrs.update(
+            {"id": "address_kakao", "name" : "address",}
+        )
+
+        self.fields["addressDetail"].widget.attrs.update(
+            {"name": "address_detail", }
+        )
 
 # class LoginForm(forms.Form):
 #     username = forms.CharField()

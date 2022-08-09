@@ -46,8 +46,6 @@ class SignUp(View):
             user.is_active=False
             user.save()
             current_site = get_current_site(request)
-            print(user.id)
-            print(urlsafe_base64_encode(force_bytes(user.id)).encode().decode())
             message = render_to_string('logins/account_email.html',                         {
                 'user': user,
                 'domain': current_site.domain,
@@ -77,6 +75,23 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid')
 
+def userUpdate(request, id):
+    if request.method == 'POST':
+        nickname = request.POST['nickname']
+        email = request.POST['email']
+        age = request.POST['age']
+        address = request.POST['address']
+        addressDetail = request.POST['addressDetail']
+        gender = request.POST['gender']
+
+        User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
+        print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
+        return redirect('logins:main')
+    else:
+        genders = ['남성', '여성', '선택안함']
+        user = User.objects.get(id=id)
+        context={'user':user, 'genders':genders}
+        return render(request, template_name='logins/update.html', context=context)
 
 # class SignUp(APIView):
 #     def post(self, request):
