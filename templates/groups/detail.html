@@ -10,6 +10,13 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>GroupDetail</title>
   </head>
   <body>
@@ -35,6 +42,12 @@
         ></a>
         {% endif %}
       </div>
+      <input
+        class="customLook"
+        name="tags"
+        readonly
+        value="활동적인, 술, 자기개발"
+      />
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
@@ -42,5 +55,9 @@
       <div class="group-intro">" {{group.introduction}} "</div>
       <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
     </div>
+    <script>
+      const input = document.querySelector("input[name=tags]");
+      new Tagify(input);
+    </script>
   </body>
 </html>

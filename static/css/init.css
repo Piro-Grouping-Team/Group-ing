@@ -51,6 +51,35 @@
     font-size: 0.75rem;
     font-weight: bold;
   }
+
+  tags {
+    width: 12rem;
+    height: 2rem;
+
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    border: none !important;
+  }
+
+  tags > tag {
+    margin: 0 !important;
+  }
+
+  .customLook .tagify__tag > div {
+    border: 1px solid black;
+    border-radius: 3rem;
+
+    background-color: greenyellow;
+    font-size: 0.5rem;
+    font-weight: 600;
+  }
+
+  .tagify__tag-text {
+    padding: 0.05rem 0.4rem 0.05rem;
+  }
 }
 
 @media (min-width: 1200px) {
