@@ -8,9 +8,8 @@
   <body>
     <form action="{% url 'logins:update' user.id %}" method="POST">
       {% csrf_token %}
-      <h2>
-        {{user.name}}
-      </h2>
+
+
       <p>
         <input
           type="text"
@@ -39,7 +38,7 @@
           value="{{user.addressDetail}}"
         />
         <select name="gender">
-            <option value="">---</option>
+            <option value=""></option>
             {% for gender in genders %}
             <option value="{{gender}}">{{gender}}</option>
             {% endfor %}

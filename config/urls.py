@@ -20,7 +20,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('groups.urls')),
     path('', include('logins.urls')),
     path('groups/', include('groups.urls')),
     path('groups/group/<int:id>/', include('meetings.urls')),

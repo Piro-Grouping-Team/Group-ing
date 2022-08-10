@@ -1,30 +1,67 @@
-<h1>로그인</h1>
-<h4>다시 돌아오신 걸 환영해요!</h4>
-<br />
-{% if user.is_authenticated %} 로그인성공! 
-{{user.username}}
-{{user.name}}
-{{user.nickname}}
-{{user.age}}
-{{user.email}}
-{{user.address}}
-{{user.addressDetail}}
-{{user.gender}}
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/logins/login.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>LOGIN</title>
+  </head>
 
-<a href="{% url 'logins:logout' %}">로그아웃</a>{% else %}
-<form action="" method="POST">
-  {% csrf_token %}
-  <input name="username" type="text" placeholder="아이디를 입력해주세요"/>
-  <br/>
-  <input name="password" type="password" placeholder="비밀번호를 입력해주세요"/>
-  <br/>  
-  <input type="submit" value="로그인" />
-  <br/>
-</form>
-<a href="{% url 'logins:signup' %}">그룹핑이 처음이신가요?</a><br/>
+  <body>
+    <div class="container">
 
-{% endif %}
+      <div class="title">
+        <div class="btitle">로그인</div>
+        <div class="stitle">다시 돌아오신 걸 환영해요!</div>
+      </div>
 
-{% load socialaccount %}
-<a href=" {% provider_login_url 'naver' %}">NAVER로 시작하기</a><br/>
-<a href=" {% provider_login_url 'google' %}">GOOGLE로 시작하기</a>
+      <ul class="logins">
+        <div class = "login">
+          {% if user.is_authenticated %}
+          {% comment %} 
+            로그인성공! <br/>
+            <a href="{% url 'logins:logout' %}">로그아웃</a>
+          {% endcomment %}
+          {% else %}
+            <form class = "login_idpw" action="" method="POST">
+          {% csrf_token %}
+          <div class="login_id"><input name="username" type="text" placeholder="아이디를 입력해주세요"/><hr class ="id_line"/></div>
+          
+          <div class="login_pw"><input name="password" type="password" placeholder="비밀번호를 입력해주세요"/><hr class ="pw_line"/></div>
+          
+          <div class="login_btn"><input name="login_btn" type="submit" value="로그인" /></div>
+              
+              
+              
+            </form>
+            <div class = login_signup_container >
+              <div class="login_signup">
+                <a href="{% url 'logins:signup' %}">그룹핑이 처음이신가요?</a>
+              </div>
+            </div>
+            
+        </div> 
+
+        <div class ="social login">
+          {% comment %}로그인했을 때도 얘네들이 보여요 어케함{% endcomment %}
+          {% load socialaccount %}
+          <div class = naver_login>
+            <a class = naver_text href=" {% provider_login_url 'naver' %}">네이버로 시작하기</a><br/>
+          </div> 
+          <div class = google_login>
+            <a  class = google_text href=" {% provider_login_url 'google' %}">Google로 시작하기</a><br/>
+          </div>
+        </div>
+        {% endif %}
+      </ul>
+      
+    </div>
+
+  </body>
+</html>

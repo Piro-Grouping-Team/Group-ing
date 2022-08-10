@@ -1,0 +1,93 @@
+@import url(../init.css);
+.container{
+    background-color: #C6FC23;
+    
+}
+
+.title{
+    background-color:#C6FC23;
+    margin-bottom: 70px;
+}
+
+
+.login_idpw input{
+    font-size: 17px;
+}
+
+.login_idpw input::placeholder{
+    color: black;
+}
+
+.login_id{
+    margin-bottom: 25px;
+}
+
+.id_line{
+    border: 1px solid black;
+}
+
+.login_pw{
+    margin-bottom: 25px;
+}
+
+.pw_line{
+    border: 1px solid black;
+}
+.login_btn{
+    color: black;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.login_btn input{
+    font-weight: bold;
+}
+
+.login_signup_container{
+    
+    margin-bottom: 150px;
+}
+
+.login_signup{
+    display: flex;
+    justify-content: center;
+    
+}
+
+
+.naver_login{
+    color: white;
+    background-color: #03C75A;
+    border: 2px solid #03C75A;
+    border-radius: 5px;
+    padding: 15px 20px 15px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.naver_text{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.google_login{
+    color: white;
+    background-color: #DF5A60;
+    border: 2px solid #DF5A60;
+    border-radius: 5px;
+    padding: 15px 20px 15px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.google_text{
+    font-size: 17px;
+    font-weight: bold;
+}

@@ -1,0 +1,76 @@
+@import url(../init.css);
+
+.modify_container{
+    display: flex;
+    flex-direction: column;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+31,c6fc23+100 */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffffff 31%, #c6fc23 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #ffffff 31%,#c6fc23 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #ffffff 31%,#c6fc23 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c6fc23',GradientType=0 ); /* IE6-9 */
+
+
+}
+
+.modify_container p{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+.title {
+    background: transparent;
+    padding-left: 20px;
+}
+
+.to_main{
+    background: #c6fc23;
+}
+
+.update_form{
+    font-size: 17px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+.update_form p{
+    margin-bottom: 20px;
+}
+
+.update_form p input{
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+    width: 330px;
+    height: 40px;
+    background-color: transparent;
+    border: 2px solid #C4C4C4;
+    border-radius: 6px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    
+}
+
+.update_form p select{
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 330px;
+    height: 40px;
+    background: transparent;
+    background-size: 20px;
+    padding: 5px 30px 5px 10px;
+    border: 2px solid #C4C4C4;
+    border-radius: 6px;
+    outline: 0 none;
+    margin-bottom: 30px;
+}
+
+.inform input{
+    background-color: white;
+}

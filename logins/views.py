@@ -29,6 +29,7 @@ def login_view(request):
             print("인증실패")
     return render(request, 'logins/login.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('logins:login')
