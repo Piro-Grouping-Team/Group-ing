@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./cal.css" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>캘린더</title>
+  </head>
+  <body>
+    <!-- 캘린더 위쪽 헤더 영억 -->
+    <!-- 2022.07 / 버튼 3개 -->
+
+    <div class="calendar">
+      <div class="year-month"></div>
+      <div class="content">
+        <!-- 캘린더 메인 영역 -->
+        <button class="nav-btn go-prev" onclick="prevMonth()">
+          <i class="fa-solid fa-circle-left"></i>
+        </button>
+        <!-- 요일, 날짜들 -->
+        <div class="main">
+          <!-- 요일들 -->
+          <div class="days">
+            <div class="day">Sun</div>
+            <div class="day">Mon</div>
+            <div class="day">Tue</div>
+            <div class="day">Wed</div>
+            <div class="day">Thu</div>
+            <div class="day">Fri</div>
+            <div class="day">Sat</div>
+          </div>
+          <!-- 날짜들 (자바스크립트 구현)-->
+          <div class="dates"></div>
+        </div>
+        <button class="nav-btn go-next" onclick="nextMonth()">
+          <i class="fa-solid fa-circle-right"></i>
+        </button>
+      </div>
+    </div>
+    <script src="./cal.js"></script>
+  </body>
+</html>
