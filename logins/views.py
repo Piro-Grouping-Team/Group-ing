@@ -24,7 +24,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            print("인증성공") 
+            print("인증성공")
         else:
             print("인증실패")
     return render(request, 'logins/login.html')
@@ -37,7 +37,7 @@ class SignUp(View):
     def get(self, request):
         form = forms.SignUpForm()
         return render(request, 'logins/signup.html', {"form":form})
-    
+
     def post(self, request):
         form = forms.SignUpForm(request.POST)
         print(form)
@@ -52,7 +52,7 @@ class SignUp(View):
                 'id': urlsafe_base64_encode(force_bytes(user.id)).encode().decode(),
                 'token': account_activation_token.make_token(user),
             })
-            
+
             mail_subject = 'Activate your accout'
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
@@ -75,6 +75,7 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid')
 
+# Camel Case와 Snake Case 확정짓기
 def userUpdate(request, id):
     if request.method == 'POST':
         nickname = request.POST['nickname']
@@ -83,6 +84,8 @@ def userUpdate(request, id):
         address = request.POST['address']
         addressDetail = request.POST['addressDetail']
         gender = request.POST['gender']
+
+        # 인자들 중에 Null 값이 들어오는 경우는 없는 건가요?
 
         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
         print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
@@ -110,7 +113,7 @@ def userUpdate(request, id):
 #             user = User.objects.get(pk=uid)
 #         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
 #             user = None
-        
+
 #         try:
 #             if user is not None and account_activation_token.check_token(user, token):
 #                 user.is_active=True
@@ -142,7 +145,7 @@ def userUpdate(request, id):
 
 
 # class SignUp(View):
-    
+
 #     def post(self, request):#입력값을 받는다
 #         data = json.loads(request.body)
 #         User(
@@ -168,7 +171,7 @@ def userUpdate(request, id):
         #                 password  = bcrypt.hashpw(data['password'].encode('utf-8'),bcrypt.gensalt()).decode('utf-8'),
         #                 is_active = False
         #             )
-                    
+
         #             current_site = get_current_site(request)
         #             domain = current_site.domain
         #             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
@@ -221,10 +224,10 @@ def userUpdate(request, id):
 #             user = User.objects.create(
 #                 email     = data["email"],
 #                 password  = bcrypt.hashpw(data["password"].encode("UTF-8"), bcrypt.gensalt()).decode("UTF-8"),
-#                 is_active = False 
+#                 is_active = False
 #             )
 
-#             current_site = get_current_site(request) 
+#             current_site = get_current_site(request)
 #             domain       = current_site.domain
 #             uidb64       = urlsafe_base64_encode(force_bytes(user.pk))
 #             token        = account_activation_token.make_token(user)
@@ -233,8 +236,8 @@ def userUpdate(request, id):
 #             mail_title = "이메일 인증을 완료해주세요"
 #             mail_to    = data['email']
 #             email      = EmailMessage(mail_title, message_data, to=[mail_to])
-#             email.send()         
- 
+#             email.send()
+
 #             return JsonResponse({"message" : "SUCCESS"}, status=200)
 
 #         except KeyError:
@@ -256,7 +259,7 @@ def userUpdate(request, id):
 #                 username=request.POST["username"],
 #                 password=request.POST["password1"])
 #             user.save()
-#             current_site = get_current_site(request) 
+#             current_site = get_current_site(request)
 #             message = render_to_string('logins/user_activate_email.html',                         {
 #                 'user': user,
 #                 'domain': current_site.domain,
