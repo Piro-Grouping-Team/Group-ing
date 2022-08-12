@@ -49,15 +49,12 @@
             >약속목록</a
           >
 
-          <form
-            action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
-            method="post"
-          >
-            {% csrf_token %}
-            <input class="btn delete-btn" type="submit" value="약속 삭제" />
-          </form>
-        </div>
-      </div>
+      <form action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}" method='post'>
+        {% csrf_token %}
+        <input type="submit" value="약속 삭제">
+      </form>
+
+      <a href='{% url 'meetCalendar:main' meetId=meeting.id %}'>캘린더</a>
     </div>
   </body>
 </html>

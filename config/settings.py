@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'logins',
     'groups',
     'meetings',
-    'meetingsMember',
+    'meetCalendar',
     'keywords'
 ]
 
