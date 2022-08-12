@@ -57,7 +57,7 @@
     height: 2rem;
 
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: nowrap;
     gap: 0.5rem;
 

@@ -9,6 +9,8 @@
     <title>Document</title>
   </head>
   <body>
+    <br />
+    {% if user.is_authenticated %} 로그인성공!
     <div class="container">
       <div class="buttons">
         <div class="button text1">우리는</div>
@@ -19,9 +21,23 @@
         <div class="button space3"></div>
         <div class="button text4">진행중</div>
         <div class="button space4"></div>
-        <a class="button login" href="{% url 'logins:login' %}">LOGIN</a>
-        <a class="button signup" href="{% url 'logins:signup' %}">SIGNUP</a>
+        <div class="button space2"></div>
+        <a class="button signup" href="{% url 'logins:update' user.id%}"
+          >MYPAGE</a
+        >
+        <a class="button mygroup" href="{% url 'groups:main' %}">MYGROUP</a>
+        <div class="button space2"></div>
+        <a class="button login" href="{% url 'logins:logout' %}">LOGOUT</a>
       </div>
     </div>
+    {% else %}
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input name="username" type="text" />
+      <input name="password" type="password" />
+      <input type="submit" value="로그인" />
+    </form>
+    <a href="{% url 'logins:signup' %}">회원가입</a>
+    {% endif %}
   </body>
 </html>

@@ -16,8 +16,21 @@ def login(request):
             print("인증실패")
     return render(request, 'logins/login.html')
 
+<<<<<<< Updated upstream
 def signup(request):
     if request.method == "POST":
+=======
+def logout_view(request):
+    logout(request)
+    return redirect('logins:main')
+
+class SignUp(View):
+    def get(self, request):
+        form = forms.SignUpForm()
+        return render(request, 'logins/signup.html', {"form":form})
+    
+    def post(self, request):
+>>>>>>> Stashed changes
         form = forms.SignUpForm(request.POST)
         if form.is_valid():
             form.save()
