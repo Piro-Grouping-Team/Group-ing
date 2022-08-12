@@ -14,6 +14,7 @@
   </head>
 
   <body>
+    <div class="gradient2"></div>
     <div class=modify_container>
       <div class="title">
         <div class="btitle">내 정보를 <br />
@@ -88,9 +89,11 @@
         />
         성별 
         <select name="gender">
-            <option value=""></option>
+            <option value="">{{user.gender}}</option>
             {% for gender in genders %}
+            {% if user.gender != gender%}
             <option value="{{gender}}">{{gender}}</option>
+            {% endif %}
             {% endfor %}
       </p>
 

@@ -1,4 +1,9 @@
 @import url(../init.css);
+
+*:focus {
+    outline: none;
+}
+
 .container{
     background-color: #C6FC23;
     

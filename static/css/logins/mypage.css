@@ -19,11 +19,13 @@
     font-weight: bold;
 }
 
-.info_update_text{
+.info_update_text::before{
     position: absolute;
     top: 50%;
     left: 66%;
+    font-family: "FontAwesome"; content: "\f303"; 
 }
+
 
 .motto_place{
     margin-top: 30px;
@@ -129,6 +131,3 @@
     height: 40px;
 }
 
-.info_update_text:before {
-    font-family: "FontAwesome"; content: "\f303"; 
-}

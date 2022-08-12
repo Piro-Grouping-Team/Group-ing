@@ -7,30 +7,38 @@
   gap: 1rem;
 }
 
+.meeting-status {
+  padding: 0.5rem 0.6rem 0.5rem;
+
+  border: 2px solid rgb(255, 53, 53);
+  border-radius: 0.5rem;
+  color: rgb(255, 53, 53);
+
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .meeting-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
+
   gap: 2rem;
 }
 
 .meeting-period {
   display: flex;
   justify-content: space-around;
-  align-items: center;
 
-  font-size: 1.25rem;
-  font-weight: bold;
   line-height: 1.5rem;
 }
 
-.meeting-status {
-  padding: 0.5rem;
-
-  /* background: rgb(255, 83, 83); */
-  border: 2px solid rgb(255, 53, 53);
-  border-radius: 0.5rem;
-  color: rgb(255, 53, 53);
-
-  font-size: 0.75rem;
+.quest {
   font-weight: bold;
 }

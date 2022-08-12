@@ -2,19 +2,9 @@
 
 
 .title {
-    background: transparent;
     padding-left: 20px;
 }
 
-.signup_container{
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+31,c6fc23+100 */
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top,  #ffffff 31%, #c6fc23 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  #ffffff 31%,#c6fc23 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  #ffffff 31%,#c6fc23 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c6fc23',GradientType=0 ); /* IE6-9 */
-
-}
 
 .signup-form{
     font-size: 17px;
@@ -53,7 +43,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     appearance: none;
     width: 280px;
     height: 40px;
-    background: transparent;
     background-size: 20px;
     padding: 5px 30px 5px 10px;
     border: 2px solid #C4C4C4;
@@ -76,4 +65,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     margin-bottom: 30px;
   }
 
+.inform input{
+    width: 70vw;
+    padding: 0.7rem 0 0.7rem;
+    position: sticky;
+    bottom: 3rem;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 0.3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
 
