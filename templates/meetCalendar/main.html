@@ -12,7 +12,7 @@
     ></script>
     <title>캘린더</title>
   </head>
-  <body>
+  <body onload='getDates({{ meetId }})'>
     <!-- 캘린더 위쪽 헤더 영억 -->
     <!-- 2022.07 / 버튼 3개 -->
 
@@ -43,7 +43,7 @@
         </button>
       </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/meetCalendar/cal.js' %}"></script>
   </body>
 </html>

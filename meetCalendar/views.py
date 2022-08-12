@@ -2,6 +2,9 @@ from multiprocessing import context
 import json
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 from meetings.models import Meetings
 
@@ -17,12 +20,12 @@ def main(request, meetId):
 
     return render(request, 'meetCalendar/main.html',context)
 
-
-def getDates(request, meetId):
+@csrf_exempt
+def getDates(request):
     req = json.loads(request.body)
     meetId = req['meetId']
     meet = Meetings.objects.get(id=meetId)
-    startDate = meet.startDate
-    endDate = meet.endDate
+    startDate = meet.meetStart
+    endDate = meet.meetEnd
 
     return JsonResponse({'startDate': startDate, 'endDate': endDate});

@@ -15,8 +15,8 @@ class Meetings(models.Model):
     meetTime = models.DateField()
     meetPlace = models.CharField(max_length=100)
     meetStatus = models.IntegerField(default=0) #0:모집중, 1:투표중, 2:픽스
-    meetStart = models.DateTimeField()
-    meetEnd = models.DateTimeField()
+    meetStart = models.DateField()
+    meetEnd = models.DateField()
     meetVote = models.IntegerField(default=0)
     meetMembers = models.IntegerField(default=0)
     meetType = models.CharField(max_length=20, choices=TYPE_CHOICE)
