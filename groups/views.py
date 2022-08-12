@@ -23,6 +23,7 @@ def create(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.head = request.user.username
+            # Save를 두 번 하는 이유가 있나요?
             group.save()
             group.code =  groupCodeGenerate(request.user.username, group.id)
             group.save()
@@ -47,24 +48,24 @@ def join(request):
         user = request.user.id
 
         # 케이스별로 예외처리 논의 필요
-        try:    
+        try:
             group = Group.objects.get(code=code)
         except Group.DoesNotExist:
             messages.error(request, '유효하지 않은 그룹 코드입니다.')
             return redirect('/groups/join/')
-        
+
         try:
             group.blackList.get(id=user)
             messages.error(request, '그룹의 블랙리스트에 등록되어있습니다.')
             return redirect('/groups/join/')
         except:
-            try: 
+            try:
                 group.members.get(id=user)
                 messages.error(request, '이미 해당 그룹의 멤버입니다.')
                 return redirect('/groups/join/')
             except:
                 group.members.add(user)
-                return redirect(f'/groups/group/{group.id}')  
+                return redirect(f'/groups/group/{group.id}')
     else:
         return render(request, template_name='groups/join.html')
 
@@ -88,7 +89,7 @@ def leave(request, id):
         user = request.user.id
         group = Group.objects.get(id=id)
         group.members.remove(user)
-    
+
     return redirect('/groups/')
 
 def modify(request, id):
@@ -108,7 +109,7 @@ def modify(request, id):
             group.name = form.cleaned_data['name']
             group.introduction = form.cleaned_data['introduction']
             group.purpose = form.cleaned_data['purpose']
-            # group.image = form.cleaned_data['image']           
+            # group.image = form.cleaned_data['image']
             if form.cleaned_data['image']:
                 group.image = form.cleaned_data['image']
             else:
@@ -117,7 +118,7 @@ def modify(request, id):
             return redirect(f'/groups/group/{group.id}')
     else:
         form = GroupForm(instance=group)
-    
+
         context = {
             'form' : form,
             'group' : group
@@ -132,7 +133,7 @@ def members(request, id):
 
     context = {
         'group' : group,
-        'members' : members, 
+        'members' : members,
         'user' : user,
     }
     return render(request, template_name='groups/members.html', context=context)

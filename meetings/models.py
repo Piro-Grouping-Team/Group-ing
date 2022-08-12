@@ -3,6 +3,7 @@ from django.db import models
 from groups.models import Group,User
 
 # Create your models here.
+# Camel Case & Snake Case
 class Meetings(models.Model):
     meetHead = models.ForeignKey(User, on_delete=models.CASCADE)
     meetGroupId = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -13,7 +14,7 @@ class Meetings(models.Model):
     meetStart = models.DateField()
     meetEnd = models.DateField()
     meetVote = models.IntegerField(default=0)
-    meetMembers = models.IntegerField(default=0) 
+    meetMembers = models.IntegerField(default=0)
 
     def __str__(self):
         return self.meetName
