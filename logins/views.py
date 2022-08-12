@@ -87,7 +87,7 @@ def userUpdate(request, id):
 
         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
         print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
-        return redirect('logins:main')
+        return redirect('logins:mypage')
     else:
         genders = ['남성', '여성', '선택안함']
         user = User.objects.get(id=id)

@@ -44,22 +44,45 @@ class SignUpForm(UserCreationForm):
 
         ###self.fields['password1'].help_text = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요"
         
+        ##이름
+        self.fields["name"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "이름"}
+        )
+        ##닉네임
+        self.fields["nickname"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "닉네임"}
+        )
+        
+        ##나이
+        self.fields["age"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "나이"}
+        )
+
+        ##아이디
+        self.fields["username"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "아이디"}
+        )
+
+        ##이메일
+        self.fields["email"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "example@example.com"}
+        )
 
         self.fields["password1"].widget.attrs.update(
-            {"class": "form-control", }
+            {"class": "form-control", "placeholder": "비밀번호"}
         )
 
         self.fields["password2"].widget.attrs.update(
-            {"class": "form-control", }
+            {"class": "form-control", "placeholder": "비밀번호 확인"}
         )
         ###self.fields["password2"].help_text = "확인을 위해 이전과 동일한 비밀번호"
 
         self.fields["address"].widget.attrs.update(
-            {"id": "address_kakao", "name" : "address",}
+            {"id": "address_kakao", "name" : "address", "placeholder": "주소"}
         )
 
         self.fields["addressDetail"].widget.attrs.update(
-            {"name": "address_detail", }
+            {"name": "address_detail", "placeholder": "상세주소"}
         )
 
 # class LoginForm(forms.Form):
