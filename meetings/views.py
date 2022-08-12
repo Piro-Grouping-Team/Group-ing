@@ -26,12 +26,12 @@ def create(request,id):
         meetHead = User.objects.get(id=request.user.id)
         meetGroupId = Group.objects.get(id=id)
         meetName = request.POST['meetName']
-        meetTime = request.POST['meetTime']
         meetPlace = request.POST['meetPlace']
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
+        meetPurpose = request.POST['meetPurpose']
 
-        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId,  meetTime=meetTime, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate)
+        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate, meetPurpose=meetPurpose)
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
@@ -56,8 +56,8 @@ def update(request, id, meetId):
     if request.method =='POST':
 
         meetings.meetName = request.POST['meetName']
-        meetings.meetTime = request.POST['meetTime']
         meetings.meetPlace = request.POST['meetPlace']
+        meetings.meetPurpose = request.POST['meetPurpose']
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)

@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
+from logins.views import main
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('groups.urls')),
-    path('', include('logins.urls')),
+    path('', main, name="main"),
+    path('logins/', include('logins.urls')),
     path('groups/', include('groups.urls')),
     path('groups/group/<int:id>/', include('meetings.urls')),
     path('accounts/', include('allauth.urls')),

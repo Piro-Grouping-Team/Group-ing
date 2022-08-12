@@ -11,6 +11,26 @@
     flex-direction: column;
   }
 
+  .gradient {
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(to top, #eaeaea, transparent 20%);
+    position: fixed;
+
+    pointer-events: none;
+  }
+
+  .gradient2 {
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(to top, #c6fc23, transparent 10%);
+    position: fixed;
+
+    pointer-events: none;
+  }
+
   .title {
     padding: 4rem 0 4rem;
 
@@ -57,7 +77,7 @@
     height: 2rem;
 
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: nowrap;
     gap: 0.5rem;
 

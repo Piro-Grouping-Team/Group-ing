@@ -153,6 +153,7 @@ input {
   border-top: 0px;
   border-left: 0px;
   border-bottom: 0px;
+  background-color: transparent;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
