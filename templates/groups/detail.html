@@ -55,6 +55,15 @@
       <div class="group-intro">" {{group.introduction}} "</div>
       <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
     </div>
+    <div>
+      {% for meeting in meetings %}
+      <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}"
+        >약속이름{{ meeting.meetName }}</a
+      >
+      {% endfor %}
+    </div>
+
+    <a href="{% url 'meetings:create' group.id %}">약속 생성하러 가기</a>
     <script>
       const input = document.querySelector("input[name=tags]");
       new Tagify(input);
