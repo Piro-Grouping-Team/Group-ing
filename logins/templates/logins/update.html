@@ -39,9 +39,11 @@
           value="{{user.addressDetail}}"
         />
         <select name="gender">
-            <option value="">---</option>
+            <option value="">{{user.gender}}</option>
             {% for gender in genders %}
+            {% if user.gender != gender %}
             <option value="{{gender}}">{{gender}}</option>
+            {% endif %}
             {% endfor %}
       </p>
       <div>

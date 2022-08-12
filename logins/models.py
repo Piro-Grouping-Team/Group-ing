@@ -35,9 +35,9 @@ class UserManager(BaseUserManager):
 # Create your models here.
 class User(AbstractBaseUser, PermissionsMixin):
     GENDER_CHOICES=(
-        ('male', '남성'),
-        ('female', '여성'),
-        ('None', '선택안함'),
+        ('남성', '남성'),
+        ('여성', '여성'),
+        ('선택안함', '선택안함'),
     )
     objects = UserManager()
     email = models.EmailField(        
