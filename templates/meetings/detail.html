@@ -1,40 +1,63 @@
 <html>
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetings/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>약속 등록</title>
   </head>
   <body>
-    <div>약속이름{{ meeting.meetName }}</div>
-    <div>약속이 속한 그룹 {{group.name}}</div>
-    <div>약속 날짜{{ meeting.meetTime }}</div>
-    <div>장소{{ meeting.meetPlace }}</div>
-    <div>
-      현재상태
-    </div>
-      {% if meeting.meetStatus == 0 %} 
-      <div>모집중 </div>
-      {% elif meeting.meetStatus == 1 %} 
-      <div>투표중</div> 
-      {% elif meeting.meetStatus == 2%} 
-      <div>모집완료 </div>
-      {% endif %}
-    </div>
-    <div>기간범위 시작{{ meeting.meetStart }}</div>
-    <div>기간범위 끝{{ meeting.meetEnd }}</div>
+    <div class="container">
+      <div class="header">
+        <div class="title">
+          <div class="btitle">{{ meeting.meetName }}</div>
+          <div class="stitle">일정을 확인해주세요!</div>
+        </div>
+        <a href="{% url 'meetings:update' id=group.id meetId=meeting.id %}">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+      </div>
+      <div class="meeting-content">
+        <div class="meeting-period">
+          <div>
+            {{ meeting.meetStart }} ~ <br />
+            {{ meeting.meetEnd }}
+          </div>
+          {% if meeting.meetStatus == 0 %}
+          <div class="meeting-status">모집중</div>
+          {% elif meeting.meetStatus == 1 %}
+          <div class="meeting-status">투표중</div>
+          {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">모집완료</div>
+          {% endif %}
+        </div>
+        <div class="meeting-people">
+          {{group.name}}의 사람들이 참여하고 있어요
+        </div>
+        <div class="meeting-place">
+          <div>약속 장소</div>
+          <div>{{ meeting.meetPlace }}</div>
+        </div>
 
+        <div>
+          <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
+            >약속목록</a
+          >
 
-    <div>
-      <a href='{% url 'groups:detail' id=group.id %}'>약속목록</a>
-      <a href='{% url 'meetings:update' id=group.id meetId=meeting.id %}'>
-        약속 수정
-      </a>
-
-      <form action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}" method='post'>
-        {% csrf_token %}
-        <input type="submit" value="약속 삭제">
-      </form>
+          <form
+            action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <input class="btn delete-btn" type="submit" value="약속 삭제" />
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>

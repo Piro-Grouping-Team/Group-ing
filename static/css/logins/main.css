@@ -1,1 +1,39 @@
-@import url(../init.css);
+body {
+  background: black;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 0.5rem 2rem 0.5rem;
+
+  border: 2px solid white;
+  border-radius: 2rem;
+
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.space2 {
+  width: 4rem;
+}
+
+.space4 {
+  width: 7rem;
+}
+
+.login:hover,
+.signup:hover {
+  background: #c6fc23;
+  color: black;
+  border-color: #c6fc23;
+}

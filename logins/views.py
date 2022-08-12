@@ -15,7 +15,7 @@ from django.template.loader          import render_to_string
 
 # Create your views here.
 def main(request):
-    return render(request, 'logins/main.html')
+    return render(request, 'main.html')
 
 def login_view(request):
     if request.method == "POST":
@@ -24,7 +24,8 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            print("인증성공") 
+            print("인증성공")
+            return redirect('/')
         else:
             print("인증실패")
     return render(request, 'logins/login.html')
@@ -32,7 +33,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('logins:login')
+    return redirect('/')
 
 class SignUp(View):
     def get(self, request):
@@ -58,7 +59,7 @@ class SignUp(View):
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return redirect('logins:main')
+            return redirect('/')
         print(form.error_messages)
 
 def activate(request, uidb64, token):

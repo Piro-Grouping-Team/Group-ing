@@ -17,6 +17,7 @@
     <title>GruopCreate</title>
   </head>
   <body>
+    <div class="gradient2"></div>
     <div class="container">
       <div class="title">
         <div class="btitle">
@@ -63,7 +64,27 @@
   <script>
     var input = document.querySelector("input[name=tags]"),
       tagify = new Tagify(input, {
-        whitelist: ["활동적인", "야외", "공부", "자기개발", "술"],
+        whitelist: [
+          "활동적인",
+          "사교적인",
+          "혼자있는 시간이 필요한",
+          "열정넘치는",
+          "대학동기",
+          "죽마고우",
+          "5년이상",
+          "온라인",
+          "야외",
+          "실내",
+          "공부",
+          "운동",
+          "게임",
+          "음악",
+          "독서",
+          "공연",
+          "자기개발",
+          "술",
+          "춤",
+        ],
         dropdown: {
           position: "manual",
           maxItems: Infinity,
