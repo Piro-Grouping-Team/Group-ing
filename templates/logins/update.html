@@ -1,54 +1,109 @@
 <!DOCTYPE html>
 <html lang="ko">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/logins/update.css' %}" />    
+    <script
+      src="https://kit.fontawesome.com/0dee369a16.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>UPDATE</title>
   </head>
+
   <body>
-    <form action="{% url 'logins:update' user.id %}" method="POST">
+    <div class=modify_container>
+      <div class="title">
+        <div class="btitle">내 정보를 <br />
+        수정해요</div>
+      </div>
+      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST">
       {% csrf_token %}
-
-
       <p>
+        닉네임
         <input
           type="text"
           name="nickname"
           value="{{user.nickname}}"
+          placeholder= "nickname"
         />
+
+        아이디
+        <input
+          type="text"
+          name="id"
+          value="{{user.username}}"
+          placeholder="ID"
+        />
+
+        {% comment %}
+        비밀번호
+        <input
+          type="text"
+          name="password"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+        비밀번호확인
+        <input
+          type="text"
+          name="id"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+        {% endcomment %}
+
+        이메일
         <input
           type="text"
           name="email"
           value="{{user.email}}"
+          placeholder= "example@example.com"
+
         />
+        나이
         <input
           type="number"
           name="age"
           value="{{user.age}}"
+          placeholder="나이"
         />
+
+        주소
         <input
           type="text"
           name="address"
           id="address_kakao"
           value="{{user.address}}"
+          placeholder = "주소"
         />
+        상세주소
         <input
           type="text"
           name="addressDetail"
           value="{{user.addressDetail}}"
+          placeholder = "상세주소"
         />
+        성별 
         <select name="gender">
             <option value=""></option>
             {% for gender in genders %}
             <option value="{{gender}}">{{gender}}</option>
             {% endfor %}
       </p>
-      <div>
-        <input type="submit" value="제출" />
+
+      <div class= inform>
+        <input type="submit" value="완료"/>
       </div>
+
     </form>
-    <a href="{% url 'logins:main' %}">Home</a>
+
+    </div>
+
   </body>
+
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
   window.onload = function(){

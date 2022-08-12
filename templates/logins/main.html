@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/logins/main.css' %}" />
+    <title>GROUP-ING</title>
+    <script
+      src="https://kit.fontawesome.com/0dee369a16.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
-  <body></body>
+  <body>
+    <header>
+        {% if user.is_authenticated %} {% else %}
+        <a href="{% url 'logins:signup' %}">SIGNUP</a>
+        <a href="{% url 'logins:login' %}">LOGIN</a>
+        {% endif %}
+    </header>
+    {% block content %}
+    <main>
+      <h1>우리는</h1>
+      <h1>지금,</h1>
+      <h1>만남을</h1>
+      <h1>진행중</h1>
+
+      {% if user.is_authenticated %}
+      <div class="main-desc">
+        <div>
+          <h4 class="main-loging">{{user.username}}님이 로그인 중</h4>
+          <a href="{% url 'logins:mypage' %}">MYPAGE</a>
+          <a href="{% url 'logins:logout' %}">LOGOUT</a>
+        </div>
+      </div>
+      {% else %}
+      <div class="main-desc">
+        <div></div>
+        <div class="btn-box"></div>
+      </div>
+      {% endif %}
+    </main>
+    {% endblock content %}
+    <footer>
+      <p></p>
+      <p></p>
+    </footer>
+  </body>
 </html>

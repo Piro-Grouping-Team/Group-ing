@@ -29,6 +29,7 @@ def login_view(request):
             print("인증실패")
     return render(request, 'logins/login.html')
 
+
 def logout_view(request):
     logout(request)
     return redirect('logins:login')
@@ -86,12 +87,15 @@ def userUpdate(request, id):
 
         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
         print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
-        return redirect('logins:main')
+        return redirect('logins:mypage')
     else:
         genders = ['남성', '여성', '선택안함']
         user = User.objects.get(id=id)
         context={'user':user, 'genders':genders}
         return render(request, template_name='logins/update.html', context=context)
+
+def mypage(request):
+    return render(request, 'logins/mypage.html')
 
 # class SignUp(APIView):
 #     def post(self, request):

@@ -1,0 +1,79 @@
+@import url(../init.css);
+
+
+.title {
+    background: transparent;
+    padding-left: 20px;
+}
+
+.signup_container{
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+31,c6fc23+100 */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffffff 31%, #c6fc23 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #ffffff 31%,#c6fc23 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #ffffff 31%,#c6fc23 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c6fc23',GradientType=0 ); /* IE6-9 */
+
+}
+
+.signup-form{
+    font-size: 17px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup-form p{
+    margin-bottom: 20px;
+}
+
+.signup-form label{
+    color: black;
+}
+
+.signup-form input{
+    color: black;
+    font-size: 17px;
+    font-weight: bold;
+    width: 330px;
+    background-color: transparent;
+    border: 2px solid #C4C4C4;
+    border-radius: 6px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.signup-form select{
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 280px;
+    height: 40px;
+    background: transparent;
+    background-size: 20px;
+    padding: 5px 30px 5px 10px;
+    border: 2px solid #C4C4C4;
+    border-radius: 6px;
+    outline: 0 none;
+}
+
+.inform{
+    display: flex;
+    justify-content: center;
+}
+.inform input {
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+
