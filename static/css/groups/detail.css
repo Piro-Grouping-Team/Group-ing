@@ -60,3 +60,66 @@
 .customLook {
   margin-left: 2rem;
 }
+
+.meetings {
+  width: 100%;
+  padding: 0 1rem 3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.meeting {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-status {
+  width: 3rem;
+  padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+
+  align-self: flex-end;
+  position: relative;
+  right: 0.5rem;
+
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: 0.2rem 0.2rem 0 0;
+
+  text-align: center;
+  font-size: 0.5rem;
+  font-weight: bold;
+}
+
+.meeting-content {
+  width: 100%;
+  padding: 1rem;
+
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+
+.meeting-name {
+  padding: 0.5rem 0 0.5rem;
+
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.meeting-period {
+  font-size: 0.75rem;
+}
+
+.new-btn {
+  padding: 0.5rem;
+
+  justify-self: center;
+  align-self: center;
+
+  position: fixed;
+  bottom: 6rem;
+}
