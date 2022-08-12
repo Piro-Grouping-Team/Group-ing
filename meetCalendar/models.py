@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from django.contrib.postgres.fields import ArrayField  
 from meetings.models import Meetings
@@ -15,10 +14,10 @@ class meetDay(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='사용자 PK')
 
     #시작시간
-    startTime = models.CharField
+    startTime = models.DateTimeField(verbose_name='시작시간')
 
     #종료시간
-    endTime = models.CharField
+    endTime = models.DateTimeField(verbose_name='종료시간')
     
     pass
 
@@ -30,9 +29,9 @@ class meetTravel(models.Model):
     #user pk
     userId = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='사용자 PK')
     #시작 날짜(시간을 포함한)
-    startDate = models.CharField
+    startDate = models.DateTimeField(verbose_name='시작 날짜')
     #종료 날짜
-    endDate = models.CharField
+    endDate = models.DateTimeField(verbose_name='종료 날짜')
     pass
 
 
