@@ -46,7 +46,16 @@
         class="customLook"
         name="tags"
         readonly
-        value="활동적인, 술, 자기개발"
+        value="
+        {% for keyword in keywords %}
+          {% if forloop.last %}
+            {{keyword.keyword}}
+          {% else %}
+            {{keyword.keyword}},
+           {% endif %} 
+        {% endfor %}
+   
+        "
       />
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a

@@ -43,7 +43,15 @@
               class="customLook"
               name="tags"
               readonly
-              value="활동적인, 술, 자기개발"
+              value="
+              {% for keyword in group.keywords.all %}
+                {% if forloop.last%}
+                  {{keyword.keyword}}
+                {% else %}
+                  {{keyword.keyword}},
+                {% endif %}
+              {% endfor %}
+              "
             />
           </div>
         </a>
