@@ -57,8 +57,7 @@
         </div>
 
         <div class="social login">
-          {% comment %}로그인했을 때도 얘네들이 보여요 어케함{% endcomment %} {%
-          load socialaccount %}
+          {% load socialaccount %}
           <div class="naver_login">
             <a class="naver_text" href=" {% provider_login_url 'naver' %}"
               >네이버로 시작하기</a
