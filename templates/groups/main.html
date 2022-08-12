@@ -29,6 +29,7 @@
       <ul class="groups">
         {% for group in groups %}
         <a class="group" href="{% url 'groups:detail' group.id %}">
+          {%if group.image %}
           <div class="group-img_box">
             <img
               class="group-img"
@@ -36,13 +37,22 @@
               alt="이미지 없음"
             />
           </div>
+          {% endif %}
           <div class="group-tag_box">
             <div class="group-name">{{group.name}}</div>
             <input
               class="customLook"
               name="tags"
               readonly
-              value="활동적인, 술, 자기개발"
+              value="
+              {% for keyword in group.keywords.all %}
+                {% if forloop.last%}
+                  {{keyword.keyword}}
+                {% else %}
+                  {{keyword.keyword}},
+                {% endif %}
+              {% endfor %}
+              "
             />
           </div>
         </a>

@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'logins',
     'groups',
-    'django_tagify',
     'meetings',
     'meetingsMember',
+    'keywords'
 ]
 
 MIDDLEWARE = [

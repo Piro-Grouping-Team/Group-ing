@@ -46,7 +46,7 @@
           </div>
           <div class="create-box">
             <div class="create-quest">그룹의 성향은 무엇인가요?</div>
-            <input name="tags" placeholder="write some tags" />
+            <input type="hidden" name="tags" placeholder="write some tags" />
           </div>
           <div class="create-box">
             <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
@@ -62,29 +62,10 @@
     </div>
   </body>
   <script>
+    var list = {{keywordData|safe}}
     var input = document.querySelector("input[name=tags]"),
       tagify = new Tagify(input, {
-        whitelist: [
-          "활동적인",
-          "사교적인",
-          "혼자있는 시간이 필요한",
-          "열정넘치는",
-          "대학동기",
-          "죽마고우",
-          "5년이상",
-          "온라인",
-          "야외",
-          "실내",
-          "공부",
-          "운동",
-          "게임",
-          "음악",
-          "독서",
-          "공연",
-          "자기개발",
-          "술",
-          "춤",
-        ],
+        whitelist: list,
         dropdown: {
           position: "manual",
           maxItems: Infinity,
