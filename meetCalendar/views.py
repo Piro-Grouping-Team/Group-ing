@@ -1,8 +1,9 @@
 from multiprocessing import context
 import json
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
+from .forms import meetDayForm
 
 
 
@@ -29,3 +30,24 @@ def getDates(request):
     endDate = meet.meetEnd
 
     return JsonResponse({'startDate': startDate, 'endDate': endDate});
+
+def create(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    if request.method == 'POST':
+        form = meetDayForm(request.POST)
+
+        if form.is_valid():
+            meetDay = form.save(commit=False)
+            meetDay.meetId = meeting
+            meetDay.userId = request.user
+            meetDay.save()
+
+            return redirect('meetCalendar:main', meeting.id)
+
+    else:
+        form = meetDayForm()
+        context={
+            'form' : form,
+            'meetId' : meetId,
+        }
+        return render(request, template_name='meetCalendar/create.html',context=context)
