@@ -15,7 +15,11 @@ body {
 }
 
 .calendar {
-  width: 50rem;
+  width: 20rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .year-month {
@@ -24,14 +28,14 @@ body {
   text-align: center;
 }
 
-.content {
+.navbar {
   display: flex;
   align-items: center;
 }
 
 .nav-btn {
   padding: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -56,7 +60,7 @@ body {
 .dates {
   display: flex;
   flex-flow: row wrap;
-  height: 30rem;
+  height: 20rem;
 }
 
 .date {
@@ -70,8 +74,8 @@ body {
   height: 100%;
 
   padding: 0.5rem;
-  border: 2px solid #333333;
-  border-radius: 0.5rem;
+
+  display: flex;
 }
 
 #this:hover {
@@ -88,29 +92,10 @@ body {
 
 .day:nth-child(7n + 1),
 .date:nth-child(7n + 1) {
-  color: red;
+  color: rgb(255, 59, 59);
 }
 
 .day:nth-child(7n),
 .date:nth-child(7n) {
-  color: blue;
-}
-
-.today {
-  position: relative;
-  color: #ffffff;
-}
-
-.today::before {
-  position: absolute;
-  top: 45%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  width: 30px;
-  height: 30px;
-  display: block;
-  background-color: #ff3939;
-  border-radius: 50%;
-  content: "";
+  color: rgb(59, 59, 255);
 }
