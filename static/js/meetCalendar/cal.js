@@ -1,10 +1,13 @@
 // const date2 = new Date(2022, 8, 7); // 지정 날짜 객체
 let startDate,endDate; // 시작 날짜, 끝 날짜 저장
+let date;
+
+
 
 const getDates = async (meetId) => {
   const url = '/calendar/getDates/'; // 요청 URL
   const { data } = await axios.post(url, { meetId } ); // 요청 결과 받기
-  await handleDates(data); // 시작 날짜, 끝 날짜 저장
+  handleDates(data); // 시작 날짜, 끝 날짜 저장
   return;
 };// 시작 끝 날짜 가져오기
 
@@ -14,31 +17,21 @@ const handleDates = async (data) => {
   startDate = new Date(data.startDate); // 시작 날짜 저장
   endDate = new Date(data.endDate); // 끝 날짜 저장
   console.log(startDate);
-  makeCalendarFianl(); // 캘린더 생성하기
-  return;
-}
+  date = startDate;
+  sMonth = startDate.getMonth();
+  eMonth = endDate.getMonth();
 
-
-const startDate1 = new Date(2022, 8, 18);
-//const endDate1 = new Date(2022, 9, 10);
-console.log(startDate1);
-//console.log(endDate1);
-
-const makeCalendarFianl = () => {
-
-
-  let date = startDate;
-  console.log(date);
-  const sMonth = startDate.getMonth();
-  const eMonth = endDate.getMonth();
-
-  const sDate = startDate.getDate();
-  const eDate = endDate.getDate();
+  sDate = startDate.getDate();
+  eDate = endDate.getDate();
   
-  const validList = [];
+  validList = [];
   for (let i = sMonth; i < eMonth + 1; i++) {
     validList.push(i);
   }
+
+  makeCalendar();
+  return;
+}
   
   const makeCalendar = () => {
     const viewYear = date.getFullYear(); //2022
@@ -129,12 +122,11 @@ const makeCalendarFianl = () => {
     document.querySelector(".dates").innerHTML = dates.join("");
   };
   
-  makeCalendar();
   
   // 이전 달로 이동
   const prevMonth = () => {
-    if (validList.includes(date.getMonth() - 1)) {
-      date.setMonth(date.getMonth()); // 전 달로 달 변경
+    if (validList.includes(date.getMonth()-1)) {
+      date.setMonth(date.getMonth()-1); // 전 달로 달 변경
       date.setDate(1); // 전 달로 날짜 변경
       makeCalendar();
     }
@@ -144,7 +136,7 @@ const makeCalendarFianl = () => {
   const nextMonth = () => {
     if (validList.includes(date.getMonth()+1)) {
       date.setDate(1); // 다음 달로 날짜 변경
-      date.setMonth(date.getMonth() + 2); // 다음 달로 달 변경
+      date.setMonth(date.getMonth() + 1); // 다음 달로 달 변경
       makeCalendar();
     }
   };
@@ -162,4 +154,3 @@ const makeCalendarFianl = () => {
       selectDate[i].removeEventListener("click", myClick);
     });
   }
-}
