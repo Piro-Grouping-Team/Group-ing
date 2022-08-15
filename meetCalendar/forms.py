@@ -2,15 +2,22 @@ from django import forms
 import datetime
 from meetCalendar.models import meetDay, meetTravel
 
-
 class meetDayForm(forms.ModelForm):
     class Meta:
         model = meetDay
         fields = ['validDate', 'startTime', 'endTime']
-        widgets = {
-            'validDate' : forms.DateInput(format=('%m/%d/%Y'),attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'}),
-    
-        }
+        
+    validDate = forms.DateInput(format=('%m/%d/%Y'),attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'})
+    startTime = forms.TimeInput(format=('%H:%M'),attrs={'class':'form-control', 'placeholder':'Select a time', 'type':'time'})
+    endTime = forms.TimeInput(format=('%H:%M'),attrs={'class':'form-control', 'placeholder':'Select a time', 'type':'time'})
+
+    def clean_endTime(self):
+        startTime = self.cleaned_data['startTime']
+        endTime = self.cleaned_data['endTime']
+
+        if startTime > endTime:
+            raise forms.ValidationError("Start date must be earlier than end date")
+        return endTime
 
 class meetTravelForm(forms.ModelForm):
     TIME_CHOICE = (

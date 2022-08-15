@@ -104,12 +104,11 @@ class meetDayInfo(models.Model):
     month = models.IntegerField()
     #날짜
     day = models.IntegerField()
-    #시간대별 카운트
-    hours = ArrayField(
-        ArrayField(models.IntegerField()),
-        size=24,
-        )
-    #array필드 (인덱스가 시간인)
+    #시간대
+    hour = models.IntegerField()
+
+    meetUsers = models.ManyToManyField(User, related_name='meetUser')
+    
 
 
 #여행 통계 모델
@@ -123,6 +122,6 @@ class meetTravelInfo(models.Model):
     #날짜
     day = models.IntegerField()
     #사람 카운트
-    meetUsers = models.ManyToManyField(User, related_name='meetUser')
+    meetUsers = models.ManyToManyField(User, related_name='travelUser')
 
     #array필드 ()

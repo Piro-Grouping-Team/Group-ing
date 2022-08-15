@@ -54,7 +54,7 @@ def create(request, meetId):
               savemeetDayInfo(meetDay)
               return redirect('meetCalendar:main', meeting.id)
             else:
-                messages.error(request, '약속 시작 날짜를 선택해주세요.')
+                messages.error(request, '입력이 잘못되었습니다. 다시 입력해주세요.')
 
         elif meeting.meetType == 'travel':
             form = meetTravelForm(request.POST)
@@ -85,9 +85,6 @@ def saveTravelInfo (meetTravel):
     userId = meetTravel.userId
     startDate = meetTravel.startDate
     endDate = meetTravel.endDate
-    startTime = meetTravel.startTime
-    endTime = meetTravel.endTime
-    print (startDate, type(startDate.day))
     #시작 날짜부터 종료 날짜까지 반복
     #해당 날짜에 시작시간부터 종료시간까지 저장
     delta = datetime.timedelta(days=1)
@@ -110,6 +107,19 @@ def saveTravelInfo (meetTravel):
 def savemeetDayInfo(meetDay):
     meetId = meetDay.meetId
     userId = meetDay.userId
-    year = meetDay.year
-    month = meetDay.month
-    day = meetDay.day
+    validDate = meetDay.validDate
+    year = validDate.year
+    month = validDate.month
+    day = validDate.day
+    startTime = int(meetDay.startTime)
+    endTime = int(meetDay.endTime)
+    print (startTime, type(startTime))
+
+    
+    while startTime <= endTime:
+        if meetDayInfo.objects.filter(meetId=meetId,year=year,month=month,day=day,hour=startTime).exists():
+            meetDayInfo.objects.get(meetId=meetId,year=year,month=month,day=day,hour=startTime).meetUsers.add(userId)
+        else:
+            meetDayInfo.objects.create(meetId=meetId,year=year,month=month,day=day,hour=startTime)
+            meetDayInfo.objects.get(meetId=meetId,year=year,month=month,day=day,hour=startTime).meetUsers.add(userId)
+        startTime += 1
