@@ -36,8 +36,10 @@ def create(request,id):
 
         return redirect('meetings:detail',id,meetings.id)
 
+    meetType = Meetings.meetType
     context = {
         'group': group,
+        'meetType': meetType,
         }
 
     return render(request, 'meetings/create.html',context)

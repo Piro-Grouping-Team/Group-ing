@@ -1,12 +1,13 @@
-from multiprocessing import context
+import datetime
 import json
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from .forms import meetDayForm
+from .forms import meetDayForm, meetTravelForm
+from django.contrib import messages
 
-
-
+from meetCalendar.models import meetDay, meetTravel, meetTravelInfo,meetDayInfo
+from logins.models import User
 from meetings.models import Meetings
 
 # Create your views here.
@@ -31,23 +32,84 @@ def getDates(request):
 
     return JsonResponse({'startDate': startDate, 'endDate': endDate});
 
+#login 체크 필요?????
 def create(request, meetId):
     meeting = Meetings.objects.get(id=meetId)
-    if request.method == 'POST':
-        form = meetDayForm(request.POST)
-
-        if form.is_valid():
-            meetDay = form.save(commit=False)
-            meetDay.meetId = meeting
-            meetDay.userId = request.user
-            meetDay.save()
-
-            return redirect('meetCalendar:main', meeting.id)
-
-    else:
+    if meeting.meetType == 'today':
         form = meetDayForm()
-        context={
+    elif meeting.meetType == 'travel':
+        form = meetTravelForm()
+
+
+    if request.method == 'POST':
+        if meeting.meetType == 'today':
+
+            form = meetDayForm(request.POST)
+
+            if form.is_valid():
+              meetDay = form.save(commit=False)
+              meetDay.meetId = meeting
+              meetDay.userId = request.user
+              meetDay.save()
+              savemeetDayInfo(meetDay)
+              return redirect('meetCalendar:main', meeting.id)
+            else:
+                messages.error(request, '약속 시작 날짜를 선택해주세요.')
+
+        elif meeting.meetType == 'travel':
+            form = meetTravelForm(request.POST)
+
+            if form.is_valid():
+                meetTravel = form.save(commit=False)
+                meetTravel.meetId = meeting
+                meetTravel.userId = request.user
+                meetTravel.save()
+                saveTravelInfo(meetTravel)
+                return redirect('meetCalendar:main', meeting.id)
+            else:
+                messages.error(request, '입력이 잘못되었습니다. 다시 입력해주세요.')
+            
+                
+    context={
             'form' : form,
             'meetId' : meetId,
+            'meeting' : meeting,
+            'meetTimes' : meetTravelForm.TIME_CHOICE,
         }
-        return render(request, template_name='meetCalendar/create.html',context=context)
+
+
+    return render(request, template_name='meetCalendar/create.html',context=context)
+
+def saveTravelInfo (meetTravel):
+    meetId = meetTravel.meetId
+    userId = meetTravel.userId
+    startDate = meetTravel.startDate
+    endDate = meetTravel.endDate
+    startTime = meetTravel.startTime
+    endTime = meetTravel.endTime
+    print (startDate, type(startDate.day))
+    #시작 날짜부터 종료 날짜까지 반복
+    #해당 날짜에 시작시간부터 종료시간까지 저장
+    delta = datetime.timedelta(days=1)
+    while startDate <= endDate:
+
+        year = startDate.year
+        month = startDate.month
+        day = startDate.day
+
+        if meetTravelInfo.objects.filter(meetId=meetId,year=year,month=month,day=day).exists():
+            meetTravelInfo.objects.get(meetId=meetId,year=year,month=month,day=day).meetUsers.add(userId)
+            
+        else:
+            meetTravelInfo.objects.create(meetId=meetId,year=year,month=month,day=day)
+            meetTravelInfo.objects.get(meetId=meetId,year=year,month=month,day=day).meetUsers.add(userId)
+        
+        startDate += delta
+            
+
+def savemeetDayInfo(meetDay):
+    meetId = meetDay.meetId
+    userId = meetDay.userId
+    year = meetDay.year
+    month = meetDay.month
+    day = meetDay.day
