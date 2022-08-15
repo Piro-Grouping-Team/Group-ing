@@ -50,10 +50,11 @@
           action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
           method="post"
         >
-        <a href='{% url 'meetCalendar:main' meetId=meeting.id %}'>캘린더</a>
+
         
-          {% csrf_token %}
-          <input class="btn delete-btn" type="submit" value="약속 삭제" />
+        {% csrf_token %}
+        <input class="btn delete-btn" type="submit" value="약속 삭제" />
+        <a class ="btn calendar-btn" href="{% url 'meetCalendar:main' meetId=meeting.id %}">캘린더</a>
         </form>
       </div>
     </div>
