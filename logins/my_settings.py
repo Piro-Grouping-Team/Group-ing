@@ -13,4 +13,3 @@ EMAIL = {
     'EMAIL_HOST_PASSWORD': 'islcxprwjzcgdspo',
     'SERVER_EMAIL'       : 'Gmail ID',
 }
-

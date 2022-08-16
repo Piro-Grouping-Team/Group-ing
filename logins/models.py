@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 class UserManager(BaseUserManager):
@@ -27,6 +28,7 @@ class UserManager(BaseUserManager):
            name = name,                 
            password=password,     
        )
+       user.is_active = True
        user.is_admin = True
        user.is_superuser = True
        user.save(using=self._db)
@@ -51,11 +53,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=20, null=False, blank=False, verbose_name='이름')
     nickname = models.CharField(max_length=20, null = True, unique=True, verbose_name='닉네임')
     age = models.IntegerField(null=True, verbose_name='나이')
+    profileImg =models.ImageField(null=True, blank=True, upload_to='logins/%Y%m%d', verbose_name='프로필사진')
+    phoneNumber = PhoneNumberField(unique=True, null=False, blank=False, verbose_name='전화번호')
     address = models.CharField(max_length=100, verbose_name='주소')
     addressDetail = models.CharField(max_length=100, verbose_name='상세주소')
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, verbose_name='성별')
+    intro = models.CharField(max_length=100, null=True, blank=True, default='안녕하세요. 반가워요', verbose_name='한줄소개')
     
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 

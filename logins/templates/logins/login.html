@@ -1,0 +1,30 @@
+로그인페이지
+<br />
+{% if user.is_authenticated %} 로그인성공! 
+{{user.username}}
+{{user.name}}
+{{user.nickname}}
+{{user.age}}
+{{user.email}}
+{{user.address}}
+{{user.addressDetail}}
+{{user.gender}}
+<a href="{% url 'logins:update' user.id%}">개인정보수정</a>
+<a href="{% url 'logins:logout' %}">로그아웃</a>{% else %}
+<form action="" method="POST">
+  {% csrf_token %}
+  <input name="username" type="text" />
+  <input name="password" type="password" />
+  <input type="submit" value="로그인" />
+</form>
+{% if messages %}
+<div>
+  {% for message in messages %}
+      {{ message.message }}
+  {% endfor %}
+</div>
+{% endif %}
+<a href="{% url 'logins:signup' %}">회원가입</a>
+<a href="{% url 'logins:findUsername' %}">아이디찾기</a>
+<a href="{% url 'logins:findPW' %}">비밀번호찾기</a>
+{% endif %}
