@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'logins',
     'groups',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -165,8 +166,3 @@ EMAIL_USE_TLS = logins.my_settings.EMAIL['EMAIL_USE_TLS']
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 SOCIALACCOUNT_ADAPTER = 'logins.adapter.SocialAccountAdpater'
-
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'

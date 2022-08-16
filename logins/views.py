@@ -3,6 +3,7 @@ from .tokens                         import account_activation_token
 from .models                         import User
 
 from django.shortcuts                import render, redirect
+from django.contrib                  import messages
 from django.contrib.auth             import authenticate, login, logout
 from django.core.mail                import EmailMessage
 from django.views                    import View
@@ -11,22 +12,29 @@ from django.contrib.sites.shortcuts  import get_current_site
 from django.utils.http               import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding           import force_bytes, force_str
 from django.template.loader          import render_to_string
-
+from django.contrib.auth             import update_session_auth_hash
+from django.contrib.auth.decorators  import login_required
 
 # Create your views here.
 def main(request):
-    return render(request, 'logins/main.html')
+    context = {'state' : False}
+    return render(request, 'logins/main.html', context=context)
 
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            print("인증성공") 
+        if User.objects.filter(username = username).exists():
+            if User.objects.get(username = username).is_active:
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                else:
+                    messages.info(request, '아이디, 비밀번호를 잘못 입력')
+            else:
+                messages.info(request, '이메일인증이 되지않았습니다.')
         else:
-            print("인증실패")
+            messages.info(request, '아이디, 비밀번호를 잘못 입력')
     return render(request, 'logins/login.html')
 
 def logout_view(request):
@@ -39,10 +47,10 @@ class SignUp(View):
         return render(request, 'logins/signup.html', {"form":form})
     
     def post(self, request):
-        form = forms.SignUpForm(request.POST)
+        form = forms.SignUpForm(request.POST, request.FILES)
+        print(form.errors)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active=False
             user.save()
             current_site = get_current_site(request)
             message = render_to_string('logins/account_email.html',                         {
@@ -76,232 +84,91 @@ def activate(request, uidb64, token):
 
 def userUpdate(request, id):
     if request.method == 'POST':
-        nickname = request.POST['nickname']
         email = request.POST['email']
         age = request.POST['age']
         address = request.POST['address']
         addressDetail = request.POST['addressDetail']
         gender = request.POST['gender']
+        profileImg = request.POST['profileImg']
 
-        User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
-        return redirect('logins:main')
+        User.objects.filter(id=id).update(email=email, age=age, address=address, addressDetail=addressDetail, gender=gender, profileImg=profileImg)
+        return redirect('/')
     else:
         genders = ['남성', '여성', '선택안함']
         user = User.objects.get(id=id)
         context={'user':user, 'genders':genders}
         return render(request, template_name='logins/update.html', context=context)
 
-# class SignUp(APIView):
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response((serializer.data), status=status.HTTP_200_OK)
-#         return Response((serializer.errors), status=status.HTTP_200_OK)
+def findUsername(request):
+    errorMessage=''
+    context = {'errorMessage' : errorMessage}
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        if User.objects.filter(name = name, email = email).exists():
+            user = User.objects.get(name=name, email=email)
+            current_site = get_current_site(request)
+            message = render_to_string('logins/findUsername_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+            })
+            mail_subject = 'Find your Username'
+            to_email = user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return redirect('logins:main')
 
-# class UserActivate(APIView):
-#     # permission_classes = (permission.AllowAny, )
+        else:
+            errorMessage='일치하는 정보가 없습니다.'
+            return render(request, template_name='logins/findUsername.html', context=context)
+    return render(request, template_name='logins/findUsername.html', context=context)
 
-#     def get(self, request, uidb64, token):
-#         try:
-#             uid = force_str(urlsafe_base64_decode(uidb64.encode('utf-8')))
-#             user = User.objects.get(pk=uid)
-#         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-#             user = None
-        
-#         try:
-#             if user is not None and account_activation_token.check_token(user, token):
-#                 user.is_active=True
-#                 user.save()
-#                 return Response(user.email + '계정이 활성화 되었습니다.', status=status.HTTP_200_OK)
-#             else:
-#                 return Response('만료된 링크입니다.', status=status.HTTP_400_BAD_REQUEST)
-#         except Exception as e:
-#             print(traceback.format_exc())
+def findPW(request):
+    errorMessage=''
+    context = {'errorMessage' : errorMessage}
+    if request.method == 'POST':
+        username = request.POST['username']
+        name = request.POST['name']
+        email = request.POST['email']
+        if User.objects.filter(username=username, name = name, email = email).exists():
+            user = User.objects.get(username=username, name=name, email=email)
+            current_site = get_current_site(request)
+            print(urlsafe_base64_encode(force_bytes(user.id)).encode().decode())
+            print(account_activation_token.make_token(user))
+            message = render_to_string('logins/findPW_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'id': urlsafe_base64_encode(force_bytes(user.id)).encode().decode(),
+                'token': account_activation_token.make_token(user),
+            })
+            mail_subject = 'Find your PW'
+            to_email = user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return redirect('logins:login')
 
-# class SignUp(APIView):
-#     def post(self, request):
-#         if request.method == "POST":
-#             form = forms.SignUpForm(request.Post)
-#             if form.is_valid():
-#                 form.save()
-#                 username = form.cleaned_data_get('username')
-#                 raw_password = form.cleaned_data('password1')
-#                 user = authenticate(username = username, password=raw_password)
-#                 serializer = UserSerializer(data=request.data)
-#                 if serializer.is_valid():
-#                     serializer.save()
-#                     return Response((serializer.data), status=status.HTTP_200_OK)
-#             return redirect('logins/main.html')
-#         else:
-#             form = forms.SignUpForm()
-#             return render(request, 'logins/signup.html', {'form': form})
+        else:
+            errorMessage='일치하는 정보가 없습니다.'
+            return render(request, template_name='logins/findPW.html', context=context)
+    return render(request, template_name='logins/findPW.html', context=context)
 
-
-
-# class SignUp(View):
-    
-#     def post(self, request):#입력값을 받는다
-#         data = json.loads(request.body)
-#         User(
-#             name = data['name'],
-#             email = data['email'],
-#             password = data['password']
-#         ).save()
-#         return JsonResponse({'message': 'SUCCESS'}, status=200)
-        # data = json.loads(request.body)# 입력값을 코드를 짜기 편하게 값을 받고
-        # try:
-        #     if re.search("[^a-zA-Z0-9]{6,12}$",data['user']):
-        #         return JsonResponse({'message':'id check'}, status=400)
-        #     elif re.search(r"[^A-Za-z0-9!@#$]{6,12}$",data['password']):
-        #         return JsonResponse({'message':'password check'}, status=400)
-        #     else:
-        #         try: # 만약 로그인정보가 틀려 오류가 날때 를 대비하여 try, except 문으로 작성한다
-        #             User.objects.get(user=data['user'])
-        #             return JsonResponse({'message':'EXISTS ID'}, status=401)
-        #         except User.DoesNotExist:
-        #             user = User.objects.create(
-        #                 user    = data['user'],
-        #                 email = data['email'],
-        #                 password  = bcrypt.hashpw(data['password'].encode('utf-8'),bcrypt.gensalt()).decode('utf-8'),
-        #                 is_active = False
-        #             )
-                    
-        #             current_site = get_current_site(request)
-        #             domain = current_site.domain
-        #             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-        #             token = account_activation_token.make_token(user)
-        #             message_data = message(domain, uidb64, token)
-
-        #             mail_title = "이메일 인증을 완료해주세요"
-        #             mail_to = data['email']
-        #             email = EmailMessage(mail_title, message_data, to=[mail_to])
-        #             email.send()
-
-        #         return JsonResponse({'message':'SUCCESS'}, status=200)
-
-        # except KeyError:
-        #     return JsonResponse({'message':'key wrong'}, status=402)
-        # except TypeError:
-        #     return JsonResponse({'message':'type wrong'}, status=403)
-        # except ValidationError:
-        #     return JsonResponse({'message':'VALIDATION_ERROR'}, status=404)
-
-    # def get(self, request):
-    #     user_data = User.objects.values()
-    #     return JsonResponse({'users':list(user_data)}, status=200)
-
-# class Activate(View):
-#     def get(self, request, uidb64, token):
-#         try:
-#             uid = force_str(urlsafe_base64_decode(uidb64))
-#             user = User.objects.get(pk=uid)
-#             user_dic = jwt.decode(token,SECRET_KEY,algorithm='HS256')
-#             if user.id == user_dic["user"]:
-#                 user.is_active = True
-#                 user.save()
-#                 return redirect("http://10.58.5.40:3000/signin")
-
-#             return JsonResponse({'message':'auth fail'}, status=400)
-#         except ValidationError:
-#             return JsonResponse({'message':'type_error'}, status=400)
-#         except KeyError:
-#             return JsonResponse({'message':'INVALID_KEY'}, status=400)
-# class SignUpView(View):
-#     def post(self, request):
-#         data = json.loads(request.body)
-#         try:
-#             validate_email(data["email"])
-
-#             if User.objects.filter(email=data["email"]).exists():
-#                 return JsonResponse({"message" : "EXISTS_EMAIL"}, status=400)
-
-#             user = User.objects.create(
-#                 email     = data["email"],
-#                 password  = bcrypt.hashpw(data["password"].encode("UTF-8"), bcrypt.gensalt()).decode("UTF-8"),
-#                 is_active = False 
-#             )
-
-#             current_site = get_current_site(request) 
-#             domain       = current_site.domain
-#             uidb64       = urlsafe_base64_encode(force_bytes(user.pk))
-#             token        = account_activation_token.make_token(user)
-#             message_data = message(domain, uidb64, token)
-
-#             mail_title = "이메일 인증을 완료해주세요"
-#             mail_to    = data['email']
-#             email      = EmailMessage(mail_title, message_data, to=[mail_to])
-#             email.send()         
- 
-#             return JsonResponse({"message" : "SUCCESS"}, status=200)
-
-#         except KeyError:
-#             return JsonResponse({"message" : "INVALID_KEY"}, status=400)
-#         except TypeError:
-#             return JsonResponse({"message" : "INVALID_TYPE"}, status=400)
-#         except ValidationError:
-#             return JsonResponse({"message" : "VALIDATION_ERROR"}, status=400)
-
-# def signup_view(request):
-#     if request.method == "POST":
-#         form = forms.SignUpForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             raw_password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=raw_password)
-#             user = User.objects.create_user(
-#                 username=request.POST["username"],
-#                 password=request.POST["password1"])
-#             user.save()
-#             current_site = get_current_site(request) 
-#             message = render_to_string('logins/user_activate_email.html',                         {
-#                 'user': user,
-#                 'domain': current_site.domain,
-#                 'uid': urlsafe_base64_encode(force_bytes(user.pk)).encode().decode(),
-#                 'token': account_activation_token.make_token(user),
-#             })
-#             mail_subject = "회원가입 인증 메일입니다."
-#             user_email = user.email
-#             email = EmailMessage(mail_subject, message, to=[user_email])
-#             email.send()
-#             return HttpResponse(
-#                 '<div style="font-size: 40px; width: 100%; height:100%; display:flex; text-align:center; '
-#                 'justify-content: center; align-items: center;">'
-#                 '입력하신 이메일<span>로 인증 링크가 전송되었습니다.</span>'
-#                 '</div>'
-#             )
-#             # login(request, user)
-#         return redirect('logins:main')
-#     else:
-#         form = forms.SignUpForm()
-
-#     return render(request, 'logins/signup.html', {'form' : form})
-# def signup_view(request):
-#     if request.method == "POST":
-#         print(request.POST)
-#         form = forms.SignUpForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             print(form)
-#             username = form.cleaned_data.get('username')
-#             raw_password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=raw_password)
-#             login(request, user)
-#         return redirect('logins:main')
-#     else:
-#         form = forms.SignUpForm()
-#     return render(request, 'logins/signup.html', {'form' : form})
-
-# def activate(request, uid64, token):
-
-#     uid = force_str(urlsafe_base64_decode(uid64))
-#     user = User.objects.get(pk=uid)
-
-#     if user is not None and account_activation_token.check_token(user, token):
-#         user.is_active = True
-#         user.save()
-#         auth.login(request, user)
-#         return redirect('account:home')
-#     else:
-#         return HttpResponse('비정상적인 접근입니다.')
+def changePW(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        if request.method == 'POST':
+            form = forms.CustomPasswordChangeForm(user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, '비밀번호가 성공적으로 변경되었습니다!')
+                return redirect('/')
+            else:
+                messages.error(request, '오류를 수정해주세요')
+        else:
+            form = forms.CustomPasswordChangeForm(request.user)
+            print(form)
+        return render(request, 'logins/changePW.html', {'form': form})

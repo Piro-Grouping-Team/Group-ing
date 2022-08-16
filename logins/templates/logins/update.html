@@ -38,6 +38,11 @@
           name="addressDetail"
           value="{{user.addressDetail}}"
         />
+        <input
+          type="file"
+          name="profileImg"
+          value="{{user.profileImg}}"
+        />
         <select name="gender">
             <option value="">{{user.gender}}</option>
             {% for gender in genders %}
@@ -49,6 +54,7 @@
       <div>
         <input type="submit" value="제출" />
       </div>
+      <a href="{% url 'logins:changePW' %}">비밀번호변경</a>
     </form>
     <a href="{% url 'logins:main' %}">Home</a>
   </body>
@@ -63,6 +69,7 @@
                 document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
             }
         }).open();
+        
     });
 }
 </script>

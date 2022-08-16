@@ -20,7 +20,7 @@
       </nav>
     </header>
     <main>
-      <form method="POST" action="">
+      <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="signup-form">
           {{form.as_p}}
