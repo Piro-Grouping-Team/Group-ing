@@ -61,7 +61,10 @@
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
-      <div class="group-code">그룹 코드 : {{group.code}}</div>
+      <div>
+        그룹 코드 :
+        <div class="group-code">{{group.code}}</div>
+      </div>
       <div class="group-intro">" {{group.introduction}} "</div>
       <div class="meetings">
         {% for meeting in meetings %}
@@ -90,7 +93,7 @@
       </div>
       <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
     </div>
-
+    <script src="{% static 'js/groups/detail.js' %}"></script>
     <script>
       const input = document.querySelector("input[name=tags]");
       new Tagify(input);

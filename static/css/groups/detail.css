@@ -49,6 +49,7 @@
 .group-code {
   padding: 1rem;
   font-size: 0.75rem;
+  cursor: pointer;
 }
 
 .group-intro {
