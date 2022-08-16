@@ -13,7 +13,7 @@ from django.utils.http               import urlsafe_base64_encode,urlsafe_base64
 from django.utils.encoding           import force_bytes, force_str
 from django.template.loader          import render_to_string
 from django.contrib.auth             import update_session_auth_hash
-from django.contrib.auth.decorators  import login_required
+
 
 # Create your views here.
 def main(request):
@@ -28,6 +28,7 @@ def login_view(request):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
+                    return redirect('/')
                 else:
                     messages.info(request, '아이디, 비밀번호를 잘못 입력')
             else:
@@ -83,16 +84,17 @@ def activate(request, uidb64, token):
 
 def userUpdate(request, id):
     if request.method == 'POST':
+        nickname = request.POST['nickname']
         email = request.POST['email']
         age = request.POST['age']
+        # phoneNumber = request.POST['phoneNumber']
         address = request.POST['address']
         addressDetail = request.POST['addressDetail']
         gender = request.POST['gender']
-        profileImg = request.POST['profileImg']
+        # profileImg = request.POST['profileImg']
+        intro = request.POST['intro']
 
-<<<<<<< HEAD
-        User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
-        print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
+        User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
         return redirect('logins:mypage')
     else:
         genders = ['남성', '여성', '선택안함']
