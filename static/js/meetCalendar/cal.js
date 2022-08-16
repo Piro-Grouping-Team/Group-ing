@@ -7,16 +7,14 @@ let date;
 const getDates = async (meetId) => {
   const url = '/calendar/getDates/'; // 요청 URL
   const { data } = await axios.post(url, { meetId } ); // 요청 결과 받기
-  handleDates(data); // 시작 날짜, 끝 날짜 저장
+  handleDates(data,meetId); // 시작 날짜, 끝 날짜 저장
   return;
 };// 시작 끝 날짜 가져오기
 
 
-const handleDates = async (data) => {
-  console.log(data);
+const handleDates = async (data,meetId) => {
   startDate = new Date(data.startDate); // 시작 날짜 저장
   endDate = new Date(data.endDate); // 끝 날짜 저장
-  console.log(startDate);
   date = startDate;
   sMonth = startDate.getMonth();
   eMonth = endDate.getMonth();
@@ -29,11 +27,11 @@ const handleDates = async (data) => {
     validList.push(i);
   }
 
-  makeCalendar();
+  makeCalendar(meetId,data.meetType);
   return;
 }
   
-  const makeCalendar = () => {
+  const makeCalendar = async (meetId, meetType) => {
     const viewYear = date.getFullYear(); //2022
     const viewMonth = date.getMonth(); // 6 / 0 1 2 3...
     const viewDate = date.getDate(); //7
@@ -93,16 +91,69 @@ const handleDates = async (data) => {
         ? thisDates.indexOf(eDate)
         : thisDates.lastIndexOf(thisDate);
     // 마지막달이면 끝날짜까지, 마지막달이 아니면 끝까지
-  
-    // 범위에 해당X other 범위 해당 this
+
+    // 달에 대한 정보를 받아와서 날짜로 접근해서 정보를 가져오기
+    // 렌더링 시 -> ajax 하나 
+    //클릭시 -> ajax로 사람들 정보 가져오기 
+    if (meetType === 'today'){
+      const url ='/calendar/getDayInfo/'
+      const {data} = await axios.post(url, { viewYear,
+        viewMonth ,meetId })
+         // 범위에 해당X other 범위 해당 this
     thisDates.forEach((date, i) => {
       const condition =
         i >= firstDateIndex && i < lastDateIndex + 1 ? "this" : "other";
-  
+      
+        const maxCount = () => {
+          let max =0;
+          for(let j=0; j<data.dayInfo.length; j++){
+            if(date == data.dayInfo[j].day){
+              if(max < data.dayInfo[j].userCount){
+                max = data.dayInfo[j].userCount;
+              }
+            }
+          }
+          return max;
+        }
+      console.log(maxCount());
+      //색깔 판별로직
+      
+
       thisDates[i] = `
     <div class = "date"><div id = "${condition}" class = "date-content"><span class ="${condition}">${date}</span></div></div>
     `;
     });
+
+    }
+    else{
+      //여행 정보 불러오기
+      const url ='/calendar/getTravelInfo/'
+      const {data} = await axios.post(url, { viewYear,
+        viewMonth ,meetId })
+
+       // 범위에 해당X other 범위 해당 this
+    thisDates.forEach((date, i) => {
+      const condition =
+        i >= firstDateIndex && i < lastDateIndex + 1 ? "this" : "other";
+
+        let userCount = 0;
+          for (let j = 0; j < data.travelInfo.length; j++) {
+            if (date == data.travelInfo[j].day) {
+              userCount = data.travelInfo[j].userCount;
+            }
+          }
+        console.log(userCount);
+        
+      //색깔 판별로직
+      
+
+      thisDates[i] = `
+    <div class = "date"><div id = "${condition}" class = "date-content"><span class ="${condition}">${date}</span></div></div>
+    `;
+    });
+    }
+
+   
   
     prevDates.forEach((date, i) => {
       prevDates[i] = `
@@ -143,7 +194,6 @@ const handleDates = async (data) => {
   
   const selectDate = document.querySelectorAll("#this");
   
-  console.log(selectDate);
   const myClick = function () {
     window.location = "./hour.html";
   };

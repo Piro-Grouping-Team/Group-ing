@@ -59,7 +59,7 @@ class meetTravelForm(forms.ModelForm):
         startDate = self.cleaned_data['startDate']
         endDate = self.cleaned_data['endDate']
 
-        if startDate >= endDate:
+        if startDate > endDate:
             raise forms.ValidationError("Start date must be earlier than end date")
         return endDate
     

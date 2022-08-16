@@ -15,6 +15,12 @@ from meetings.models import Meetings
 
 def main(request, meetId):
 
+    #test = meetTravelInfo.objects.filter(meetId=meetId)
+    #print(test[0].meetUsers.count())
+    #test2 = test.filter(year=2022,month=8,day=18)
+    #print(test2[0].meetUsers.all())
+    #users = test[0].meetUsers.all()
+    #print(users[0].username)
 
     context = {
         'meetId': meetId,
@@ -23,14 +29,59 @@ def main(request, meetId):
     return render(request, 'meetCalendar/main.html',context)
 
 @csrf_exempt
+def getDayInfo(request):
+    req = json.loads(request.body)
+    meetId = req['meetId']
+    year = req['viewYear']
+    month = req['viewMonth']
+    month +=1
+    meet = Meetings.objects.get(id=meetId)
+    meetDayInfos = meetDayInfo.objects.filter(meetId=meet,year=year,month=month)
+
+    dayInfo = []
+    for meetDay in meetDayInfos:
+        dayInfo.append({
+            'year' : meetDay.year,
+            'month' : meetDay.month,
+            'day' : meetDay.day,
+            'hour' : meetDay.hour,
+            'userCount' : meetDay.meetUsers.count(),
+        })
+        
+    return JsonResponse({'dayInfo':dayInfo})
+
+@csrf_exempt
+def getTravelInfo(request):
+    req = json.loads(request.body)
+    meetId = req['meetId']
+    year = req['viewYear']
+    month = req['viewMonth']
+    month +=1
+    meet = Meetings.objects.get(id=meetId)
+    meetTravelInfos = meetTravelInfo.objects.filter(meetId=meet,year=year,month=month)
+
+    travelInfo = []
+    for meetTravel in meetTravelInfos:
+        travelInfo.append({
+            'year' : meetTravel.year,
+            'month' : meetTravel.month,
+            'day' : meetTravel.day,
+            'userCount' : meetTravel.meetUsers.count(),
+        })
+        
+    return JsonResponse({'travelInfo':travelInfo})
+
+
+@csrf_exempt
 def getDates(request):
     req = json.loads(request.body)
     meetId = req['meetId']
     meet = Meetings.objects.get(id=meetId)
     startDate = meet.meetStart
     endDate = meet.meetEnd
+    meetType = meet.meetType
 
-    return JsonResponse({'startDate': startDate, 'endDate': endDate});
+    return JsonResponse({'startDate': startDate, 'endDate': endDate, 'meetType': meetType});
 
 #login 체크 필요?????
 def create(request, meetId):
