@@ -6,6 +6,7 @@ from groups.forms import GroupForm
 from groups.utils import groupCodeGenerate
 from keywords.models import Keyword
 from .models import Group
+from logins.models import User
 from meetings.models import Meetings
 from config import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -188,3 +189,29 @@ def delete(request, id):
     if request.method == 'POST':
         group.delete()
     return redirect('groups:main')
+
+def blackList(request,id):
+    user = request.user.username
+    group = Group.objects.get(id=id)
+    blackList = group.blackList.all()
+
+    context = {
+        'group' : group,
+        'blackList' : blackList,
+        'user' : user
+    }
+    
+    return render(request, template_name='groups/blackList.html', context=context)
+
+def addBlackList(request, id):
+    if request.method == 'POST':
+        group = Group.objects.get(id=id)
+        try:
+            user = User.objects.get(username=request.POST['username'])
+            group.blackList.add(user)
+        except:
+            messages.error(request, '존재하지 않는 사용자입니다!')
+    return redirect('groups:blackList', id)
+
+def removeBlackList(request, id):
+    pass

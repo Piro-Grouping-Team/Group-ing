@@ -13,6 +13,10 @@
     <title>GruopCreate</title>
   </head>
   <body>
+    {% if user == group.head %}
+      <a href="{% url 'groups:blackList' group.id %}">블랙리스트 관리</a>
+    {% endif %}
+
     <div class="container">
       <div class="title">
         <div class="btitle">
