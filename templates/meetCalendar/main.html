@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,11 +12,13 @@
     ></script>
     <title>캘린더</title>
   </head>
-  <body onload='getDates({{ meetId }})'>
+  <body onload="getDates({{ meetId }})">
     <!-- 캘린더 위쪽 헤더 영억 -->
     <!-- 2022.07 / 버튼 3개 -->
 
-    <a href="{% url 'meetCalendar:create' meetId=meetId%}">가능한 시간대 기입하러가기</a>
+    <a href="{% url 'meetCalendar:create' meetId=meetId%}"
+      >가능한 시간대 기입하러가기</a
+    >
 
     <div class="calendar">
       <div class="year-month"></div>

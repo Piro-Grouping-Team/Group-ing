@@ -17,11 +17,19 @@
         </div>
       </div>
       <form
+        class="content"
         action="{% url 'meetings:create' id=group.id %}"
         method="post"
         enctype="multipart/form-data"
       >
         {% csrf_token %}
+        <div class="create-box select-box">
+          <div class="create-quest">어떤 약속을 만들고 싶으세요?</div>
+          <select class="create-input create-select" name="meetType">
+            <option value="today">당일치기 갈래요</option>
+            <option value="travel">여행으로 갈래요</option>
+          </select>
+        </div>
         <div class="create-box">
           <div class="create-quest">약속 이름이 무엇인가요?</div>
           <input class="create-input" type="text" name="meetName" />
@@ -34,7 +42,6 @@
           <div class="create-quest">약속 장소는 어디인가요?</div>
           <input class="create-input" type="text" name="meetPlace" />
         </div>
-        <!-- 약속 타입 선택 만들어주세요-->
         <div class="create-box">
           <div class="create-quest">모집 시작일</div>
           <input id="stDate" type="date" name="startDate" />
