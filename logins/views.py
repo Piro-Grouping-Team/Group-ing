@@ -17,24 +17,12 @@ from django.contrib.auth.decorators  import login_required
 
 # Create your views here.
 def main(request):
-<<<<<<< HEAD
     return render(request, 'main.html')
-=======
-    context = {'state' : False}
-    return render(request, 'logins/main.html', context=context)
->>>>>>> feature/uk
 
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-<<<<<<< HEAD
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            print("인증성공")
-            return redirect('/')
-=======
         if User.objects.filter(username = username).exists():
             if User.objects.get(username = username).is_active:
                 user = authenticate(username=username, password=password)
@@ -44,7 +32,6 @@ def login_view(request):
                     messages.info(request, '아이디, 비밀번호를 잘못 입력')
             else:
                 messages.info(request, '이메일인증이 되지않았습니다.')
->>>>>>> feature/uk
         else:
             messages.info(request, '아이디, 비밀번호를 잘못 입력')
     return render(request, 'logins/login.html')
@@ -61,7 +48,6 @@ class SignUp(View):
     
     def post(self, request):
         form = forms.SignUpForm(request.POST, request.FILES)
-        print(form.errors)
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
@@ -108,28 +94,15 @@ def userUpdate(request, id):
         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender)
         print(User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender))
         return redirect('logins:mypage')
-=======
-        User.objects.filter(id=id).update(email=email, age=age, address=address, addressDetail=addressDetail, gender=gender, profileImg=profileImg)
-        return redirect('/')
->>>>>>> feature/uk
     else:
         genders = ['남성', '여성', '선택안함']
         user = User.objects.get(id=id)
         context={'user':user, 'genders':genders}
         return render(request, template_name='logins/update.html', context=context)
 
-<<<<<<< HEAD
 def mypage(request):
     return render(request, 'logins/mypage.html')
 
-# class SignUp(APIView):
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response((serializer.data), status=status.HTTP_200_OK)
-#         return Response((serializer.errors), status=status.HTTP_200_OK)
-=======
 def findUsername(request):
     errorMessage=''
     context = {'errorMessage' : errorMessage}
@@ -178,7 +151,6 @@ def findPW(request):
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return redirect('logins:login')
-
         else:
             errorMessage='일치하는 정보가 없습니다.'
             return render(request, template_name='logins/findPW.html', context=context)

@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'groups',
     'meetings',
     'meetCalendar',
-    'keywords'
+    'keywords',
     'phonenumber_field',
 ]
 
