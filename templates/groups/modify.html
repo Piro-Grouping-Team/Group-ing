@@ -23,17 +23,27 @@
           수정해요
         </div>
       </div>
+      <input type="checkbox" id="id-uncheck">
+      <button id="change-btn" onclick='headChange()'>그룹장 양도하기</button>
       <div class="create-group">
+        <div id="head-change" class="create-box" style="display:none">
+          <div class="create-quest">그룹장을 양도받을 아이디를 적어주세요.</div>
+            <input type="text" id="id_head" value="{{group.head}}">
+            <button onclick="onClickSearch({{group.id}})">조회하기</button>
+            <button onclick='headCancel()'>취소</button>
+        </div>
         <form
           action="{% url 'groups:modify' group.id %}"
           enctype="multipart/form-data"
           method="POST"
+          onsubmit = "return searchChecked()"
         >
           {% csrf_token %}
           <div class="create-box">
             <div class="create-quest">그룹 이름이 무엇인가요?</div>
             {{ form.name }}
           </div>
+          
           <div class="create-box">
             <div class="create-quest">그룹 목적은요?</div>
             {{ form.purpose }}
@@ -60,6 +70,7 @@
             <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
             {{ form.image }}
           </div>
+          <input type="text" class="head" name="head" style="display:none">
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
         <form action="{% url 'groups:leave' group.id %}" method="POST">
@@ -69,6 +80,7 @@
       </div>
     </div>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     var list = {{allKeywords|safe}}
     var input = document.querySelector("input[name=tags]"),
@@ -107,6 +119,61 @@
     function renderSuggestionsList() {
       tagify.dropdown.show(); // load the list
       tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown);
+    }
+  </script>
+  <script>
+    const headChange = () => {
+      let con = document.getElementById("head-change") 
+      let c = document.getElementById("id-uncheck")
+      let head = document.getElementById("id_head")
+      if(con.style.display === "none"){
+        con.style.display = "flex"
+        c.checked = true
+        head.value=""
+      } 
+    }
+
+    const headCancel = () => {
+      let con = document.getElementById("head-change")
+      let c = document.getElementById("id-uncheck") 
+      if(con.style.display != "none"){
+        con.style.display = "none"
+        c.checked = false
+      } 
+    }
+
+    const onClickSearch = async(id) => {
+      const url = '/groups/getGroup/'
+      const headCandidate = document.getElementById("id_head").value
+      const {data} = await axios.post(url, {id, headCandidate})
+      
+      fillHead(data.valid, data.headCandidate)
+  
+    }
+
+    const fillHead = async(valid, headCandidate) => {
+      let c = document.getElementById("id-uncheck")
+      if (!valid) {
+        window.alert("그룹원이 아닙니다!") 
+        c.checked = true
+      }else{
+        let head = document.querySelector(".head")
+        head.value = headCandidate
+        c.checked = false
+        window.alert("그룹장의 요건을 충족합니다!")
+        
+      }
+    }
+
+    const searchChecked = () => {
+      const c = document.getElementById("id-uncheck") 
+      if (c.checked){
+        alert('그룹장을 양도받을 아이디를 확인해주세요!')
+        return false
+      }else{
+        
+        return true
+      }
     }
   </script>
 </html>

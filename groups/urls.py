@@ -11,5 +11,6 @@ urlpatterns = [
     path('group/<int:id>/members', views.members, name='members'),
     path('leave/<int:id>/', views.leave, name='leave'),
     path('modify/<int:id>/', views.modify, name='modify'),
+    path('getGroup/', views.getGroup, name='getGroup'),
 
 ]

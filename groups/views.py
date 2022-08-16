@@ -8,6 +8,10 @@ from keywords.models import Keyword
 from .models import Group
 from meetings.models import Meetings
 from config import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+
 
 # Create your views here.
 
@@ -119,7 +123,7 @@ def modify(request, id):
 
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
-
+        
         #취소 박스 선택 값 가져오기
         imageCancel = request.POST.get('image-clear', False)
 
@@ -132,6 +136,7 @@ def modify(request, id):
             group.name = form.cleaned_data['name']
             group.introduction = form.cleaned_data['introduction']
             group.purpose = form.cleaned_data['purpose']
+            group.head = request.POST['head']
             # group.image = form.cleaned_data['image']           
             if form.cleaned_data['image']:
                 group.image = form.cleaned_data['image']
@@ -151,6 +156,20 @@ def modify(request, id):
         }
 
         return render(request, template_name='groups/modify.html', context=context)
+
+@csrf_exempt
+def getGroup(request):
+    req = json.loads(request.body)
+    groupId = req['id']
+    print("groupId:" , groupId)
+    headCandidate = req['headCandidate']
+    print(headCandidate)
+    group = Group.objects.get(id=groupId)
+    try: 
+        group.members.get(username=headCandidate)
+        return JsonResponse({'valid': True, 'headCandidate': headCandidate})
+    except:
+        return JsonResponse({'valid': False, 'headCandidate': headCandidate})
 
 def members(request, id):
     group = Group.objects.get(id=id)
