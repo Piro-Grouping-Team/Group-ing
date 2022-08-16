@@ -33,12 +33,11 @@ def create(request):
         if form.is_valid():
             group = form.save(commit=False)
             group.head = request.user.username
+            group.code =  groupCodeGenerate()
             group.save()
             for groupKeyword in eval(groupKeywords):
                 k = Keyword.objects.get(keyword=groupKeyword['value']).id
                 group.keywords.add(k)
-            group.code =  groupCodeGenerate(request.user.username, group.id)
-            group.save()
             group.members.add(request.user.id)
             return redirect(f'/groups/group/{group.id}')
         else:
