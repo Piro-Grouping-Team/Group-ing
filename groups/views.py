@@ -182,3 +182,9 @@ def members(request, id):
         'user' : user,
     }
     return render(request, template_name='groups/members.html', context=context)
+
+def delete(request, id):
+    group = Group.objects.get(id=id)
+    if request.method == 'POST':
+        group.delete()
+    return redirect('groups:main')

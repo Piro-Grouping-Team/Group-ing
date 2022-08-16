@@ -73,9 +73,9 @@
           <input type="text" class="head" name="head" style="display:none">
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
-        <form action="{% url 'groups:leave' group.id %}" method="POST">
+        <form action="{% url 'groups:delete' group.id %}" method="POST">
           {% csrf_token %}
-          <button class="btn leave-btn">그룹 떠나기</button>
+          <button class="btn leave-btn">그룹 해체하기</button>
         </form>
       </div>
     </div>
@@ -136,6 +136,7 @@
     const headCancel = () => {
       let con = document.getElementById("head-change")
       let c = document.getElementById("id-uncheck") 
+      let head = document.querySelector(".head")
       if(con.style.display != "none"){
         con.style.display = "none"
         c.checked = false
@@ -166,12 +167,16 @@
     }
 
     const searchChecked = () => {
+      const con = document.getElementById("head-change")
       const c = document.getElementById("id-uncheck") 
       if (c.checked){
         alert('그룹장을 양도받을 아이디를 확인해주세요!')
         return false
       }else{
-        
+        if (con.style.display === 'none'){
+          let head = document.querySelector(".head")
+          head.value = '{{group.head}}'
+        }
         return true
       }
     }
