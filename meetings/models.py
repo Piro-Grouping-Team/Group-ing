@@ -19,7 +19,7 @@ class Meetings(models.Model):
     meetEnd = models.DateField()
     meetVote = models.IntegerField(default=0)
     meetMembers = models.IntegerField(default=0)
-    meetType = models.CharField(max_length=20, choices=TYPE_CHOICE)
+    meetType = models.CharField(max_length=20, choices=TYPE_CHOICE, default="")
     meetPurpose = models.CharField(null=True, max_length=100)
     
     def __str__(self):
