@@ -3,6 +3,7 @@ from tokenize import group
 from tracemalloc import start
 from django.shortcuts import render, redirect
 from .models import Meetings, Group, User
+from .forms import MeetingForm
 
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -23,21 +24,22 @@ def create(request,id):
 
 
     if request.method =='POST':
-        meetHead = User.objects.get(id=request.user.id)
-        meetGroupId = Group.objects.get(id=id)
-        meetName = request.POST['meetName']
-        meetPlace = request.POST['meetPlace']
-        startDate = request.POST['startDate']
-        endDate = request.POST['endDate']
-        meetPurpose = request.POST['meetPurpose']
+        form = MeetingForm(request.POST)
+        if form.is_valid():
+            meeting = form.save(commit=False)
+            meeting.meetHead = request.user
+            meeting.meetGroupId = group
+            meeting.save()
 
-        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate, meetPurpose=meetPurpose)
-        meetings.save()
-
-        return redirect('meetings:detail',id,meetings.id)
+            return redirect('meetings:detail',id,meeting.id)
+        else:
+            print(form.errors)
+    else:
+        form = MeetingForm()
 
     context = {
         'group': group,
+        'form': form,
         }
 
     return render(request, 'meetings/create.html',context)
@@ -45,7 +47,6 @@ def create(request,id):
 @login_required
 def update(request, id, meetId):
     # todo 약속을 만든사람인지 판별
-    group = Group.objects.get(id=id)
     meetings = Meetings.objects.get(id=meetId)
 
 
@@ -54,26 +55,27 @@ def update(request, id, meetId):
         return redirect('groups:detail', id)
     
     if request.method =='POST':
+        form = MeetingForm(request.POST, instance=meetings)
+        if form.is_valid():
+            meetings.save()
+            return redirect('meetings:detail',id,meetings.id)
+        else:
+            print(form.errors)
 
-        meetings.meetName = request.POST['meetName']
-        meetings.meetPlace = request.POST['meetPlace']
-        meetings.meetPurpose = request.POST['meetPurpose']
-        meetings.save()
-
-        return redirect('meetings:detail',id,meetings.id)
+    else:
+        form = MeetingForm(instance=meetings)
     
-    meetings = Meetings.objects.get(id=meetId)
+    group = Group.objects.get(id=id)
     context = {
         'meeting': meetings,
         'group': group,
-
+        'form': form,
     }
     return render(request, 'meetings/update.html',context)
 
 #todo 디테일 페이지 - 모집중/ 투표중/ 픽스  
 @login_required
 def detail(request, id,meetId):
-    meeting = Meetings.objects.get(id=meetId)
     group = Group.objects.get(id=id)
 
     if group.members.filter(id = request.user.id).exists() == False:
@@ -81,6 +83,7 @@ def detail(request, id,meetId):
         # todo 다이렉션 설정 필요
         return redirect('groups:detail', id)
 
+    meeting = Meetings.objects.get(id=meetId)
     context = {
         'meeting': meeting,
         'group': group,
@@ -91,7 +94,6 @@ def detail(request, id,meetId):
 @login_required
 def delete(request, id, meetId):
     meeting = Meetings.objects.get(id=meetId)
-    group = Group.objects.get(id=id)
 
     if meeting.meetHead.id != request.user.id:
         print('작성자가 아닙니다')
