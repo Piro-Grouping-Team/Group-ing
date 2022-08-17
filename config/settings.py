@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 from pathlib import Path
+import logins.my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-w7n#sr1oyltd-v&_%)b^0x7uw#75=djp#r1=qvfedv!j#9%qxl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,10 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount', 
+    'six',
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.google',
     'logins',
     'groups',
     'meetings',
-    'meetingsMember',
+    'meetCalendar',
+    'keywords',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +69,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,3 +145,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'logins.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 3
+LOGIN_REDIRECT_URL = '/'
+
+SECRET_KEY = logins.my_settings.SECRET_KEY
+
+EMAIL_BACKEND = logins.my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_HOST = logins.my_settings.EMAIL['EMAIL_HOST']
+# # 메일을 호스트하는 서버
+EMAIL_PORT = logins.my_settings.EMAIL['EMAIL_PORT']
+# # gmail과의 통신하는 포트
+EMAIL_HOST_USER = logins.my_settings.EMAIL['EMAIL_HOST_USER']
+# # 발신할 이메일
+EMAIL_HOST_PASSWORD = logins.my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+# # 발신할 메일의 비밀번호
+EMAIL_USE_TLS = logins.my_settings.EMAIL['EMAIL_USE_TLS']
+# # TLS 보안 방법
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+SOCIALACCOUNT_ADAPTER = 'logins.adapter.SocialAccountAdpater'

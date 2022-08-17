@@ -12,23 +12,6 @@ from django.contrib.auth.decorators import login_required
 # 검색 a. 키워드 b. 제목
 #목록 페이지 썸네일과 제목
 
-@login_required
-def main(request, id):
-    group = Group.objects.get(id=id)
-    
-    if group.members.filter(id = request.user.id).exists() == False:
-        print('그룹에 속해있지 않아요 ')
-        # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
-
-    #그룹내 약속정보들 가져오기
-    meetings = Meetings.objects.filter(meetGroupId=group)
-
-    context = {
-        'meetings': meetings,
-    }
-    return render(request, 'meetings/main.html',context)
-
 #todo 생성페이지
 @login_required
 def create(request,id):
@@ -36,19 +19,19 @@ def create(request,id):
     if group.members.filter(id = request.user.id).exists() == False:
         print('그룹에 속해있지 않아요 ')
         # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
 
     if request.method =='POST':
         meetHead = User.objects.get(id=request.user.id)
         meetGroupId = Group.objects.get(id=id)
         meetName = request.POST['meetName']
-        meetTime = request.POST['meetTime']
         meetPlace = request.POST['meetPlace']
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
+        meetPurpose = request.POST['meetPurpose']
 
-        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId,  meetTime=meetTime, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate)
+        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate, meetPurpose=meetPurpose)
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
@@ -68,13 +51,13 @@ def update(request, id, meetId):
 
     if meetings.meetHead.id != request.user.id:
         print('작성자가 아닙니다')
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
     
     if request.method =='POST':
 
         meetings.meetName = request.POST['meetName']
-        meetings.meetTime = request.POST['meetTime']
         meetings.meetPlace = request.POST['meetPlace']
+        meetings.meetPurpose = request.POST['meetPurpose']
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
@@ -96,7 +79,7 @@ def detail(request, id,meetId):
     if group.members.filter(id = request.user.id).exists() == False:
         print('그룹에 속해있지 않아요')
         # todo 다이렉션 설정 필요
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
     context = {
         'meeting': meeting,
@@ -112,7 +95,7 @@ def delete(request, id, meetId):
 
     if meeting.meetHead.id != request.user.id:
         print('작성자가 아닙니다')
-        return redirect('meetings:main', id)
+        return redirect('groups:detail', id)
 
     meeting.delete()
-    return redirect('meetings:main', id)
+    return redirect('groups:detail', id)
