@@ -90,27 +90,24 @@ const makeCalendar = async (meetId, meetType) => {
   if (meetType === "today") {
     const url = "/calendar/getDayInfo/";
     const { data } = await axios.post(url, { viewYear, viewMonth, meetId });
-    // 범위에 해당X other 범위 해당 this
     thisDates.forEach((date, i) => {
       if (i >= firstDateIndex && i < lastDateIndex + 1) {
-        const maxCount = () => {
-          let max = 0;
-          for (let j = 0; j < data.dayInfo.length; j++) {
-            if (date == data.dayInfo[j].day) {
-              if (max < data.dayInfo[j].userCount) {
-                max = data.dayInfo[j].userCount;
-              }
+        let max = 0;
+        let times = Array.from({ length: 24 }, () => 0);
+        for (let j = 0; j < data.dayInfo.length; j++) {
+          if (date == data.dayInfo[j].day) {
+            times[data.dayInfo[j].hour] = data.dayInfo[j].userCount;
+
+            if (max < data.dayInfo[j].userCount) {
+              max = data.dayInfo[j].userCount;
             }
           }
-          return max;
-        };
-        console.log(maxCount());
-
+        }
         //색깔 판별로직
         thisDates[i] = `
     <div class = "date"><div class="this date-content" style="background: rgba(198, 252, 35, ${
-      maxCount() / allUsers
-    })"><span>${date}</span></div></div>
+      max / allUsers
+    })" onClick="myClick(${times})"><span>${date}</span></div></div>
     `;
       } else {
         thisDates[i] = `
@@ -183,15 +180,15 @@ const nextMonth = () => {
   }
 };
 
-const selectDate = document.querySelectorAll(".this");
+const myClick = (...times) => {
+  const modal = document.querySelector(".modal");
+  modal.style.display = "flex";
 
-console.log(selectDate);
+  times.forEach((userNum, i) => {
+    times[i] = `<div class="time" style="background: rgba(198, 252, 35, ${
+      userNum / 10
+    }">${i} - ${i + 1}</div>`;
+  });
 
-const myClick = () => {
-  console.log("hi!");
+  document.querySelector(".times").innerHTML = times;
 };
-
-for (i = 0; i < selectDate.length; i++) {
-  selectDate[i].addEventListener("click", myClick);
-  // selectDate[i].removeEventListener("click", myClick);
-}
