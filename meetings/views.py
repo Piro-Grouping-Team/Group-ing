@@ -30,8 +30,9 @@ def create(request,id):
         startDate = request.POST['startDate']
         endDate = request.POST['endDate']
         meetPurpose = request.POST['meetPurpose']
+        meetType = request.POST['meetType']
 
-        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate, meetPurpose=meetPurpose)
+        meetings = Meetings(meetHead=meetHead,meetName=meetName,meetGroupId=meetGroupId, meetPlace=meetPlace, meetStart=startDate, meetEnd=endDate, meetPurpose=meetPurpose, meetType=meetType)
         meetings.save()
 
         return redirect('meetings:detail',id,meetings.id)
