@@ -10,6 +10,7 @@ urlpatterns = [
     path('findUsername/', views.findUsername, name='findUsername'),
     path('findPW/', views.findPW, name='findPW'),
     # path('changePW/', views.changePW, name='changePW'),
+    path('mypage/', views.mypage, name='mypage'),
     path('changePW/<str:uidb64>/<str:token>', views.changePW, name='changePW'),
     path('activate/<str:uidb64>/<str:token>', views.activate, name='activate')
 ]

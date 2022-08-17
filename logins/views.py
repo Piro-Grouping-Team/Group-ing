@@ -122,7 +122,7 @@ def findUsername(request):
             to_email = user.email
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            return redirect('logins:main')
+            return redirect('/')
 
         else:
             errorMessage='일치하는 정보가 없습니다.'
