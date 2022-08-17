@@ -82,6 +82,8 @@ const makeCalendar = async (meetId, meetType) => {
       : thisDates.lastIndexOf(thisDate);
   // 마지막달이면 끝날짜까지, 마지막달이 아니면 끝까지
 
+  const allUsers = 10;
+
   // 달에 대한 정보를 받아와서 날짜로 접근해서 정보를 가져오기
   // 렌더링 시 -> ajax 하나
   // 클릭시 -> ajax로 사람들 정보 가져오기
@@ -106,13 +108,13 @@ const makeCalendar = async (meetId, meetType) => {
 
         //색깔 판별로직
         thisDates[i] = `
-    <div class = "date"><div id="this" class="date-content" style="background: rgba(198, 252, 35, ${
-      maxCount() / 10
-    })"><span class ="this">${date}</span></div></div>
+    <div class = "date"><div class="this date-content" style="background: rgba(198, 252, 35, ${
+      maxCount() / allUsers
+    })"><span>${date}</span></div></div>
     `;
       } else {
         thisDates[i] = `
-        <div class = "date"><div id = "other" class = "date-content"><span class ="other">${date}</span></div></div>
+        <div class = "date"><div class = "other date-content"><span class ="other">${date}</span></div></div>
         `;
       }
     });
@@ -133,13 +135,13 @@ const makeCalendar = async (meetId, meetType) => {
         console.log(userCount);
         //색깔 판별로직
         thisDates[i] = `
-        <div class = "date"><div id = "this" class = "date-content" style="background:rgba(198,252,35,${
-          userCount / 10
-        }"><span class ="this">${date}</span></div></div>
+        <div class = "date"><div class = "this date-content" style="background:rgba(198,252,35,${
+          userCount / allUsers
+        }"><span>${date}</span></div></div>
         `;
       } else {
         thisDates[i] = `
-        <div class = "date"><div id = "other" class = "date-content"><span class ="other">${date}</span></div></div>
+        <div class = "date"><div class = "other date-content"><span class ="other">${date}</span></div></div>
         `;
       }
     });
@@ -181,15 +183,15 @@ const nextMonth = () => {
   }
 };
 
-const selectDate = document.querySelectorAll("#this");
+const selectDate = document.querySelectorAll(".this");
 
-const myClick = function () {
-  window.location = "./hour.html";
+console.log(selectDate);
+
+const myClick = () => {
+  console.log("hi!");
 };
 
 for (i = 0; i < selectDate.length; i++) {
-  selectDate[i].addEventListener("click", function () {
-    myClick();
-    selectDate[i].removeEventListener("click", myClick);
-  });
+  selectDate[i].addEventListener("click", myClick);
+  // selectDate[i].removeEventListener("click", myClick);
 }
