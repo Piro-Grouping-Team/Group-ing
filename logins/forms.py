@@ -148,7 +148,6 @@ class FindPwForm(forms.Form):
     username = forms.CharField(
         min_length=5,
         max_length=20,
-        # label='아이디',
         widget=forms.TextInput,
     )
     name = forms.CharField(
@@ -181,14 +180,17 @@ class FindPwForm(forms.Form):
         })
 
 class CustomSetPasswordForm(SetPasswordForm):
+
+    class Meta:
+        field = ('new_password1', 'new_password2')
     def __init__(self, *args, **kwargs):
         super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
-        self.fields['newPassword1'].label = '새 비밀번호'
-        self.fields['newPassword1'].widget.attrs.update({
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
             'class': 'forms-control',
         })
 
-        self.fields['newPassword2'].label = '새 비밀번호 확인'
-        self.fields['newPassword2'].widget.attrs.update({
+        self.fields['new_password2'].label = '새 비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
             'class': 'forms-control',
         })

@@ -11,11 +11,12 @@ from django.contrib                  import messages
 from django.contrib.auth             import authenticate, login, logout
 from django.core.mail                import EmailMessage
 from django.views                    import View
-from django.http                     import HttpResponse
+from django.http                     import HttpResponse, JsonResponse
 from django.contrib.sites.shortcuts  import get_current_site
 from django.utils.http               import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding           import force_bytes, force_str
 from django.template.loader          import render_to_string
+from django.utils.decorators         import method_decorator
 from django.contrib.auth             import update_session_auth_hash
 from django.core.exceptions          import PermissionDenied
 from django.core.serializers.json    import DjangoJSONEncoder
@@ -134,36 +135,34 @@ def findUsername(request):
 # @method_decorator(logout_message_required, name='dispatch')
 class FindIdView(View):
     template_name = 'logins/findId.html'
-    findId = forms.FindIdForm()
+    findId = forms.FindIdForm
 
     def get(self, request):
         if request.method == 'GET':
             form = self.findId(None)
             return render(request, self.template_name, {'form': form, })
 
-def ajaxFindIdView(request):
-    name = request.POST.get('name')
-    email = request.POST.get('email')
+def axiosFindIdView(request):
+    req = json.loads(request.body)
+    name = req['name']
+    email = req['email']
     user = User.objects.get(name=name, email=email)
 
     if user:
         authNum = email_auth_num()
         user.auth = authNum
         user.save()
-        message = render_to_string('logins/findId_email.html', {
+        message = render_to_string('logins/findPw_email.html', {
+            'name': name,
             'authNum':authNum,
         })
-        mail_subject = '[Group-ing] 아이디 찾기 인증메일입니다.'
+        mail_subject = '[Group-ing] 비밀번호 찾기 인증메일입니다.'
         to_email = user.email
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
-    return HttpResponse(json.dumps({'result': user.name}, cls=DjangoJSONEncoder), content_type='application/json')
+    return JsonResponse({'result': user.name})
 
-def authConfirmView(request):
-    username = request.POST.get('username')
-    inputAuthNum = request.POST.get('inputAuthNum')
-
-# @method_decorator(logout_message_required, name='dispatch')
+# @method_decorator(decorators.logout_message_required, name='dispatch')
 class FindPwView(View):
     template_name = 'logins/findPw.html'
     findPw = forms.FindPwForm
@@ -173,34 +172,38 @@ class FindPwView(View):
             form = self.findPw(None)
             return render(request, self.template_name, {'form': form, })
 
-def ajaxFindPwView(request):
-    username = request.POST.get('username')
-    name = request.POST.get('name')
-    email = request.POST.get('email')
+def axiosFindPwView(request):
+    req = json.loads(request.body)
+    username = req['username']
+    name = req['name']
+    email = req['email']
     user = User.objects.get(username=username, name=name, email=email)
-    print('배고파')
+
     if user:
         authNum = email_auth_num()
         user.auth = authNum
         user.save()
         message = render_to_string('logins/findPw_email.html', {
+            'username': username,
             'authNum':authNum,
         })
         mail_subject = '[Group-ing] 비밀번호 찾기 인증메일입니다.'
         to_email = user.email
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
-    return HttpResponse(json.dumps({'result': user.name}, cls=DjangoJSONEncoder), content_type='application/json')
+    return JsonResponse({'result': user.username})
 
 def authConfirmView(request):
-    username = request.POST.get('username')
-    inputAuthNum = request.POST.get('inputAuthNum')
+    req = json.loads(request.body)
+    username = req['username']
+    inputAuthNum = req['inputAuthNum']
+
     user = User.objects.get(username=username, auth=inputAuthNum)
     user.auth = ''
     user.save()
     request.session['auth'] = user.username
 
-    return HttpResponse(json.dumps({'result': user.username}, cls=DjangoJSONEncoder), content_type='application/json')
+    return JsonResponse({'result': user.username})
 
 def authPwResetView(request):
     if request.method == 'GET':
@@ -209,13 +212,11 @@ def authPwResetView(request):
 
     if request.method == 'POST':
         sessionUser = request.session['auth']
-        currentUser = User.objects.get(user=sessionUser)
-        login(request, currentUser)
-
+        currentUser = User.objects.get(username=sessionUser)
+        login(request, currentUser, backend='django.contrib.auth.backends.ModelBackend')
         resetPwForm = forms.CustomSetPasswordForm(request.user, request.POST)
-
         if resetPwForm.is_valid():
-            user = resetPwForm.save()
+            currentUser = resetPwForm.save()
             messages.success(request, '비밀번호 변경완료! 변경된 비밀번호로 로그인하세요.')
             logout(request)
             return redirect('logins:login')
