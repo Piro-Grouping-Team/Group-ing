@@ -81,7 +81,9 @@ def getDates(request):
     endDate = meet.meetEnd
     meetType = meet.meetType
 
-    return JsonResponse({'startDate': startDate, 'endDate': endDate, 'meetType': meetType});
+    meetCount = meet.meetMembers.count()
+
+    return JsonResponse({'startDate': startDate, 'endDate': endDate, 'meetType': meetType, 'meetCount': meetCount});
 
 #login 체크 필요?????
 def create(request, meetId):
@@ -101,6 +103,7 @@ def create(request, meetId):
               meetDay = form.save(commit=False)
               meetDay.meetId = meeting
               meetDay.userId = request.user
+              meeting.meetMembers.add(request.user)
               meetDay.save()
               savemeetDayInfo(meetDay)
               return redirect('meetCalendar:main', meeting.id)
@@ -114,6 +117,7 @@ def create(request, meetId):
                 meetTravel = form.save(commit=False)
                 meetTravel.meetId = meeting
                 meetTravel.userId = request.user
+                meeting.meetMembers.add(request.user)
                 meetTravel.save()
                 saveTravelInfo(meetTravel)
                 return redirect('meetCalendar:main', meeting.id)

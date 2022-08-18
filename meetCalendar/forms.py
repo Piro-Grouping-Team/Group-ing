@@ -8,8 +8,8 @@ class meetDayForm(forms.ModelForm):
         fields = ['validDate', 'startTime', 'endTime']
         
     validDate = forms.DateInput(format=('%m/%d/%Y'),attrs={'class':'form-control', 'placeholder':'Select a date', 'type':'date'})
-    startTime = forms.TimeInput(format=('%H:%M'),attrs={'class':'form-control', 'placeholder':'Select a time', 'type':'time'})
-    endTime = forms.TimeInput(format=('%H:%M'),attrs={'class':'form-control', 'placeholder':'Select a time', 'type':'time'})
+    startTime = forms.IntegerField()
+    endTime = forms.IntegerField()
 
     def clean_endTime(self):
         startTime = self.cleaned_data['startTime']
