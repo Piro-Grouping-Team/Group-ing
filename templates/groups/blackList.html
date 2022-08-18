@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/groups/blacklist.css' %}" />
+    <script
+        src="https://kit.fontawesome.com/b453b8b1fc.js"
+        crossorigin="anonymous"
+    ></script>
+    <title>BlackList</title>
+    
+</head>
+<body>
+    <div class="container">
+    <div class="title">
+        <div class="btitle">
+            BLACKLIST
+        </div>
+    </div>
+        <div class="blacklist"> 
+            <form action="{% url 'groups:addBlackList' group.id%}" method="POST">
+                {%csrf_token%}
+                <p class="black-text">블랙리스트에 추가할 아이디</p>
+                <div class="input-box">
+                <input class="input-place" type="text" name="username">
+                <input class="input-submit" type="submit">
+                </div>
+                
+            </form>
+            
+            <div class="name-place">
+            {% for person in blackList %}
+                <div id='person{{person.id}}'>
+                    <p>{{person}}</p>
+                    <button onclick="removeBlackList({{person.id}}, {{group.id}})" >블랙리스트에서 제거</button>
+                </div> 
+            {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const removeBlackList = async(userId, groupId) => {
+        const url = '/groups/group/removeBlackList'
+        const {data} = await axios.post(url, {userId, groupId})
+        const name = data.userId 
+        console.log(name)
+        const removed = document.querySelector(`#person${name}`)
+        removed.remove()
+
+    }
+
+
+        
+    
+</script>
+</html>
