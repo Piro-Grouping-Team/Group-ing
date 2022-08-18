@@ -20,6 +20,14 @@
         >가능한 시간대 기입하러가기</a
       >
 
+      <a href="{% url 'meetCalendar:voteDayCandidate' meetId=meetId%}"
+        >당일치기 투표하러가기</a
+      >
+
+      <a href="{% url 'meetCalendar:voteTravelCandidate' meetId=meetId%}"
+        >여행 투표하러가기</a
+      >
+
       <div class="year-month"></div>
       <div class="content">
         <!-- 캘린더 메인 영역 -->
