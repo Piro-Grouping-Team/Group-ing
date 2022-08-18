@@ -1,14 +1,21 @@
+let meetId1;
+let meetType;
+let meetCount;
 let startDate, endDate; // 시작 날짜, 끝 날짜 저장
 let date;
 
 const getDates = async (meetId) => {
   const url = "/calendar/getDates/"; // 요청 URL
   const { data } = await axios.post(url, { meetId }); // 요청 결과 받기
+
   handleDates(data, meetId); // 시작 날짜, 끝 날짜 저장
   return;
 }; // 시작 끝 날짜 가져오기
 
 const handleDates = async (data, meetId) => {
+  meetId1 = meetId;
+  console.log(meetId1);
+
   startDate = new Date(data.startDate); // 시작 날짜 저장
   endDate = new Date(data.endDate); // 끝 날짜 저장
   date = startDate;
@@ -23,11 +30,14 @@ const handleDates = async (data, meetId) => {
     validList.push(i);
   }
 
-  makeCalendar(meetId, data.meetType, data.meetCount);
+  meetType = data.meetType;
+  meetCount = data.meetCount;
+
+  makeCalendar(meetId1, meetType, meetCount);
   return;
 };
 
-const makeCalendar = async (meetId, meetType, allUsers) => {
+const makeCalendar = async (meetId1, meetType, allUsers) => {
   const viewYear = date.getFullYear(); //2022
   const viewMonth = date.getMonth(); // 6 / 0 1 2 3...
 
@@ -87,7 +97,7 @@ const makeCalendar = async (meetId, meetType, allUsers) => {
   // 클릭시 -> ajax로 사람들 정보 가져오기
   if (meetType === "today") {
     const url = "/calendar/getDayInfo/";
-    const { data } = await axios.post(url, { viewYear, viewMonth, meetId });
+    const { data } = await axios.post(url, { viewYear, viewMonth, meetId1 });
     thisDates.forEach((date, i) => {
       if (i >= firstDateIndex && i < lastDateIndex + 1) {
         let max = 0;
@@ -116,7 +126,7 @@ const makeCalendar = async (meetId, meetType, allUsers) => {
   } else {
     //여행 정보 불러오기
     const url = "/calendar/getTravelInfo/";
-    const { data } = await axios.post(url, { viewYear, viewMonth, meetId });
+    const { data } = await axios.post(url, { viewYear, viewMonth, meetId1 });
 
     // 범위에 해당X other 범위 해당 this
     thisDates.forEach((date, i) => {
@@ -165,7 +175,8 @@ const prevMonth = () => {
   if (validList.includes(date.getMonth() - 1)) {
     date.setMonth(date.getMonth() - 1); // 전 달로 달 변경
     date.setDate(1); // 전 달로 날짜 변경
-    makeCalendar();
+
+    makeCalendar(meetId1, meetType, meetCount);
   }
 };
 
@@ -174,7 +185,7 @@ const nextMonth = () => {
   if (validList.includes(date.getMonth() + 1)) {
     date.setDate(1); // 다음 달로 날짜 변경
     date.setMonth(date.getMonth() + 1); // 다음 달로 달 변경
-    makeCalendar();
+    makeCalendar(meetId1, meetType, meetCount);
   }
 };
 

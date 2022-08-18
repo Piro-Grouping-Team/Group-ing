@@ -3,7 +3,7 @@ from tokenize import group
 from tracemalloc import start
 from django.shortcuts import render, redirect
 from .models import Meetings, Group, User
-from .forms import MeetingForm
+from .forms import MeetingForm, MeetingUpdateForm
 
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -58,7 +58,7 @@ def update(request, id, meetId):
         return redirect('groups:detail', id)
     
     if request.method =='POST':
-        form = MeetingForm(request.POST, instance=meetings)
+        form = MeetingUpdateForm(request.POST, instance=meetings)
         if form.is_valid():
             meetings.save()
             return redirect('meetings:detail',id,meetings.id)
@@ -66,7 +66,7 @@ def update(request, id, meetId):
             print(form.errors)
 
     else:
-        form = MeetingForm(instance=meetings)
+        form = MeetingUpdateForm(instance=meetings)
     
     group = Group.objects.get(id=id)
     context = {
@@ -87,9 +87,15 @@ def detail(request, id,meetId):
         return redirect('groups:detail', id)
 
     meeting = Meetings.objects.get(id=meetId)
+    meetUsers = meeting.meetMembers.all()
+    myMeetUsers = {}
+    for meetUser in meetUsers:
+        myMeetUsers[meetUser.nickname] = meetUser.profileImg
+    
     context = {
         'meeting': meeting,
         'group': group,
+        'meetUsersName': myMeetUsers,
     }
 
     return render(request, 'meetings/detail.html',context)

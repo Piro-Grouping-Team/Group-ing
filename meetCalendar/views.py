@@ -31,7 +31,7 @@ def main(request, meetId):
 @csrf_exempt
 def getDayInfo(request):
     req = json.loads(request.body)
-    meetId = req['meetId']
+    meetId = req['meetId1']
     year = req['viewYear']
     month = req['viewMonth']
     month +=1

@@ -42,3 +42,35 @@
 .quest {
   font-weight: bold;
 }
+
+.users {
+  display: flex;
+}
+
+.user {
+  padding: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-img_box {
+  width: 3.4rem;
+  height: 3.4rem;
+
+  border-radius: 70%;
+  overflow: hidden;
+}
+
+.user-img {
+  width: 100%;
+  height: 100%;
+
+  flex-wrap: nowrap;
+  object-fit: cover;
+}
+
+.user-name {
+  padding: 0.5rem 0 0.5rem;
+}
