@@ -77,7 +77,6 @@ def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-        print(user)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -152,15 +151,24 @@ def axiosFindIdView(request):
         authNum = email_auth_num()
         user.auth = authNum
         user.save()
-        message = render_to_string('logins/findPw_email.html', {
+        message = render_to_string('logins/findId_email.html', {
             'name': name,
             'authNum':authNum,
         })
-        mail_subject = '[Group-ing] 비밀번호 찾기 인증메일입니다.'
+        mail_subject = '[Group-ing] 아이디 찾기 인증메일입니다.'
         to_email = user.email
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
-    return JsonResponse({'result': user.name})
+    print(user.username)
+    return JsonResponse({'result': user.email})
+
+def showId(request):
+    sessionUser = request.session['auth']
+    currentUser = User.objects.get(email=sessionUser)
+    username = currentUser.username
+    context = {'username': username}
+    return render(request, 'logins/showId.html', context=context)
+
 
 # @method_decorator(decorators.logout_message_required, name='dispatch')
 class FindPwView(View):
@@ -191,19 +199,19 @@ def axiosFindPwView(request):
         to_email = user.email
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
-    return JsonResponse({'result': user.username})
+    return JsonResponse({'result': user.email})
 
 def authConfirmView(request):
     req = json.loads(request.body)
-    username = req['username']
+    email = req['email']
     inputAuthNum = req['inputAuthNum']
 
-    user = User.objects.get(username=username, auth=inputAuthNum)
+    user = User.objects.get(email=email, auth=inputAuthNum)
     user.auth = ''
     user.save()
-    request.session['auth'] = user.username
+    request.session['auth'] = user.email
 
-    return JsonResponse({'result': user.username})
+    return JsonResponse({'result': user.email, 'username': user.username})
 
 def authPwResetView(request):
     if request.method == 'GET':
@@ -212,7 +220,7 @@ def authPwResetView(request):
 
     if request.method == 'POST':
         sessionUser = request.session['auth']
-        currentUser = User.objects.get(username=sessionUser)
+        currentUser = User.objects.get(email=sessionUser)
         login(request, currentUser, backend='django.contrib.auth.backends.ModelBackend')
         resetPwForm = forms.CustomSetPasswordForm(request.user, request.POST)
         if resetPwForm.is_valid():

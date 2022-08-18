@@ -77,15 +77,14 @@
                   }
             countdown("#timeset", 5, 0);
             console.log(response)
-            var user = response.data.result
+            var email = response.data.result
             const confirmButton = document.querySelector('#id_auth_confirm');
             confirmButton.addEventListener('click', (event) => {
                 var inputAuthNum = document.querySelector('#input_auth_num').value;
-                console.log(user+inputAuthNum)
                 axios.post(
-                    '/logins/find/pw/auth',
+                    '/logins/find/auth',
                     {
-                        'username': user,
+                        'email': email,
                         'inputAuthNum': inputAuthNum,
                     },)
                     .then((response) => {

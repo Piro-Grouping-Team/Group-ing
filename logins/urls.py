@@ -11,10 +11,12 @@ urlpatterns = [
     # path('findPW/', views.findPW, name='findPW'),
     # path('changePW/', views.changePW, name='changePW'),
     path('mypage/', views.mypage, name='mypage'),
+    path('find/id', views.FindIdView.as_view(), name='findId'),
+    path('find/id/find', views.axiosFindIdView, name='axiosId'),
+    path('find/id/show', views.showId, name='showId'),
     path('find/pw', views.FindPwView.as_view(), name='findPw'),
     path('find/pw/find', views.axiosFindPwView, name='axiosPw'),
-    path('find/pw/auth', views.authConfirmView, name='findAuth'),
     path('find/pw/reset', views.authPwResetView, name='findPwReset'),
-    # path('changePW/<str:uidb64>/<str:token>', views.changePW, name='changePW'),
+    path('find/auth', views.authConfirmView, name='findAuth'),
     path('activate/<str:uidb64>/<str:token>', views.activate, name='activate')
 ]
