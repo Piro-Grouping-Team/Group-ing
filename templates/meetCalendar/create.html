@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>시간 기입</title>
+  </head>
+  <body>
+    {% if meeting.meetType == 'today' %}
+    <form
+      action="{% url 'meetCalendar:create' meetId=meetId %}"
+      ,
+      method="POST"
+    >
+      {% csrf_token %} {% if form.errors %} {% if messages %}
+      <div>{% for message in messages %} {{message.message }} {% endfor %}</div>
+      {% endif %} {% endif %}
+      <div>투표범위 : {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}</div>
+      <input type="date" name="validDate" id="validDate" />
+      <div>가능한 시작시간</div>
+      <select name="startTime" id="startTime">
+        {% for key,value in meetTimes %}
+        <option value="{{key}}">{{value}}</option>
+        {% endfor %}
+      </select>
+      <div>가능한 종료시간</div>
+      <select name="endTime" id="endTime">
+        {% for key,value in meetTimes %}
+        <option value="{{key}}">{{value}}</option>
+        {% endfor %}
+      </select>
+
+      <input type="submit" value="시간 제출" />
+    </form>
+    {% else %}
+    <form
+      action="{% url 'meetCalendar:create' meetId=meetId %}"
+      ,
+      method="POST"
+    >
+      {% csrf_token %} {% if form.errors %} {% if messages %}
+      <div>{% for message in messages %} {{message.message }} {% endfor %}</div>
+      {% endif %} {% endif %}
+
+      <div>투표범위 : {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}</div>
+      <input type="date" name="startDate" id="startDate" />
+
+      <select name="startTime" id="startTime">
+        {% for key,value in meetTimes %}
+        <option value="{{key}}">{{value}}</option>
+        {% endfor %}
+      </select>
+      <input type="date" name="endDate" id="endDate" />
+      <select name="endTime" id="endTime">
+        {% for key,value in meetTimes %}
+        <option value="{{key}}">{{value}}</option>
+        {% endfor %}
+      </select>
+
+      <input type="submit" value="시간 제출" />
+    </form>
+    {% endif %}
+  </body>
+</html>
