@@ -10,13 +10,9 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
-    <title>GruopCreate</title>
+    <title>GROUPING</title>
   </head>
   <body>
-    {% if user == group.head %}
-      <a href="{% url 'groups:blackList' group.id %}">블랙리스트 관리</a>
-    {% endif %}
-
     <div class="container">
       <div class="title">
         <div class="btitle">
@@ -26,6 +22,11 @@
       </div>
       <div class="members">
         <div class="members-head">그룹장 {{group.head}}</div>
+        <div class="blacklist">
+          {% if user == group.head %}
+          <a href="{% url 'groups:blackList' group.id %}">블랙리스트 관리</a>
+          {% endif %}
+        </div>
         {% for member in members %}
         <div class="members-mem">
           <div>{{member}}</div>

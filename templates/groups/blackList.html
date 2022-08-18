@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블랙리스트 관리</title>
+    <link rel="stylesheet" href="{% static 'css/groups/blacklist.css' %}" />
+    <script
+        src="https://kit.fontawesome.com/b453b8b1fc.js"
+        crossorigin="anonymous"
+    ></script>
+    <title>BlackList</title>
+    
 </head>
 <body>
-    <form action="{% url 'groups:addBlackList' group.id%}" method="POST">
-        {%csrf_token%}
-        <p>블랙리스트에 추가할 아이디를 적어</p>
-        <input type="text" name="username">
-        <input type="submit">
-    </form>
-    
-
-    {% for person in blackList %}
-        <p>{{person}}</p>
-    {% endfor %}
+    <div class="container">
+    <div class="title">
+        <div class="btitle">
+            BLACKLIST
+        </div>
+    </div>
+        <div class="blacklist"> 
+            <form action="{% url 'groups:addBlackList' group.id%}" method="POST">
+                {%csrf_token%}
+                <p class="black-text">블랙리스트에 추가할 아이디</p>
+                <div class="input-box">
+                <input class="input-place" type="text" name="username">
+                <input class="input-submit" type="submit">
+                </div>
+                
+            </form>
+            
+            <div class="name-place">
+            {% for person in blackList %}
+                <p>{{person}}</p>
+            {% endfor %}
+            </div>
+            
+        </div>
+    </div>
 </body>
 </html>
