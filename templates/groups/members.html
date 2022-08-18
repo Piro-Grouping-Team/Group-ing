@@ -22,11 +22,6 @@
       </div>
       <div class="members">
         <div class="members-head">그룹장 {{group.head}}</div>
-        <div class="blacklist">
-          {% if user == group.head %}
-          <a href="{% url 'groups:blackList' group.id %}">블랙리스트 관리</a>
-          {% endif %}
-        </div>
         {% for member in members %}
         <div class="members-mem">
           <div>{{member}}</div>
@@ -35,7 +30,18 @@
           {% endif %}
         </div>
         {% endfor %}
+        
+        <button class="new-btn">
+        <i class="fa-solid fa-circle-plus fa-lg"></i>
+        </button>
+        <div class="modal">
+          <a class="modal-list" href="{% url 'groups:create' %}"
+          >그룹원 삭제</a>
+          <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
+          >블랙리스트 관리</a>
+      </div>
       </div>
     </div>
   </body>
+  <script src="{% static 'js/groups/members.js' %}"></script>
 </html>
