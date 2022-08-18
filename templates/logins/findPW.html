@@ -2,6 +2,8 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js">
   </script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
@@ -30,6 +32,24 @@
     <div id="loading"></div>
     <div id="result_pw"></div>
 </div>
+
+<script>
+    const button = document.querySelector('#find_pw')
+    button.addEventListener('click', function(event){
+        axios.post(
+            '/logins/find/pw/find',
+            {
+            'username': username,
+            'name': name,
+            'email': email,
+            'csrfmiddlewaretoken': '{{csrf_token}}',
+            },)
+        .then((response) => {
+            alert('회원님의 이메일로 인증코드를 발송하였습니다.')
+        })
+    })
+
+</script>
 <script>
   $('#find_pw').on('click', function(){
     var username = $('#pw_form_id').val();
