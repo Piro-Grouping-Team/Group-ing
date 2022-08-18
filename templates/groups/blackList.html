@@ -33,11 +33,30 @@
             
             <div class="name-place">
             {% for person in blackList %}
-                <p>{{person}}</p>
+                <div id='person{{person.id}}'>
+                    <p>{{person}}</p>
+                    <button onclick="removeBlackList({{person.id}}, {{group.id}})" >블랙리스트에서 제거</button>
+                </div> 
             {% endfor %}
             </div>
             
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const removeBlackList = async(userId, groupId) => {
+        const url = '/groups/group/removeBlackList'
+        const {data} = await axios.post(url, {userId, groupId})
+        const name = data.userId 
+        console.log(name)
+        const removed = document.querySelector(`#person${name}`)
+        removed.remove()
+
+    }
+
+
+        
+    
+</script>
 </html>
