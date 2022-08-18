@@ -213,5 +213,11 @@ def addBlackList(request, id):
             messages.error(request, '존재하지 않는 사용자입니다!')
     return redirect('groups:blackList', id)
 
-def removeBlackList(request, id):
-    pass
+@csrf_exempt
+def removeBlackList(request):
+    req = json.loads(request.body)
+    userId = req['userId']
+    groupId = req['groupId']
+    group = Group.objects.get(id=groupId)
+    group.blackList.remove(userId)
+    return JsonResponse({'userId' : userId})
