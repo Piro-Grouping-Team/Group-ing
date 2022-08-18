@@ -30,6 +30,7 @@ def create(request,id):
             meeting.meetHead = request.user
             meeting.meetGroupId = group
             meeting.save()
+            meeting.meetMembers.add(request.user)
 
             return redirect('meetings:detail',id,meeting.id)
         else:

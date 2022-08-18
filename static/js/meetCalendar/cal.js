@@ -23,11 +23,11 @@ const handleDates = async (data, meetId) => {
     validList.push(i);
   }
 
-  makeCalendar(meetId, data.meetType);
+  makeCalendar(meetId, data.meetType, data.meetCount);
   return;
 };
 
-const makeCalendar = async (meetId, meetType) => {
+const makeCalendar = async (meetId, meetType, allUsers) => {
   const viewYear = date.getFullYear(); //2022
   const viewMonth = date.getMonth(); // 6 / 0 1 2 3...
 
@@ -81,8 +81,6 @@ const makeCalendar = async (meetId, meetType) => {
       ? thisDates.indexOf(eDate)
       : thisDates.lastIndexOf(thisDate);
   // 마지막달이면 끝날짜까지, 마지막달이 아니면 끝까지
-
-  const allUsers = 10;
 
   // 달에 대한 정보를 받아와서 날짜로 접근해서 정보를 가져오기
   // 렌더링 시 -> ajax 하나
