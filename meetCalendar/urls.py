@@ -8,4 +8,6 @@ urlpatterns = [
     path('getDates/',views.getDates,name='getDates'),
     path('getDayInfo/',views.getDayInfo,name='getDayInfo'),
     path('getTravelInfo/',views.getTravelInfo,name='getTravelInfo'),
+    path('<int:meetId>/voteDayCandidate/',views.voteDayCandidate,name='voteDayCandidate'),
+    path('<int:meetId>/voteTravelCandidate/',views.voteTravelCandidate,name='voteTravelCandidate'),
 ]  
