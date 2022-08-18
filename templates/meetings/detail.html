@@ -32,9 +32,14 @@
         </a>
       </div>
       <div class="meeting-content">
-        <div class="meeting-period quest">
-          {{ meeting.meetStart }} <br />
-          ~ {{ meeting.meetEnd }} 에 시간 되시나요?
+        <div class="meeting-period">
+          <div class="quest">
+            {{ meeting.meetStart }} <br />
+            ~ {{ meeting.meetEnd }} 에 시간 되시나요?
+          </div>
+          <a href="{% url 'meetCalendar:main' meetId=meeting.id %}"
+            ><i class="fa-regular fa-calendar"></i> 가능한 시간 입력하러 가기</a
+          >
         </div>
         <div class="meeting-people quest">
           {{group.name}}의 사람들이 참여하고 있어요
@@ -50,11 +55,13 @@
           action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
           method="post"
         >
-
-        
-        {% csrf_token %}
-        <input class="btn delete-btn" type="submit" value="약속 삭제" />
-        <a class ="btn calendar-btn" href="{% url 'meetCalendar:main' meetId=meeting.id %}">캘린더</a>
+          {% csrf_token %}
+          <input class="btn delete-btn" type="submit" value="약속 삭제" />
+          <a
+            class="btn calendar-btn"
+            href="{% url 'meetCalendar:main' meetId=meeting.id %}"
+            >캘린더</a
+          >
         </form>
       </div>
     </div>

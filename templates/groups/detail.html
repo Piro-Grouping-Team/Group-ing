@@ -61,10 +61,11 @@
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
-      <div>
+      <div class="group-code">
         그룹 코드 :
-        <div class="group-code">{{group.code}}</div>
+        <div class="group-code-content">{{group.code}}</div>
       </div>
+      <div class="group-code-modal">코드가 복사되었어요! 🥳</div>
       <div class="group-intro">" {{group.introduction}} "</div>
       <div class="meetings">
         {% for meeting in meetings %}
