@@ -1,10 +1,12 @@
 # from dataclasses import field
+from dataclasses import field
 from xml.dom import ValidationErr
 from django import forms
 from .models import User
 # from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
@@ -117,19 +119,76 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 raise forms.ValidationError('새로운 비밀번호는 기존 비밀번호와 다르게 입력해주세요.')
         return new_password1
 
-class PasswordChangeForm(forms.Form):
-    password1 = forms.CharField(
-        min_length=8,
-        max_length=16,
-        label='비밀번호',
-        widget=forms.PasswordInput,
+
+class FindIdForm(forms.Form):
+    name = forms.CharField(
+        widget=forms.TextInput,
     )
-    password2 = forms.CharField(
-        min_length=8,
-        max_length=16,
-        label='비밀번호 확인',
-        widget=forms.PasswordInput,
+    email = forms.EmailField(
+        widget=forms.EmailInput,
     )
 
-    def clean_new_password1(self):
-        password1 = self.cleaned_data.get('')
+    class Meta:
+        field = ('name', 'email')
+    
+    def __init__(self, *args, **kwargs):
+        super(FindIdForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'id_form_name',
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'id_form_email',
+        })
+
+class FindPwForm(forms.Form):
+    username = forms.CharField(
+        min_length=5,
+        max_length=20,
+        # label='아이디',
+        widget=forms.TextInput,
+    )
+    name = forms.CharField(
+        widget=forms.TextInput,
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput,
+    )
+    class Meta:
+        field = ('username', 'name', 'email')
+    
+    def __init__(self, *args, **kwargs):
+        super(FindPwForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = '아이디'
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_id',
+        })
+
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_name',
+        })
+
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_email',
+        })
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['newPassword1'].label = '새 비밀번호'
+        self.fields['newPassword1'].widget.attrs.update({
+            'class': 'forms-control',
+        })
+
+        self.fields['newPassword2'].label = '새 비밀번호 확인'
+        self.fields['newPassword2'].widget.attrs.update({
+            'class': 'forms-control',
+        })

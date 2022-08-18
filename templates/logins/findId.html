@@ -2,5 +2,7 @@
   {% csrf_token %}
   <input name="name" type="text" value="이름"/>
   <input name="email" type="text" value="email주소"/>
+  <input name="validNumber" type="number" value="인증번호 6자리 숫자 입력"/>
+  <a href="#" id="btnEmailAuthNo" onclick="sendAuthNoForEmailAuth()"></a>
   <input type="submit" value="아이디찾기" />
 </form>

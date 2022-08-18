@@ -59,7 +59,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     addressDetail = models.CharField(max_length=100, verbose_name='상세주소')
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, verbose_name='성별')
     intro = models.CharField(max_length=100, null=True, blank=True, default='안녕하세요. 반가워요', verbose_name='한줄소개')
-    
+    auth = models.CharField(max_length=10, null=True, verbose_name='인증번호')
+
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

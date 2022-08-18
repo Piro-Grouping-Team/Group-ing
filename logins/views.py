@@ -1,6 +1,10 @@
+import json
+import random
+
 from .                               import forms
 from .tokens                         import account_activation_token
 from .models                         import User
+from .helper                         import email_auth_num
 
 from django.shortcuts                import render, redirect
 from django.contrib                  import messages
@@ -13,7 +17,8 @@ from django.utils.http               import urlsafe_base64_encode,urlsafe_base64
 from django.utils.encoding           import force_bytes, force_str
 from django.template.loader          import render_to_string
 from django.contrib.auth             import update_session_auth_hash
-
+from django.core.exceptions          import PermissionDenied
+from django.core.serializers.json    import DjangoJSONEncoder
 
 # Create your views here.
 def main(request):
@@ -106,17 +111,15 @@ def mypage(request):
     return render(request, 'logins/mypage.html')
 
 def findUsername(request):
-    errorMessage=''
-    context = {'errorMessage' : errorMessage}
     if request.method == 'POST':
         name = request.POST['name']
         email = request.POST['email']
         if User.objects.filter(name = name, email = email).exists():
             user = User.objects.get(name=name, email=email)
-            current_site = get_current_site(request)
+            randomNumber = random.randint(100000, 999999)
             message = render_to_string('logins/findUsername_email.html', {
                 'user': user,
-                'domain': current_site.domain,
+                'randomNumber': randomNumber,
             })
             mail_subject = 'Find your Username'
             to_email = user.email
@@ -125,55 +128,150 @@ def findUsername(request):
             return redirect('/')
 
         else:
-            errorMessage='일치하는 정보가 없습니다.'
-            return render(request, template_name='logins/findUsername.html', context=context)
-    return render(request, template_name='logins/findUsername.html', context=context)
+            messages.info(request, '일치하는 정보가 없습니다.')
+    return render(request, template_name='logins/findUsername.html')
 
-def findPW(request):
-    errorMessage=''
-    context = {'errorMessage' : errorMessage}
+# @method_decorator(logout_message_required, name='dispatch')
+class FindIdView(View):
+    template_name = 'logins/findId.html'
+    findId = forms.FindIdForm()
+
+    def get(self, request):
+        if request.method == 'GET':
+            form = self.findId(None)
+            return render(request, self.template_name, {'form': form, })
+
+def ajaxFindIdView(request):
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    user = User.objects.get(name=name, email=email)
+
+    if user:
+        authNum = email_auth_num()
+        user.auth = authNum
+        user.save()
+        message = render_to_string('logins/findId_email.html', {
+            'authNum':authNum,
+        })
+        mail_subject = '[Group-ing] 아이디 찾기 인증메일입니다.'
+        to_email = user.email
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+    return HttpResponse(json.dumps({'result': user.name}, cls=DjangoJSONEncoder), content_type='application/json')
+
+def authConfirmView(request):
+    username = request.POST.get('username')
+    inputAuthNum = request.POST.get('inputAuthNum')
+
+# @method_decorator(logout_message_required, name='dispatch')
+class FindPwView(View):
+    template_name = 'logins/findPw.html'
+    findPw = forms.FindPwForm
+
+    def get(self, request):
+        if request.method == 'GET':
+            form = self.findPw(None)
+            return render(request, self.template_name, {'form': form, })
+
+def ajaxFindPwView(request):
+    username = request.POST.get('username')
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    user = User.objects.get(username=username, name=name, email=email)
+    print('배고파')
+    if user:
+        authNum = email_auth_num()
+        user.auth = authNum
+        user.save()
+        message = render_to_string('logins/findPw_email.html', {
+            'authNum':authNum,
+        })
+        mail_subject = '[Group-ing] 비밀번호 찾기 인증메일입니다.'
+        to_email = user.email
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        email.send()
+    return HttpResponse(json.dumps({'result': user.name}, cls=DjangoJSONEncoder), content_type='application/json')
+
+def authConfirmView(request):
+    username = request.POST.get('username')
+    inputAuthNum = request.POST.get('inputAuthNum')
+    user = User.objects.get(username=username, auth=inputAuthNum)
+    user.auth = ''
+    user.save()
+    request.session['auth'] = user.username
+
+    return HttpResponse(json.dumps({'result': user.username}, cls=DjangoJSONEncoder), content_type='application/json')
+
+def authPwResetView(request):
+    if request.method == 'GET':
+        if not request.session.get('auth', False):
+            raise PermissionDenied
+
     if request.method == 'POST':
-        username = request.POST['username']
-        name = request.POST['name']
-        email = request.POST['email']
-        if User.objects.filter(username=username, name = name, email = email).exists():
-            user = User.objects.get(username=username, name=name, email=email)
-            current_site = get_current_site(request)
-            print(urlsafe_base64_encode(force_bytes(user.id)).encode().decode())
-            print(account_activation_token.make_token(user))
-            message = render_to_string('logins/findPW_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'id': urlsafe_base64_encode(force_bytes(user.id)).encode().decode(),
-                'token': account_activation_token.make_token(user),
-            })
-            mail_subject = 'Find your PW'
-            to_email = user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
+        sessionUser = request.session['auth']
+        currentUser = User.objects.get(user=sessionUser)
+        login(request, currentUser)
+
+        resetPwForm = forms.CustomSetPasswordForm(request.user, request.POST)
+
+        if resetPwForm.is_valid():
+            user = resetPwForm.save()
+            messages.success(request, '비밀번호 변경완료! 변경된 비밀번호로 로그인하세요.')
+            logout(request)
             return redirect('logins:login')
         else:
-            errorMessage='일치하는 정보가 없습니다.'
-            return render(request, template_name='logins/findPW.html', context=context)
-    return render(request, template_name='logins/findPW.html', context=context)
+            logout(request)
+            request.session['auth'] = sessionUser
+    else:
+        resetPwForm = forms.CustomSetPasswordForm(request.user)
+    
+    return render(request, 'logins/passwordReset.html', {'form':resetPwForm})
 
-def changePW(request, uidb64, token):
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        if request.method == 'POST':
-            form = forms.CustomPasswordChangeForm(user, request.POST)
-            if form.is_valid():
-                user = form.save()
-                update_session_auth_hash(request, user)
-                messages.success(request, '비밀번호가 성공적으로 변경되었습니다!')
-                return redirect('/')
-            else:
-                messages.error(request, '오류를 수정해주세요')
-        else:
-            form = forms.CustomPasswordChangeForm(request.user)
-            print(form)
-        return render(request, 'logins/changePW.html', {'form': form})
+# def findPW(request):
+#     errorMessage=''
+#     context = {'errorMessage' : errorMessage}
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         name = request.POST['name']
+#         email = request.POST['email']
+#         if User.objects.filter(username=username, name = name, email = email).exists():
+#             user = User.objects.get(username=username, name=name, email=email)
+#             current_site = get_current_site(request)
+#             print(urlsafe_base64_encode(force_bytes(user.id)).encode().decode())
+#             print(account_activation_token.make_token(user))
+#             message = render_to_string('logins/findPW_email.html', {
+#                 'user': user,
+#                 'domain': current_site.domain,
+#                 'id': urlsafe_base64_encode(force_bytes(user.id)).encode().decode(),
+#                 'token': account_activation_token.make_token(user),
+#             })
+#             mail_subject = 'Find your PW'
+#             to_email = user.email
+#             email = EmailMessage(mail_subject, message, to=[to_email])
+#             email.send()
+#             return redirect('logins:login')
+#         else:
+#             errorMessage='일치하는 정보가 없습니다.'
+#             return render(request, template_name='logins/findPW.html', context=context)
+#     return render(request, template_name='logins/findPW.html', context=context)
+
+# def changePW(request, uidb64, token):
+#     try:
+#         uid = force_str(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+#     if user is not None and account_activation_token.check_token(user, token):
+#         if request.method == 'POST':
+#             form = forms.CustomPasswordChangeForm(user, request.POST)
+#             if form.is_valid():
+#                 user = form.save()
+#                 update_session_auth_hash(request, user)
+#                 messages.success(request, '비밀번호가 성공적으로 변경되었습니다!')
+#                 return redirect('/')
+#             else:
+#                 messages.error(request, '오류를 수정해주세요')
+#         else:
+#             form = forms.CustomPasswordChangeForm(request.user)
+#             print(form)
+#         return render(request, 'logins/changePW.html', {'form': form})
