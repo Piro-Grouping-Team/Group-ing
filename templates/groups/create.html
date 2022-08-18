@@ -52,7 +52,7 @@
             <div class="create-quest create-img">
               그룹을 대표할 이미지를 골라주세요
             </div>
-            {{ form.image }}
+            {% if form.image %} {{ form.image }} {% else %} {% endif %}
           </div>
           <input
             class="btn create-btn"
