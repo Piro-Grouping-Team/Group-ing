@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/logins/signup.css' %}" />
     <script
-      src="https://kit.fontawesome.com/0dee369a16.js"
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
     <title>SIGN-UP</title>
@@ -15,50 +15,93 @@
 
   <body>
     <div class="gradient2"></div>
-    <div class="signup_container">
+    <div class="container">
       <div class="title">
         <div class="btitle">
           같이 <br />
           그룹핑 해요!
         </div>
       </div>
-
-      <main>
-        <form method="POST" action="">
-          {% csrf_token %}
-          <div class="signups">
-            <div class="signup-form">{{form.as_p}}</div>
-
-            <div class="inform">
-              <input
-                type="submit"
-                value="그룹핑에 오신 걸 환영합니다!"
-                class="submit"
-              />
-            </div>
+      <form method="POST" action="">
+        {% csrf_token %}
+        <div class="signup">
+          <div class="create-box">
+            <div class="create-quest">아이디</div>
+            {{ form.username }}
           </div>
-        </form>
-      </main>
+          <div class="create-box">
+            <div class="create-quest">비밀번호</div>
+            {{ form.password1 }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">비밀번호 확인</div>
+            {{ form.password2 }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">이름</div>
+            {{ form.name }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">닉네임</div>
+            {{ form.nickname }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">이메일</div>
+            {{ form.email }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">전화번호</div>
+            {{ form.phoneNumber }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">나이</div>
+            {{ form.age }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">주소</div>
+            {{ form.address }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">상세주소</div>
+            {{ form.addressDetail }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">성별</div>
+            {{ form.gender }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">프로필 이미지</div>
+            {{ form.profileImg }}
+            <label for="id_profileImg"
+              ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
+            >
+          </div>
+        </div>
+        <input
+          class="btn"
+          type="submit"
+          value="그룹핑에 오신 걸 환영합니다!"
+          class="submit"
+        />
+      </form>
     </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+      window.onload = function () {
+        document
+          .getElementById("address_kakao")
+          .addEventListener("click", function () {
+            //주소입력칸을 클릭하면
+            //카카오 지도 발생
+            new daum.Postcode({
+              oncomplete: function (data) {
+                //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+              },
+            }).open();
+          });
+      };
+    </script>
   </body>
-
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-  <script>
-    window.onload = function () {
-      document
-        .getElementById("address_kakao")
-        .addEventListener("click", function () {
-          //주소입력칸을 클릭하면
-          //카카오 지도 발생
-          new daum.Postcode({
-            oncomplete: function (data) {
-              //선택시 입력값 세팅
-              document.getElementById("address_kakao").value = data.address; // 주소 넣기
-              document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
-            },
-          }).open();
-        });
-    };
-  </script>
 </html>
