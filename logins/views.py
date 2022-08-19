@@ -1,5 +1,5 @@
 import json
-import random
+
 
 from .                               import forms
 from .tokens                         import account_activation_token
@@ -10,20 +10,49 @@ from django.shortcuts                import render, redirect
 from django.contrib                  import messages
 from django.contrib.auth             import authenticate, login, logout
 from django.core.mail                import EmailMessage
+from django.conf                     import settings
 from django.views                    import View
+from django.views.generic            import FormView
 from django.http                     import HttpResponse, JsonResponse
 from django.contrib.sites.shortcuts  import get_current_site
 from django.utils.http               import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding           import force_bytes, force_str
 from django.template.loader          import render_to_string
-from django.utils.decorators         import method_decorator
 from django.contrib.auth             import update_session_auth_hash
 from django.core.exceptions          import PermissionDenied
-from django.core.serializers.json    import DjangoJSONEncoder
 
 # Create your views here.
 def main(request):
     return render(request, 'main.html')
+
+# class LoginView(FormView):
+#     template_name = 'logins/login.html'
+#     form_class = forms.LoginForm
+#     success_url = '/'
+
+#     def form_valid(self, form):
+#         username = form.cleaned_data.get("username")
+#         password = form.cleaned_data.get("password")
+
+#         user = authenticate(self.request, username=username, password=password)
+#         if user is not None:
+#             self.request.session['username'] = username
+#             login(self.request, user)
+
+#             # Session Maintain Test
+
+#             remember_session = self.request.POST.get('remember_session', False)
+#             if remember_session:
+#                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+#             # try:
+#             #     remember_session = self.request.POST['remember_session']
+#             #     if remember_session:
+#             #         settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+#             # except MultiValueDictKeyError:
+#             #     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+            
+#         return super().form_valid(form)
 
 def login_view(request):
     if request.method == "POST":
