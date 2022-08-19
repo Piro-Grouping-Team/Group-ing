@@ -59,17 +59,24 @@
           </div>
           <div class="create-box">
             <div class="create-quest">약속 구성원</div>
-            <input class="log-input" type="text" />
-            <!-- 유저 이름 -->
+            <!-- 유저 이름 목록 가져오기 -->
           </div>
           <div class="create-box">
             <div class="create-quest">어디 다녀오셨나요?</div>
-            <input class="log-input" type="text" />
-            <!-- 
+            <div class="places">
+              <input
+                class="log-input"
+                type="text"
+                placeholder="장소를 추가해주세요"
+              />
+              <!-- 
             디폴트(meetPlace) 불러오기
             + 버튼에 클릭이벤트로 input element 추가 걸어줄 예정
             장소 여러개 등록
-            -->
+            --></div>
+            <div class="place-add">
+              <i class="fa-solid fa-circle-plus"></i>
+            </div>
           </div>
           <div class="create-box">
             <div class="create-quest">약속은 어땠나요?</div>
@@ -81,9 +88,26 @@
               placeholder="본문내용"
             ></textarea>
           </div>
-          <input class="btn log-btn" type="submit" value="약속 저장" />
+          <div class="create-box">
+            <div class="create-quest">사진 첨부</div>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">동영상 첨부</div>
+          </div>
+          <input class="btn log-btn" type="submit" value="로그 저장" />
         </form>
       </div>
     </div>
+    <script>
+      const addBtn = document.querySelector(".place-add");
+      const places = document.querySelector(".places");
+      addBtn.addEventListener("click", () => {
+        let place = document.createElement("input");
+        place.setAttribute("class", "log-input");
+        place.setAttribute("type", "text");
+        place.setAttribute("placeholder", "장소를 추가해주세요");
+        places.appendChild(place);
+      });
+    </script>
   </body>
 </html>
