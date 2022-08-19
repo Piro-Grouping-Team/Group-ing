@@ -53,10 +53,10 @@ def create(request):
         # logKeywords = request.POST.get('logKeywords')
         # logImgs = request.POST.get('logImgs')
         logContent = request.POST.get('logContent')
-        openRange = request.POST.get('openRange')
-        userId = request.user.id
+        # openRange = request.POST.get('openRange')
+        userId = request.user
         
-        nowpost = Post.objects.create(userId=userId ,logTitle=logTitle, logDate=logDate, logLike=logLike, logContent=logContent, openRange=openRange)
+        nowpost = Post.objects.create(userId=userId ,logTitle=logTitle, logDate=logDate, logLike=logLike, logContent=logContent)
 
         return redirect('posts:detail', postId=nowpost.logId)
 

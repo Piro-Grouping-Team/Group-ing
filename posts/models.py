@@ -1,4 +1,6 @@
 from django.db import models
+from groups.models import User
+from meetings.models import Meetings
 
 # Create your models here.
 class Post(models.Model):
@@ -10,8 +12,8 @@ class Post(models.Model):
     )
 
     logId = models.IntegerField(primary_key=True)
-   #meetId = ForeignKey(Meet, on_delete=models.CASCADE)
-   #userId = ForeignKey(User, on_delete=models.CASCADE)
+    meetId = models.ForeignKey(Meetings, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE)
     logDate = models.DateTimeField()
     logLike = models.IntegerField()
     # logImgs = models.ArrayField(models.ImageField(blank = True,upload_to='images'),null = True)
