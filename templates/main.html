@@ -1,1 +1,45 @@
-메인
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <title>GROUP-ING</title>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <div class="container">
+      <div class="btitle">
+        <div class="ti ti-up we">우리는</div>
+        <div class="ti ti-up now" data-sa-delay="200">지금,</div>
+        <div class="ti ti-up meet" data-sa-delay="400">만남을</div>
+        <div class="ti ti-up ing" data-sa-delay="600">진행중</div>
+      </div>
+      <div class="buttons">
+        <a class="button signup" href="{% url 'logins:mypage' %}">MYPAGE</a>
+        <a class="button mygroup" href="{% url 'groups:main' %}">MYGROUP</a>
+        <a class="button login" href="{% url 'logins:logout' %}">LOGOUT</a>
+      </div>
+    </div>
+
+    {% else %}
+    <div class="container">
+      <div class="buttons">
+        <div class="button text1">우리는</div>
+        <div class="button space1"></div>
+        <div class="button text2">지금,</div>
+        <div class="button space2"></div>
+        <div class="button text3">만남을</div>
+        <div class="button space3"></div>
+        <div class="button text4">진행중</div>
+        <div class="button space4"></div>
+        <a class="button login" href="{% url 'logins:login' %}">LOGIN</a>
+        <a class="button signup" href="{% url 'logins:signup' %}">SIGNUP</a>
+      </div>
+    </div>
+    {% endif %}
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

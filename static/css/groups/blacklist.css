@@ -1,0 +1,43 @@
+@import url(../init.css);
+
+
+.blacklist{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.black-text{
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.input-box{
+    display: flex;
+    border: 2px solid black;
+    width: 20rem;
+    justify-content: space-between;
+}
+
+.input-place{
+    padding: 0.5rem;
+    width: 18rem;
+    border-right: 2px solid black;
+}
+
+
+.name-place{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border: 3px solid black;
+    border-top: 2rem solid black;
+    width: 20rem;
+    height: 30rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.name-place p {
+    padding: 2rem;
+}

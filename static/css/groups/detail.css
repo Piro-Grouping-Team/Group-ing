@@ -1,0 +1,140 @@
+@import url(../init.css);
+
+.container {
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title-self {
+  padding: 3rem 0 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.group-img_box {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 70%;
+  overflow: hidden;
+}
+
+.group-img {
+  width: 100%;
+  height: 100%;
+
+  flex-wrap: nowrap;
+  object-fit: cover;
+}
+
+.members {
+  width: 10rem;
+  padding: 0.5rem 1rem 0.5rem;
+
+  border: 1px solid black;
+  border-radius: 0.3rem;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  text-align: center;
+}
+
+.group-code {
+  padding: 1rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+
+  display: flex;
+}
+
+.group-code-modal {
+  padding: 0.5rem 0.7rem 0.4rem;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  border-radius: 0.3rem;
+  background: #c6fc23;
+
+  display: none;
+}
+
+.group-intro {
+  padding: 1rem 0 2rem;
+
+  font-weight: bold;
+}
+
+.customLook {
+  margin-left: 2rem;
+}
+
+.meetings {
+  width: 100%;
+  padding: 0 1rem 7rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.meeting {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-status {
+  width: 3rem;
+  padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+
+  align-self: flex-end;
+  position: relative;
+  right: 0.5rem;
+
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: 0.2rem 0.2rem 0 0;
+
+  text-align: center;
+  font-size: 0.5rem;
+  font-weight: bold;
+}
+
+.meeting-content {
+  width: 100%;
+  padding: 1rem;
+
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+
+.meeting-name {
+  padding: 0.5rem 0 0.5rem;
+
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.meeting-period {
+  font-size: 0.75rem;
+}
+
+.new-btn {
+  padding: 0.5rem;
+
+  justify-self: center;
+  align-self: center;
+
+  position: fixed;
+  bottom: 6rem;
+}

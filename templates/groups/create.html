@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/create.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>GroupCreate</title>
+  </head>
+  <body>
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          새로운 그룹을 <br />
+          만들어요!
+        </div>
+      </div>
+      <div class="create-group">
+        <form
+          action="/groups/create/"
+          enctype="multipart/form-data"
+          method="POST"
+        >
+          {% csrf_token %}
+          <div class="create-box">
+            <div class="create-quest">그룹 이름이 무엇인가요?</div>
+            {{ form.name }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹 목적은요?</div>
+            {{ form.purpose }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹을 자랑해주세요!</div>
+            {{ form.introduction }}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">그룹의 성향은 무엇인가요?</div>
+            <input type="hidden" name="tags" placeholder="write some tags" />
+          </div>
+          <div class="create-box">
+            <div class="create-quest create-img">
+              그룹을 대표할 이미지를 골라주세요
+            </div>
+            {% if form.image %} {{ form.image }} {% else %} {% endif %}
+          </div>
+          <input
+            class="btn create-btn"
+            type="submit"
+            value="그룹을 만들어봐요!"
+          />
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    var list = {{keywordData|safe}}
+    var input = document.querySelector("input[name=tags]"),
+      tagify = new Tagify(input, {
+        whitelist: list,
+        dropdown: {
+          position: "manual",
+          maxItems: Infinity,
+          enabled: 0,
+          classname: "tag-list",
+        },
+        enforceWhitelist: true,
+      });
+
+    tagify
+      .on("dropdown:show", onSuggestionsListUpdate)
+      .on("dropdown:hide", onSuggestionsListHide)
+      .on("dropdown:scroll", onDropdownScroll);
+
+    renderSuggestionsList();
+
+    // ES2015 argument destructuring
+    function onSuggestionsListUpdate({ detail: suggestionsElm }) {
+      console.log(suggestionsElm);
+    }
+
+    function onSuggestionsListHide() {
+      console.log("hide dropdown");
+    }
+
+    function onDropdownScroll(e) {
+      console.log(e.detail);
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
+    function renderSuggestionsList() {
+      tagify.dropdown.show(); // load the list
+      tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown);
+    }
+  </script>
+</html>

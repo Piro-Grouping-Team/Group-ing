@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetings/create.css' %}" />
+  </head>
+  <body>
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          약속 정보를 <br />
+          수정해요
+        </div>
+      </div>
+    <form
+      action="{% url 'meetings:update' id=group.id meetId=meeting.id %}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="create-box">
+      <div class="create-quest">약속 이름</div>
+      <input class="create-input" type="text" name="meetName" value='{{meeting.meetName}}'/>
+      </div>
+
+      <div class="create-box">
+      <div class="create-quest">약속 목적</div>
+      <input class="create-input" type="text" name="meetPurpose" value='{{meeting.meetPurpose}}'/>
+      </div>
+
+      <div class="create-box">
+      <div class="create-quest">약속 장소</div>
+      <input class="create-input" type="text" name="meetPlace" value='{{meeting.meetPlace}}'/>
+      </div>
+
+      <input class="btn meet-btn" type="submit" value="완료"/>
+    </form>
+    
+  </body>
+  <script>
+    
+  </script>
+</html>

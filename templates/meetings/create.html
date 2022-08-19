@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetings/create.css' %}" />
+  </head>
+  <body>
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          약속을 <br />
+          만들어봐요
+        </div>
+      </div>
+      <form
+        class="content"
+        action="{% url 'meetings:create' id=group.id %}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="create-box select-box">
+          <div class="create-quest">어떤 약속을 만들고 싶으세요?</div>
+          <select class="create-input create-select" name="meetType">
+            <option value="today">당일치기 갈래요</option>
+            <option value="travel">여행으로 갈래요</option>
+          </select>
+        </div>
+        <div class="create-box">
+          <div class="create-quest">약속 이름이 무엇인가요?</div>
+          <input class="create-input" type="text" name="meetName" />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">약속 목적은요?</div>
+          <input class="create-input" type="text" name="meetPurpose" />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">약속 장소는 어디인가요?</div>
+          <input class="create-input" type="text" name="meetPlace" />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">모집 시작일</div>
+          <input id="stDate" type="date" name="meetStart" />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">모집 종료일</div>
+          <input id="edDate" type="date" name="meetEnd" />
+        </div>
+        <input class="btn meet-btn" type="submit" value="약속을 만들어봐요!" />
+      </form>
+    </div>
+
+    <div>
+      {% if form.errors %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            <p>{{ error|escape }}</p>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </body>
+  <script>
+    document.getElementById("stDate").value = new Date()
+      .toISOString()
+      .substring(0, 10);
+    document.getElementById("edDate").value = new Date()
+      .toISOString()
+      .substring(0, 10);
+  </script>
+</html>

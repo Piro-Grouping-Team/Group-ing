@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetCalendar/cal.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>캘린더</title>
+  </head>
+
+  <body onload="getDates({{ meetId }})">
+    <div class="calendar">
+      <div class="navbar">
+        <button class="nav-btn go-prev" onclick="prevMonth()">
+          <i class="fa-solid fa-circle-left"></i>
+        </button>
+        <div class="year-month"></div>
+        <button class="nav-btn go-next" onclick="nextMonth()">
+          <i class="fa-solid fa-circle-right"></i>
+        </button>
+      </div>
+      <a href="{% url 'meetCalendar:create' meetId=meetId%}"
+        >가능한 시간대 기입하러가기</a
+      >
+      <div class="main">
+        <!-- 요일들 -->
+        <div class="days">
+          <div class="day">S</div>
+          <div class="day">M</div>
+          <div class="day">T</div>
+          <div class="day">W</div>
+          <div class="day">T</div>
+          <div class="day">F</div>
+          <div class="day">S</div>
+        </div>
+        <!-- 날짜들 (자바스크립트 구현)-->
+        <div class="dates"></div>
+      </div>
+      <div class="modal">
+        <div class="times"></div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{% static 'js/meetCalendar/cal.js' %}"></script>
+  </body>
+</html>

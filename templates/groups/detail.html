@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/groups/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>GroupDetail</title>
+  </head>
+  <body>
+    <div class="gradient"></div>
+    <div class="container">
+      <div class="header">
+        {% if group.image %}
+        <div class="group-img_box">
+          <img class="group-img" src="{{group.image.url}}" alt="이미지 없음" />
+        </div>
+        {% endif %}
+        <div class="title-self">
+          <div class="btitle">{{group.name}}</div>
+          <div class="stitle">{{group.purpose}}</div>
+        </div>
+        {% if user.username != group.head %}
+        <form action="{% url 'groups:leave' group.id %}" method="POST">
+          {% csrf_token %}
+          <button><i class="fa-solid fa-right-to-bracket"></i></button>
+        </form>
+        {% else %}
+        <a href="{% url 'groups:modify' group.id %}"
+          ><i class="fa-solid fa-pen-to-square"></i
+        ></a>
+        {% endif %}
+      </div>
+      <input
+        class="customLook"
+        name="tags"
+        readonly
+        value="
+        {% for keyword in keywords %}
+          {% if forloop.last %}
+            {{keyword.keyword}}
+          {% else %}
+            {{keyword.keyword}},
+           {% endif %} 
+        {% endfor %}
+   
+        "
+      />
+      <a class="members" href="{% url 'groups:members' group.id%}"
+        >누가 있나요?</a
+      >
+      <div class="group-code">
+        그룹 코드 :
+        <div class="group-code-content">{{group.code}}</div>
+      </div>
+      <div class="group-code-modal">코드가 복사되었어요! 🥳</div>
+      <div class="group-intro">" {{group.introduction}} "</div>
+      <div class="meetings">
+        {% for meeting in meetings %}
+        <a
+          class="meeting"
+          href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}"
+        >
+          {% if meeting.meetStatus == 0 %}
+          <div class="meeting-status">모집중</div>
+          {% elif meeting.meetStatus == 1 %}
+          <div class="meeting-status">투표중</div>
+          {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">모집완료</div>
+          {% endif %}
+          <div class="meeting-content">
+            <div class="meeting-name">{{ meeting.meetName }}</div>
+            <div class="meeting-period">
+              {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+        <a class="new-btn" href="{% url 'meetings:create' group.id %}"
+          ><i class="fa-solid fa-circle-plus fa-lg"></i
+        ></a>
+      </div>
+      <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
+    </div>
+    <script src="{% static 'js/groups/detail.js' %}"></script>
+    <script>
+      const input = document.querySelector("input[name=tags]");
+      new Tagify(input);
+    </script>
+  </body>
+</html>
