@@ -14,7 +14,7 @@
   <body>
     <div class="container">
       <div class="header">
-        <div class="title-wrapper">
+        <div class="title">
           {% if meeting.meetStatus == 0 %}
           <div class="meeting-status">모집중</div>
           {% elif meeting.meetStatus == 1 %}
@@ -22,53 +22,64 @@
           {% elif meeting.meetStatus == 2%}
           <div class="meeting-status">모집완료</div>
           {% endif %}
-          <div class="title">
-            <div class="btitle">{{ meeting.meetName }}</div>
-            <div class="stitle">일정을 확인해주세요!</div>
-          </div>
+          <div class="btitle">{{ meeting.meetName }}</div>
+          <div class="stitle">일정을 확인해주세요!</div>
         </div>
-        <a href="{% url 'meetings:update' id=group.id meetId=meeting.id %}">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-      </div>
-      <div class="meeting-content">
-        <div class="meeting-period">
-          <div class="quest">
-            {{ meeting.meetStart }} <br />
-            ~ {{ meeting.meetEnd }} 에 시간 되시나요?
-          </div>
-          <a href="{% url 'meetCalendar:main' meetId=meeting.id %}"
-            ><i class="fa-regular fa-calendar"></i> 가능한 시간 입력하러 가기</a
+        <div class="icons">
+          <a href="{% url 'meetings:update' id=group.id meetId=meeting.id %}">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <form
+            action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
+            method="post"
           >
+            {% csrf_token %}
+            <button type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </form>
         </div>
-        <div class="meeting-people quest">
-          {{group.name}}의 사람들이 참여하고 있어요 <br />
-          <div class="users">
-            {% for key, val in meetUsersName.items %}
-            <div class="user">
-              <div class="user-img_box">
-                <img class="user-img" src="{{ val.url }}" alt="이미지 없음" />
-              </div>
-              <div class="user-name">{{ key }}</div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="meeting-place quest">
-          <div>{{ meeting.meetPlace }} 에서 만나요!</div>
-        </div>
-
-        <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
-          >약속목록</a
-        >
-        <form
-          action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
-          method="post"
-        >
-          {% csrf_token %}
-          <input class="btn delete-btn" type="submit" value="약속 삭제" />
-        </form>
       </div>
+      <div class="q">약속 시간</div>
+      <div class="meeting-content">
+        <div class="meeting-quest">
+          <div class="meeting-period">
+            {{ meeting.meetStart }} <br />
+            ~ {{ meeting.meetEnd }}
+          </div>
+          <div class="meeting-text">시간 되시나요?</div>
+        </div>
+        <a
+          class="meeting-cal"
+          href="{% url 'meetCalendar:main' meetId=meeting.id %}"
+          ><i class="fa-regular fa-calendar"></i> 시간표 보러가기</a
+        >
+      </div>
+
+      {% if meetUsersName %}
+      <div class="meeting-people quest">
+        <div class="q">누가 참여하고 있는지 볼까요?</div>
+        <div class="users">
+          {% for key, val in meetUsersName.items %}
+          <div class="user">
+            <div class="user-img_box">
+              <img class="user-img" src="{{ val.url }}" alt="이미지 없음" />
+            </div>
+            <div class="user-name">{{ key }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <div class="q">🥲 아직 참여한 사람이 없어요</div>
+      {% endif %}
+
+      <div class="meeting-place quest">
+        <div class="q">📍{{ meeting.meetPlace }} 에서 만나요!</div>
+      </div>
+      <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
+        >약속목록</a
+      >
     </div>
   </body>
 </html>
