@@ -114,7 +114,7 @@
       <div class= inform>
         <input type="submit" value="완료"/>
       </div>
-      <a href="{% url 'logins:changePW' %}">비밀번호변경</a>
+      <a href="{% url 'logins:changePW' user.id %}">비밀번호변경</a>
     </form>
 
     </div>
