@@ -15,7 +15,7 @@ class meetTravelAdmin(admin.ModelAdmin):
 
 @admin.register(meetDayInfo)
 class meetDayInfoAdmin(admin.ModelAdmin):
-    list_display= ('meetId', 'year', 'month', 'day', 'hours')
+    list_display= ('meetId', 'year', 'month', 'day', 'hour')
     pass
 
 @admin.register(meetTravelInfo)

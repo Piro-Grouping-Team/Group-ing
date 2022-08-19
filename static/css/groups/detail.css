@@ -49,6 +49,21 @@
 .group-code {
   padding: 1rem;
   font-size: 0.75rem;
+  cursor: pointer;
+
+  display: flex;
+}
+
+.group-code-modal {
+  padding: 0.5rem 0.7rem 0.4rem;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  border-radius: 0.3rem;
+  background: #c6fc23;
+
+  display: none;
 }
 
 .group-intro {
@@ -63,7 +78,7 @@
 
 .meetings {
   width: 100%;
-  padding: 0 1rem 3rem;
+  padding: 0 1rem 7rem;
 
   display: flex;
   flex-direction: column;

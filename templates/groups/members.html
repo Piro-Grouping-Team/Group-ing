@@ -10,7 +10,7 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
-    <title>GruopCreate</title>
+    <title>GROUPING</title>
   </head>
   <body>
     <div class="container">
@@ -30,7 +30,18 @@
           {% endif %}
         </div>
         {% endfor %}
+        
+        <button class="new-btn">
+        <i class="fa-solid fa-circle-plus fa-lg"></i>
+        </button>
+        <div class="modal">
+          <a class="modal-list" href="{% url 'groups:create' %}"
+          >그룹원 삭제</a>
+          <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
+          >블랙리스트 관리</a>
+      </div>
       </div>
     </div>
   </body>
+  <script src="{% static 'js/groups/members.js' %}"></script>
 </html>

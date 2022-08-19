@@ -10,8 +10,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('groups', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -20,14 +20,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('meetName', models.CharField(max_length=100)),
-                ('meetTime', models.DateField(null=True)),
+                ('meetTime', models.DateField(blank=True, null=True)),
                 ('meetPlace', models.CharField(max_length=100)),
                 ('meetStatus', models.IntegerField(default=0)),
                 ('meetStart', models.DateField()),
                 ('meetEnd', models.DateField()),
                 ('meetVote', models.IntegerField(default=0)),
                 ('meetMembers', models.IntegerField(default=0)),
-                ('meetType', models.CharField(choices=[('today', '당일 약속'), ('travel', '여행 약속')], max_length=20)),
+                ('meetType', models.CharField(choices=[('today', '당일 약속'), ('travel', '여행 약속')], default='today', max_length=20)),
                 ('meetPurpose', models.CharField(max_length=100, null=True)),
                 ('meetGroupId', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='groups.group')),
                 ('meetHead', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

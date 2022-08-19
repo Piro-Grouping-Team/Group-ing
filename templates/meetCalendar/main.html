@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,35 +12,40 @@
     ></script>
     <title>캘린더</title>
   </head>
-  <body onload='getDates({{ meetId }})'>
-    <!-- 캘린더 위쪽 헤더 영억 -->
-    <!-- 2022.07 / 버튼 3개 -->
 
+  <body onload="getDates({{ meetId }})">
     <div class="calendar">
-      <div class="year-month"></div>
-      <div class="content">
-        <!-- 캘린더 메인 영역 -->
+      <div class="navbar">
         <button class="nav-btn go-prev" onclick="prevMonth()">
           <i class="fa-solid fa-circle-left"></i>
         </button>
-        <!-- 요일, 날짜들 -->
-        <div class="main">
-          <!-- 요일들 -->
-          <div class="days">
-            <div class="day">Sun</div>
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-          </div>
-          <!-- 날짜들 (자바스크립트 구현)-->
-          <div class="dates"></div>
-        </div>
+        <div class="year-month"></div>
         <button class="nav-btn go-next" onclick="nextMonth()">
           <i class="fa-solid fa-circle-right"></i>
         </button>
+      </div>
+      <a href="{% url 'meetCalendar:create' meetId=meetId%}"
+        >가능한 시간대 기입하러가기</a
+      >
+      <div class="main">
+        <!-- 요일들 -->
+        <div class="days">
+          <div class="day">S</div>
+          <div class="day">M</div>
+          <div class="day">T</div>
+          <div class="day">W</div>
+          <div class="day">T</div>
+          <div class="day">F</div>
+          <div class="day">S</div>
+        </div>
+        <!-- 날짜들 (자바스크립트 구현)-->
+        <div class="dates"></div>
+      </div>
+      <div class="modal">
+        <div class="times">
+          <div class="am"></div>
+          <div class="pm"></div>
+        </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
