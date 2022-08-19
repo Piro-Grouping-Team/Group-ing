@@ -1,6 +1,10 @@
+import re
 from secrets import choice
+from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, PostImg
+from meetings.models import Meetings
+from .forms import PostForm, PostImgForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -37,8 +41,7 @@ def detail(request, postId):
     #todo 상세페이지 로그인 판별 필요 
     #(비공개인 경우는 로그인한 유저만 접근 가능)
     # 그룹공개 설정 필요 (로그인한 유저가 그룹에 속한 경우)
-
-    post = Post.objects.get(logId=postId)
+    post = Post.objects.get(id=postId)
     context = {
         'post': post,
     }
@@ -46,27 +49,50 @@ def detail(request, postId):
 
 @login_required
 def create(request):
+    imgFormSet = modelformset_factory(PostImg, form=PostImgForm, max_num=3, extra=1)
     if request.method == 'POST':
-        logTitle = request.POST.get('logTitle')
-        logDate = request.POST.get('logDate')
-        logLike = request.POST.get('logLike')
-        # logKeywords = request.POST.get('logKeywords')
-        # logImgs = request.POST.get('logImgs')
-        logContent = request.POST.get('logContent')
-        openRange = request.POST.get('openRange')
-        userId = request.user.id
-        
-        nowpost = Post.objects.create(userId=userId ,logTitle=logTitle, logDate=logDate, logLike=logLike, logContent=logContent, openRange=openRange)
+        postForm = PostForm(request.POST)
+        formset = imgFormSet(request.POST, request.FILES, queryset=PostImg.objects.none())
 
-        return redirect('posts:detail', postId=nowpost.logId)
+        if postForm.is_valid() and formset.is_valid():
+            post = postForm.save(commit=False)
+            post.userId = request.user
+            meetId = request.POST.get('meetId')
+            post.meetId = Meetings.objects.get(id=meetId)
+            places = request.POST.getlist('place[]')
+            post.places = places
+            post.save()
+            for form in formset.cleaned_data:
+                if form:
+                    image = form['image']
+                    photo = PostImg(post=post, image=image)
+                    photo.save()
+            
+            return redirect('posts:detail', postId=post.id)
+        else:
+            print(postForm.errors, formset.errors)
+    else:
+        if request.GET.get('meetId'):
+            meetId = request.GET.get('meetId')
+            meeting = Meetings.objects.get(id=meetId)
+            postForm = PostForm(initial={'logTitle': meeting.meetName, 'userId': request.user})
+            formset = imgFormSet(queryset=PostImg.objects.none())
+            openRanges = Post.openRangeChoices
+            context = {
+                #'keywords': Post.keyWords,
+              'openRanges': openRanges,
+              'postForm': postForm,
+              'formset': formset,
+              'meetId': meetId,
+            }
+            return render(request, 'posts/create.html', context)
+        # else:
+        #     postForm = PostForm()
+        #     formset = imgFormSet(queryset=PostImg.objects.none())
 
-    openRanges = Post.openRangeChoices
-    context = {
-        #'keywords': Post.keyWords,
-        'openRanges': openRanges,
-    }
+    
 
-    return render(request, 'posts/create.html', context)
+    
 
 @login_required
 def update(request, postId):
@@ -74,7 +100,7 @@ def update(request, postId):
     # 로그인 되어있는 유저가 이 게시물의 저자 라면 업데이트 페이지로 이동가능
     # 아니라면 디테일페이지로 강제 이동 (알림 메세지)
 
-    nowpost = Post.objects.get(logId=postId)
+    nowpost = Post.objects.get(id=postId)
     if (nowpost.userId == request.user.id):
         if request.method == 'POST':
             nowpost.logTitle = request.POST.get('logTitle')
@@ -102,7 +128,7 @@ def delete(request, postId):
     # 로그인 되어있으면 삭제 가능
     # 아니라면 디테일페이지로 강제 이동 (알림 메세지)
     if request.method == 'POST':
-        nowpost = Post.objects.get(logId=postId)
+        nowpost = Post.objects.get(id=postId)
         if nowpost.userId == request.user.id:
             nowpost.delete()
             return redirect('posts:main')

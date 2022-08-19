@@ -11,7 +11,15 @@
       enctype="multipart/form-data"
     >
       {% csrf_token %}
+      {% if postForm.logTitle %}
+      <input type='hidden' name='meetId' value='{{ meetId }}' />
+      <postForm>
+        <label for="logTitle">제목</label>
+        <input type="text" name="logTitle" id="logTitle" value='{{postForm.logTitle.initial}}'/>
+      </postForm>
+      {% else %}
       <input type="text" name="logTitle" placeholder="제목" />
+      {% endif %}
       <p>날짜</p>
       <input
         type="date"
@@ -21,13 +29,20 @@
         max="2022-12-31"
       />
       <select name="openRange">
-        {% for open in openRanges %}
-        <option value="{{open.id}}">{{open.name}}</option>
+        {% for key,value in openRanges %}
+        <option value="{{key}}">{{value}}</option>
         {% endfor %}
       </select>
       <p>키워드???</p>
-
-      <input type="file" name="logImgs[]" multiple />이미지
+      <div id='placeList'>
+        <input type="text" name="place[]" placeholder="장소" />
+        <input type="text" name="place[]" placeholder="장소" />
+      </div>
+      <!-- <input type="file" name="logImgs[]" multiple />이미지 -->
+      {{ formset.management_form }}
+      {% for form in formset %}
+        {{ form }}
+      {% endfor %}
 
       <textarea
         name="logContent"

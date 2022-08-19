@@ -68,6 +68,13 @@
           {% csrf_token %}
           <input class="btn delete-btn" type="submit" value="약속 삭제" />
         </form>
+        <form
+          action="{% url 'posts:create' %}"
+          method="get">
+          {% csrf_token %}
+          <input type="hidden" name="meetId" value="{{ meeting.id }}" />
+          <input type='submit' class="btn post-btn" value="후기 작성" />
+        </form>
       </div>
     </div>
   </body>

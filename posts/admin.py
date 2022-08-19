@@ -1,7 +1,12 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, PostImg
 
 # Register your models here.
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'logTitle', 'openRange', 'userId']
+
+
+@admin.register(PostImg)
+class PostImgAdmin(admin.ModelAdmin):
+    list_display = ['logId', 'image']
