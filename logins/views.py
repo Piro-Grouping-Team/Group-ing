@@ -55,7 +55,6 @@ class SignUp(View):
     
     def post(self, request):
         form = forms.SignUpForm(request.POST, request.FILES)
-        print('asdf')
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
@@ -88,51 +87,44 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid')
 
+# def userUpdate(request, id):
+#     if request.method == 'POST':
+#         nickname = request.POST['nickname']
+#         email = request.POST['email']
+#         age = request.POST['age']
+#         # phoneNumber = request.POST['phoneNumber']
+#         address = request.POST['address']
+#         addressDetail = request.POST['addressDetail']
+#         gender = request.POST['gender']
+#         profileImg = request.FILES['profileImg']
+#         intro = request.POST['intro']
+
+#         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, profileImg=profileImg, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
+#         return redirect('logins:mypage')
+#     else:
+#         genders = ['남성', '여성', '선택안함']
+#         user = User.objects.get(id=id)
+#         context={'user':user, 'genders':genders}
+#         return render(request, template_name='logins/update.html', context=context)
+
 def userUpdate(request, id):
     if request.method == 'POST':
-        nickname = request.POST['nickname']
-        email = request.POST['email']
-        age = request.POST['age']
-        # phoneNumber = request.POST['phoneNumber']
-        address = request.POST['address']
-        addressDetail = request.POST['addressDetail']
-        gender = request.POST['gender']
-        # profileImg = request.POST['profileImg']
-        intro = request.POST['intro']
-
-        User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
-        return redirect('logins:mypage')
+        userChangeForm = forms.UpdateUser(request.POST, request.FILES, instance=request.user)
+        print(request.user)
+        if userChangeForm.is_valid():
+            userChangeForm.save()
+            messages.success(request, '회원정보가 수정되었습니다.')
+            return redirect('logins:mypage')
+        print(userChangeForm.errors)
     else:
+        userChangeForm = forms.UpdateUser(instance=request.user)
         genders = ['남성', '여성', '선택안함']
-        user = User.objects.get(id=id)
-        context={'user':user, 'genders':genders}
+        context={'userChangeForm':userChangeForm, 'genders':genders}
         return render(request, template_name='logins/update.html', context=context)
 
 def mypage(request):
     return render(request, 'logins/mypage.html')
 
-def findUsername(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        if User.objects.filter(name = name, email = email).exists():
-            user = User.objects.get(name=name, email=email)
-            randomNumber = random.randint(100000, 999999)
-            message = render_to_string('logins/findUsername_email.html', {
-                'user': user,
-                'randomNumber': randomNumber,
-            })
-            mail_subject = 'Find your Username'
-            to_email = user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-            return redirect('/')
-
-        else:
-            messages.info(request, '일치하는 정보가 없습니다.')
-    return render(request, template_name='logins/findUsername.html')
-
-# @method_decorator(logout_message_required, name='dispatch')
 class FindIdView(View):
     template_name = 'logins/findId.html'
     findId = forms.FindIdForm

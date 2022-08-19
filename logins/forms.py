@@ -1,12 +1,8 @@
-# from dataclasses import field
-from dataclasses import field
-from xml.dom import ValidationErr
 from django import forms
 from .models import User
 # from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth import get_user_model
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
@@ -29,7 +25,6 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            
             'username', 
             'password1', 
             'password2', 
@@ -91,6 +86,34 @@ class SignUpForm(UserCreationForm):
         self.fields["addressDetail"].widget.attrs.update(
             {"name": "address_detail", "placeholder": "상세주소"}
         )
+
+# class CustomUserChangeForm(UserChangeForm):
+#     class Meta:
+#         model = get_user_model()
+#         fields = (
+#             'nickname', 
+#             'email', 
+#             'age', 
+#             'address',
+#             'addressDetail',
+#             'profileImg',
+#             'gender',
+#             'intro',
+#             )
+
+class UpdateUser(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            'nickname', 
+            'email', 
+            'age', 
+            'address',
+            'addressDetail',
+            'profileImg',
+            'gender',
+            'intro',
+            )
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):

@@ -20,8 +20,10 @@
         <div class="btitle">내 정보를 <br />
         수정해요</div>
       </div>
-      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST">
+      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {{userChangeForm.as_p}}
+      {% comment %}
       <p>
         닉네임
         <input
@@ -38,8 +40,6 @@
           value="{{user.username}}"
           placeholder="ID"
         />
-
-        {% comment %}
         비밀번호
         <input
           type="text"
@@ -54,7 +54,6 @@
           value="{{user.password}}"
           placeholder="PASSWORD"
         />
-        {% endcomment %}
 
         이메일
         <input
@@ -109,6 +108,7 @@
           value="{{user.intro}}"
           />
         </p>
+        {% endcomment %}
     
 
       <div class= inform>
