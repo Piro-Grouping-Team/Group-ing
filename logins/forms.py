@@ -1,8 +1,47 @@
 from django import forms
+from django.contrib.auth.hashers import check_password
 from .models import User
-# from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm, SetPasswordForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
+
+# class LoginForm(forms.Form):
+#     username = forms.CharField(
+#         min_length=5,
+#         max_length=20,
+#         label='아이디',
+#         widget=forms.TextInput,
+#         error_messages={
+#             'required': '아이디를 입력해주세요.'
+#         },
+#     )
+#     password = forms.CharField(
+#         min_length=8,
+#         max_length=16,
+#         label='비밀번호',
+#         widget=forms.PasswordInput,
+#         error_messages={
+#             'required': '비밀번호를 입력해주세요.'
+#         },
+#     )
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         username = cleaned_data.get('username')
+#         password = cleaned_data.get('password')
+
+#         if username and password:
+#             try:
+#                 user = User.objects.get(username=username)
+#             except User.DoesNotExist:
+#                 self.add_error('username', '아이디가 존재하지 않습니다.')
+#                 return
+            
+#             if not user.is_active:
+#                 self.add_error('username', '이메일인증을 하지 않았습니다.')
+
+#             elif not check_password(password, user.password):
+#                 self.add_error('password', '비밀번호가 틀렸습니다.')
+
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
