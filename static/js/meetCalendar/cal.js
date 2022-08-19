@@ -193,11 +193,23 @@ const myClick = (...times) => {
   const modal = document.querySelector(".modal");
   modal.style.display = "flex";
 
+  let amTimes = [];
+  let pmTimes = [];
+
   times.forEach((userNum, i) => {
-    times[i] = `<div class="time" style="background: rgba(198, 252, 35, ${
-      userNum / 10
-    }">${i} - ${i + 1}</div>`;
+    if (i >= 0 && i < 12) {
+      amTimes[i] = `<div class="time" style="background: rgba(198, 252, 35, ${
+        userNum / 10
+      }">${i} - ${i + 1}</div>`;
+    } else {
+      pmTimes[
+        i - 12
+      ] = `<div class="time" style="background: rgba(198, 252, 35, ${
+        userNum / 10
+      }">${i} - ${i + 1}</div>`;
+    }
   });
 
-  document.querySelector(".times").innerHTML = times;
+  document.querySelector(".am").innerHTML = amTimes.join("");
+  document.querySelector(".pm").innerHTML = pmTimes.join("");
 };
