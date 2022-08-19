@@ -1,59 +1,131 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/posts/create.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>LogCreate</title>
   </head>
   <body>
-    <form
-      action="{% url 'posts:create' %}"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %}
-      {% if postForm.logTitle %}
-      <input type='hidden' name='meetId' value='{{ meetId }}' />
-      <postForm>
-        <label for="logTitle">제목</label>
-        <input type="text" name="logTitle" id="logTitle" value='{{postForm.logTitle.initial}}'/>
-      </postForm>
-      {% else %}
-      <input type="text" name="logTitle" placeholder="제목" />
-      {% endif %}
-      <p>날짜</p>
-      <input
-        type="date"
-        name="logDate"
-        value="2022-08-23"
-        min="2022-01-01"
-        max="2022-12-31"
-      />
-      <select name="openRange">
-        {% for key,value in openRanges %}
-        <option value="{{key}}">{{value}}</option>
-        {% endfor %}
-      </select>
-      <p>키워드???</p>
-      <div id='placeList'>
-        <input type="text" name="place[]" placeholder="장소" />
-        <input type="text" name="place[]" placeholder="장소" />
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          약속은 <br />
+          어떠셨나요?
+        </div>
       </div>
-      <!-- <input type="file" name="logImgs[]" multiple />이미지 -->
-      {{ formset.management_form }}
-      {% for form in formset %}
-        {{ form }}
-      {% endfor %}
-
-      <textarea
-        name="logContent"
-        rows="30"
-        cols="30"
-        placeholder="본문내용"
-      ></textarea>
-
-      <div>
-        <input type="submit" value="제출" />
+      <div class="create-log">
+        <form
+          action="{% url 'posts:create' %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %} {% if postForm.logTitle %}
+          <input type="hidden" name="meetId" value="{{ meetId }}" />
+          <postForm>
+            <label for="logTitle">제목</label>
+            <input
+              type="text"
+              name="logTitle"
+              id="logTitle"
+              value="{{postForm.logTitle.initial}}"
+            />
+          </postForm>
+          {% else %}
+          <input type="text" name="logTitle" placeholder="제목" />
+          {% endif %}
+          <div class="create-box">
+            <div class="create-quest">제목</div>
+            <input
+              class="log-input"
+              type="text"
+              name="logTitle"
+              placeholder="제목"
+            />
+          </div>
+          <div class="create-box">
+            <div class="create-quest">공개 범위</div>
+            <select class="log-input" name="openRange">
+              {% for key,value in openRanges %}
+              <option value="{{key}}">{{value}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속 날짜</div>
+            <input
+              class="log-input"
+              type="date"
+              name="logDate"
+              value="2022-08-23"
+              min="2022-01-01"
+              max="2022-12-31"
+            />
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속 구성원</div>
+            <!-- 유저 이름 목록 가져오기 -->
+          </div>
+          <div class="create-box">
+            <div class="create-quest">어디 다녀오셨나요?</div>
+            <div class="places">
+              <input
+                class="log-input"
+                name="place[]"
+                type="text"
+                placeholder="장소를 추가해주세요"
+              />
+              <!-- 
+            디폴트(meetPlace) 불러오기
+            + 버튼에 클릭이벤트로 input element 추가 걸어줄 예정
+            장소 여러개 등록
+            --></div>
+            <div class="place-add">
+              <i class="fa-solid fa-circle-plus"></i>
+            </div>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속은 어땠나요?</div>
+            <textarea
+              class="log-textarea"
+              name="logContent"
+              rows="30"
+              cols="10"
+              placeholder="본문내용"
+            ></textarea>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">사진 첨부</div>
+            <!-- <input type="file" name="logImgs[]" multiple />이미지 -->
+            {{ formset.management_form }} {% for form in formset %} {{ form }}
+            {% endfor %}
+          </div>
+          <div class="create-box">
+            <div class="create-quest">동영상 첨부</div>
+          </div>
+          <input class="btn log-btn" type="submit" value="로그 저장" />
+        </form>
       </div>
-    </form>
+    </div>
+    <script>
+      const addBtn = document.querySelector(".place-add");
+      const places = document.querySelector(".places");
+      addBtn.addEventListener("click", () => {
+        let place = document.createElement("input");
+        place.setAttribute("class", "log-input");
+        place.setAttribute("type", "text");
+        place.setAttribute("placeholder", "장소를 추가해주세요");
+        place.setAttribute("name", "place[]");
+        places.appendChild(place);
+      });
+    </script>
   </body>
 </html>
