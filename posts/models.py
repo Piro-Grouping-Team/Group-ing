@@ -14,7 +14,7 @@ class Post(models.Model):
    #userId = ForeignKey(User, on_delete=models.CASCADE)
     logDate = models.DateTimeField()
     logLike = models.IntegerField()
-    logImgs = models.ArrayField(models.ImageField(blank = True,upload_to='images'),null = True)
+    # logImgs = models.ArrayField(models.ImageField(blank = True,upload_to='images'),null = True)
     logTitle = models.CharField(max_length=100)
     logContent = models.TextField()
     openRange = models.IntegerField(choices=openRangeChoices)

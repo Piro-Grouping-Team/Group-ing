@@ -11,19 +11,30 @@
       enctype="multipart/form-data"
     >
       {% csrf_token %}
-      <input type='text' name='logTitle' placeholder='제목'></input>
+      <input type="text" name="logTitle" placeholder="제목" />
       <p>날짜</p>
-      <input type="date" name="logDate" value="2022-08-23" min="2022-01-01" max="2022-12-31">
-      <select name='openRange'>
+      <input
+        type="date"
+        name="logDate"
+        value="2022-08-23"
+        min="2022-01-01"
+        max="2022-12-31"
+      />
+      <select name="openRange">
         {% for open in openRanges %}
-        <option value='{{open.id}}'>{{open.name}}</option>
+        <option value="{{open.id}}">{{open.name}}</option>
         {% endfor %}
       </select>
       <p>키워드???</p>
 
-      <input type='file' name='logImgs[]' multiple>이미지</input>
+      <input type="file" name="logImgs[]" multiple />이미지
 
-      <textarea name='logContent' rows='30' cols='30' placeholder='본문내용'></textarea>
+      <textarea
+        name="logContent"
+        rows="30"
+        cols="30"
+        placeholder="본문내용"
+      ></textarea>
 
       <div>
         <input type="submit" value="제출" />
