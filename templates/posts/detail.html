@@ -20,6 +20,11 @@
         <p>전체공개</p>
         {% endif %}
         <p>작성자</p>
+        <p>장소</p>
+        {% for place in post.places.places %}
+        <p>{{ place }}</p>
+        {% endfor %}
+
         <p>좋아요 {{ post.likeCount }}</p>
         <p>키워드</p>
         {% for keyword in post.keywords %}

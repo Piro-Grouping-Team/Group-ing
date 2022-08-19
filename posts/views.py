@@ -60,12 +60,14 @@ def create(request):
             meetId = request.POST.get('meetId')
             post.meetId = Meetings.objects.get(id=meetId)
             places = request.POST.getlist('place[]')
-            post.places = places
+            placesJson = { 'places': places }
+            post.places = placesJson
+            print(placesJson)
             post.save()
             for form in formset.cleaned_data:
                 if form:
                     image = form['image']
-                    photo = PostImg(post=post, image=image)
+                    photo = PostImg(logId=post, image=image)
                     photo.save()
             
             return redirect('posts:detail', postId=post.id)
@@ -80,15 +82,23 @@ def create(request):
             openRanges = Post.openRangeChoices
             context = {
                 #'keywords': Post.keyWords,
-              'openRanges': openRanges,
-              'postForm': postForm,
-              'formset': formset,
-              'meetId': meetId,
+                'openRanges': openRanges,
+                'postForm': postForm,
+                'formset': formset,
+                'meeting': meeting,
             }
             return render(request, 'posts/create.html', context)
-        # else:
-        #     postForm = PostForm()
-        #     formset = imgFormSet(queryset=PostImg.objects.none())
+        else:
+            postForm = PostForm()
+            formset = imgFormSet(queryset=PostImg.objects.none())
+            openRanges = Post.openRangeChoices
+            context = {
+                #'keywords': Post.keyWords,
+                'openRanges': openRanges,
+                'postForm': postForm,
+                'formset': formset,
+            }
+            return render(request, 'posts/create.html', context)
 
     
 

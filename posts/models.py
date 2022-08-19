@@ -15,7 +15,7 @@ class Post(models.Model):
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     logDate = models.DateTimeField(blank=True, null=True)
     logLike = models.IntegerField(default=0)
-    places = JSONField()
+    places = models.JSONField()
     # logImgs = models.ArrayField(models.ImageField(blank = True,upload_to='images'),null = True)
     logTitle = models.CharField(max_length=100)
     logContent = models.TextField()
@@ -25,7 +25,7 @@ class Post(models.Model):
     #다녀간 장소 추가하기
 
     def __str__(self):
-        return str(self.logId)
+        return str(self.id)
 
     class Meta:
         db_table = 'post'

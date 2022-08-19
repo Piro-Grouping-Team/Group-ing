@@ -29,10 +29,11 @@
           enctype="multipart/form-data"
         >
           {% csrf_token %} {% if postForm.logTitle %}
-          <input type="hidden" name="meetId" value="{{ meetId }}" />
-          <postForm>
-            <label for="logTitle">제목</label>
+          <input type="hidden" name="meetId" value="{{ meeting.id }}" />
+          <postForm class='create-box'>
+            <label class='create-quest' for="logTitle">제목</label>
             <input
+              class='log-input'
               type="text"
               name="logTitle"
               id="logTitle"
@@ -40,8 +41,6 @@
             />
           </postForm>
           {% else %}
-          <input type="text" name="logTitle" placeholder="제목" />
-          {% endif %}
           <div class="create-box">
             <div class="create-quest">제목</div>
             <input
@@ -51,6 +50,7 @@
               placeholder="제목"
             />
           </div>
+          {% endif %}
           <div class="create-box">
             <div class="create-quest">공개 범위</div>
             <select class="log-input" name="openRange">
