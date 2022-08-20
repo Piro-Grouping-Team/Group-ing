@@ -2,6 +2,8 @@ from django.db import models
 from django.forms import JSONField
 from meetings.models import Meetings
 from groups.models import Group, User
+from keywords.models import Keyword
+
 # Create your models here.
 class Post(models.Model):
 
@@ -22,7 +24,7 @@ class Post(models.Model):
     createAt = models.DateTimeField(auto_now_add=True)
     updateAt = models.DateTimeField(auto_now=True)
     meetMembers = models.ManyToManyField(User, related_name='logMeetMembers')
-
+    logKeywords = models.ManyToManyField(Keyword, related_name='logKeywords', blank=True)
 
     def __str__(self):
         return str(self.id)

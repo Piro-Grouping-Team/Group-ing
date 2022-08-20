@@ -11,6 +11,13 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>LogCreate</title>
   </head>
   <body>
@@ -68,6 +75,13 @@
               value="2022-08-23"
               min="2022-01-01"
               max="2022-12-31"
+            />
+          </div>
+          <div class='create-box'>
+            <div class='create-quest'>태그</div>
+            <input
+              name="basic"
+              
             />
           </div>
           <div class="create-box">
@@ -130,6 +144,13 @@
         place.setAttribute("name", "place[]");
         places.appendChild(place);
       });
+    </script>
+    <script>
+      // The DOM element you wish to replace with Tagify
+var input = document.querySelector('input[name=basic]');
+
+// initialize Tagify on the above input node reference
+new Tagify(input)
     </script>
   </body>
 </html>

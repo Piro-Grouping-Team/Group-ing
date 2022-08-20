@@ -1,8 +1,11 @@
 import re
 from secrets import choice
+from this import d
 from tokenize import group
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
+
+from keywords.models import Keyword
 from .models import Post, PostImg
 from meetings.models import Meetings
 from groups.models import Group
@@ -93,6 +96,7 @@ def create(request):
     if request.method == 'POST':
         postForm = PostForm(request.POST)
         # formset = imgFormSet(request.POST, request.FILES, queryset=PostImg.objects.none())
+        postKeywords = request.POST.get('basic')
 
         if postForm.is_valid():
             post = postForm.save(commit=False)
@@ -104,6 +108,11 @@ def create(request):
             post.places = placesJson
             post.groupId = post.meetId.meetGroupId
             post.save()
+            for keyword in eval(postKeywords):
+            
+                key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
+                post.logKeywords.add(key)
+
             meetMembers = post.meetId.meetMembers.all()
             for member in meetMembers:
                 post.meetMembers.add(member)
