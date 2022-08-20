@@ -256,3 +256,22 @@ def changePW(request, id):
         else:
             form = forms.CustomPasswordChangeForm(request.user)
         return render(request, 'logins/changePW.html', {'form': form})
+    
+def usernameCheck(request):
+    req = json.loads(request.body)
+    username = req['username']
+    print(username)
+    if User.objects.filter(username=username).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})
+
+def emailCheck(request):
+    req = json.loads(request.body)
+    email = req['email']
+    if User.objects.filter(email=email).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})

@@ -72,12 +72,12 @@ class SignUpForm(UserCreationForm):
 
         ##아이디
         self.fields["username"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "아이디"}
+            {"class": "form-control", "placeholder": "아이디", "style": "display: none"}
         )
 
         ##이메일
         self.fields["email"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "example@example.com"}
+            {"class": "form-control", "placeholder": "example@example.com", "style": "display: none"}
         )
 
         self.fields["password1"].widget.attrs.update(
@@ -90,7 +90,7 @@ class SignUpForm(UserCreationForm):
         ###self.fields["password2"].help_text = "확인을 위해 이전과 동일한 비밀번호"
 
         self.fields["address"].widget.attrs.update(
-            {"id": "address_kakao", "name" : "address", "placeholder": "주소"}
+            {"id" : "address_kakao", "name" : "address", "placeholder": "주소"}
         )
 
         self.fields["addressDetail"].widget.attrs.update(
