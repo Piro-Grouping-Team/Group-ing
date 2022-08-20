@@ -27,3 +27,8 @@ class meetTravelInfoAdmin(admin.ModelAdmin):
 class meetDayVoteAdmin(admin.ModelAdmin):
     list_display = ('meetId', 'year', 'month', 'day', 'startTime', 'endTime', 'voteUser')
     pass
+
+@admin.register(meetTravelVote)
+class meetTravelVoteAdmin(admin.ModelAdmin):
+    list_display = ('meetId', 'startYear', 'startMonth', 'startDay', 'startTime', 'endYear', 'endMonth', 'endDay', 'endTime', 'voteUser')
+    pass

@@ -3,7 +3,7 @@ from tokenize import group
 from tracemalloc import start
 from django.shortcuts import render, redirect
 
-from meetCalendar.models import meetDayInfo, meetDayVote, meetTravelInfo
+from meetCalendar.models import meetDayInfo, meetDayVote, meetTravelInfo, meetTravelVote
 from meetCalendar.utils import dateContinue
 from .models import Meetings, Group, User
 from .forms import MeetingForm, MeetingUpdateForm
@@ -181,7 +181,7 @@ def dayCandidate(meetId):
 
 def travelCandidate(meetId):
     #1. meetTravelInfo에서 meetId에 해당하는 모든 객체를 블러오기
-    meeting = Meetings.objects.get(meetId)
+    meeting = Meetings.objects.get(id=meetId)
     periodInfo = meetTravelInfo.objects.filter(meetId=meetId)
 
     #2. 불러온 객체를 파이썬 리스트화 하기
@@ -233,7 +233,15 @@ def travelCandidate(meetId):
     candidate = sorted(candidate, key=lambda x:len(x[3]), reverse=True)
     print("최종 후보 : ",candidate[:3])
     
-    return candidate[:3]
+    voteList = []
+    for can in candidate[:3]:
+        mdv = meetTravelVote.objects.create(meetId=meeting,startYear=can[0], startMonth=can[1], startDay=can[2], startTime = 0,endYear=can[4], endMonth=can[5], endDay=can[6], endTime=0) 
+
+        for person in can[3]:
+            mdv.validUser.add(person)
+        voteList.append(mdv)
+   
+    return voteList
 
 
 def changeStatus(request,id, meetId):
@@ -247,6 +255,7 @@ def changeStatus(request,id, meetId):
             dayCandidate(meetId)
             return redirect('meetCalendar:voteDayCandidate', meetId)
         else:
+            travelCandidate(meetId)
             return redirect('meetCalendar:voteTravelCandidate', meetId)
 
     elif meeting.meetStatus == 1 :

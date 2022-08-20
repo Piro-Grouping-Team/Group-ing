@@ -8,7 +8,7 @@ from .utils import dateContinue
 from .forms import meetDayForm, meetTravelForm
 from django.contrib import messages
 
-from meetCalendar.models import meetDay, meetDayVote, meetTravel, meetTravelInfo,meetDayInfo
+from meetCalendar.models import meetDay, meetDayVote, meetTravel, meetTravelInfo,meetDayInfo, meetTravelVote
 from logins.models import User
 from meetings.models import Meetings
 
@@ -201,10 +201,21 @@ def voteDayCandidate(request, meetId):
         return render(request, template_name='meetCalendar/voteDayCandidate.html', context=context)
 
 def voteTravelCandidate(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    voteList = meetTravelVote.objects.filter(meetId=meetId)
     if request.method == 'POST':
-        pass
+        results = request.POST.getlist('selection[]')
+        print(results)
+        for result in results:
+            mdv = meetTravelVote.objects.get(id=int(result)) 
+            mdv.voteUser += 1
+            mdv.save()
+        meeting.meetVote.add(request.user.id)
+        return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
     else:
         context = {
+            'meeting' : meeting,
+            'voteList' : voteList,
         }
 
         return render(request, template_name='meetCalendar/voteTravelCandidate.html', context=context)
