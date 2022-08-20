@@ -11,6 +11,13 @@
       src="https://kit.fontawesome.com/b453b8b1fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
     <title>LogCreate</title>
   </head>
   <body>
@@ -28,8 +35,18 @@
           method="post"
           enctype="multipart/form-data"
         >
-          {% csrf_token %} {% if postForm.logTitle %}
+          {% csrf_token %} {% if postForm.logTitle %} {% if meeting %}
           <input type="hidden" name="meetId" value="{{ meeting.id }}" />
+          {% else %}
+          <div class="create-box">
+            <div class="create-quest">약속 이름</div>
+            <select name="meetId">
+              {% for meet in meetingsId %}
+              <option value="{{ meet.id }}">{{ meet.meetName }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endif %}
           <postForm class="create-box">
             <label class="create-quest" for="logTitle">제목</label>
             <input
@@ -40,16 +57,6 @@
               value="{{postForm.logTitle.initial}}"
             />
           </postForm>
-          {% else %}
-          <div class="create-box">
-            <div class="create-quest">제목</div>
-            <input
-              class="log-input"
-              type="text"
-              name="logTitle"
-              placeholder="제목"
-            />
-          </div>
           {% endif %}
           <div class="create-box">
             <div class="create-quest">공개 범위</div>
@@ -62,6 +69,10 @@
           <div class="create-box">
             <div class="create-quest">약속 날짜</div>
             <!-- 날짜 받아오기 ~ ~ -->
+          </div>
+          <div class="create-box">
+            <div class="create-quest">태그</div>
+            <input name="basic" />
           </div>
           <div class="create-box">
             <div class="create-quest">약속 구성원</div>
@@ -137,6 +148,13 @@
         image.setAttribute("name", "logImgs[]");
         images.appendChild(image);
       });
+    </script>
+    <script>
+      // The DOM element you wish to replace with Tagify
+      var input = document.querySelector("input[name=basic]");
+
+      // initialize Tagify on the above input node reference
+      new Tagify(input);
     </script>
   </body>
 </html>
