@@ -8,7 +8,7 @@ from .utils import dateContinue
 from .forms import meetDayForm, meetTravelForm
 from django.contrib import messages
 
-from meetCalendar.models import meetDay, meetTravel, meetTravelInfo,meetDayInfo
+from meetCalendar.models import meetDay, meetDayVote, meetTravel, meetTravelInfo,meetDayInfo
 from logins.models import User
 from meetings.models import Meetings
 
@@ -55,7 +55,7 @@ def getDayInfo(request):
 @csrf_exempt
 def getTravelInfo(request):
     req = json.loads(request.body)
-    meetId = req['meetId']
+    meetId = req['meetId1']
     year = req['viewYear']
     month = req['viewMonth']
     month +=1
@@ -181,135 +181,30 @@ def savemeetDayInfo(meetDay):
             meetDayInfo.objects.get(meetId=meetId,year=year,month=month,day=day,hour=startTime).meetUsers.add(userId)
         startTime += 1
 
-def dayCandidate(meetId):
-    #1. meetDayInfo에서 meetId에 해당하는 모든 객체를 블러오기
-    periodInfo = meetDayInfo.objects.filter(meetId=meetId)
-
-    #2. 불러온 객체를 파이썬 리스트화 하기
-    periodInfoList = []
-    for period in periodInfo:
-        users = period.meetUsers.all()
-        tmp = []
-        tmpName = []
-        for name in users:
-            tmpName.append(name.username)
-        tmp.append(period.year)
-        tmp.append(period.month)
-        tmp.append(period.day)
-        tmp.append(period.hour)
-        tmp.append(tmpName)
-        periodInfoList.append(tmp)
-    print("정렬 전: ", periodInfoList)
-
-    #3. periodInfoList를 연도, 월, 일 순으로 정렬하기
-    periodInfoList = sorted(periodInfoList)
-    print("정렬 후 : ", periodInfoList)
-
-    #4. Sliding Window를 사용해 인원수와 구성이 동일한 시간대를 별도의 리스트에 저장.
-    start = 0
-    end = 1
-    length = len(periodInfoList)
-    candidate = []
-
-    while start < length:
-        tmp2 = periodInfoList[start]
-        for i in range(4):
-            tmp2.append(periodInfoList[start][i])
-        while end < length:
-            if tmp2[4] == periodInfoList[end][4]:
-                if (tmp2[5] == periodInfoList[end][0]) and (tmp2[6] == periodInfoList[end][1]) and (tmp2[7] == periodInfoList[end][2]):
-                    tmp2[8] = periodInfoList[end][3]
-                    end += 1
-                    continue          
-                else:
-                    break;
-            else:
-                break
-        candidate.append(tmp2)
-        start = end
-        end = start
-    print("후보 : ", candidate)
-
-    #5. 4에서 만든 별도의 리스트를 인원수 기준 내림차 순으로 정렬 후 앞에서부터 3개 슬라이싱치기
-    candidate = sorted(candidate, key=lambda x:len(x[4]), reverse=True)
-    print("최종 후보 : ", candidate[:3])
-    return candidate[:3]
-
-
-
-
-def travelCandidate(meetId):
-    #1. meetTravelInfo에서 meetId에 해당하는 모든 객체를 블러오기
-    periodInfo = meetTravelInfo.objects.filter(meetId=meetId)
-
-    #2. 불러온 객체를 파이썬 리스트화 하기
-    periodInfoList = []
-    for period in periodInfo:
-        users = period.meetUsers.all()
-        tmp = []
-        tmpName = []
-        for name in users:
-            tmpName.append(name.username)
-        tmp.append(period.year)
-        tmp.append(period.month)
-        tmp.append(period.day)
-        tmp.append(tmpName)
-        periodInfoList.append(tmp)
-    print("정렬 전: ", periodInfoList)
-
-    #3. periodInfoList를 연도, 월, 일 순으로 정렬하기
-    periodInfoList = sorted(periodInfoList)
-    print("정렬 후 : ", periodInfoList)
-
-    #4. Sliding Window를 사용해 인원수와 구성이 동일한 시간대를 별도의 리스트에 저장.
-    start = 0
-    end = 1
-    length = len(periodInfoList)
-    candidate = []
-
-    while start < length:
-        tmp2 = periodInfoList[start]
-        for i in range(3):
-            tmp2.append(periodInfoList[start][i])
-        while end < length:
-            if tmp2[3] == periodInfoList[end][3]:
-                if dateContinue(tmp2[4:], periodInfoList[end]):
-                    for j in range(3):
-                        tmp2[j+4] = periodInfoList[end][j]
-                    end += 1
-                    continue
-                else:
-                    break;
-            else:
-                break
-        candidate.append(tmp2)
-        start = end
-        end = start+1
-    print("후보 : ", candidate)
-
-    #5. 4에서 만든 별도의 리스트를 인원수 기준 내림차 순으로 정렬 후 앞에서부터 3개 슬라이싱치기
-    candidate = sorted(candidate, key=lambda x:len(x[3]), reverse=True)
-    print("최종 후보 : ",candidate[:3])
-    return candidate[:3]
-
 def voteDayCandidate(request, meetId):
-    candidate = dayCandidate(meetId)
+    meeting = Meetings.objects.get(id=meetId)
+    voteList = meetDayVote.objects.filter(meetId=meetId)
     if request.method == 'POST':
-        pass
+        results = request.POST.getlist('selection[]')
+        for result in results:
+            mdv = meetDayVote.objects.get(id=int(result)) 
+            mdv.voteUser += 1
+            mdv.save()
+        meeting.meetVote.add(request.user.id)
+        return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
     else:
         context = {
-            'candidate' : candidate
+            'meeting' : meeting,
+            'voteList' : voteList,
         }
 
         return render(request, template_name='meetCalendar/voteDayCandidate.html', context=context)
 
 def voteTravelCandidate(request, meetId):
-    candidate = travelCandidate(meetId)
     if request.method == 'POST':
         pass
     else:
         context = {
-            'candidate' : candidate
         }
 
         return render(request, template_name='meetCalendar/voteTravelCandidate.html', context=context)

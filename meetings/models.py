@@ -17,7 +17,7 @@ class Meetings(models.Model):
     meetStatus = models.IntegerField(default=0) #0:모집중, 1:투표중, 2:픽스
     meetStart = models.DateField()
     meetEnd = models.DateField()
-    meetVote = models.IntegerField(default=0)
+    meetVote = models.ManyToManyField(User, related_name='voteUsers', blank=True)
     meetMembers = models.ManyToManyField(User, related_name='meetMembers')
     meetType = models.CharField(max_length=20, choices=TYPE_CHOICE, default="today")
     meetPurpose = models.CharField(null=True, max_length=100)
