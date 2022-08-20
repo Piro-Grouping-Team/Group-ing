@@ -3,6 +3,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
   </head>
   <body>
     <form
@@ -22,7 +29,18 @@
       </div>
       <p>날짜</p>
       <input type="date" name="logDate" value="{{post.post.logDate}}" min="2022-01-01" max="2022-12-31">
-     
+      <div class='create-box'>
+        <div class='create-quest'>태그</div>
+        <input
+          name="basic"
+          value="{% for tag in myKeywords %}
+          {{tag}}
+          {% if not forloop.last %}
+          ,
+          {% endif %}
+          {% endfor %}"
+        />
+      </div>
       <div class="create-box">
         <div class="create-quest">약속 구성원</div>
         <!-- 유저 이름 목록 가져오기 -->
@@ -69,4 +87,11 @@
       </div>
     </form>
   </body>
+  <script>
+    // The DOM element you wish to replace with Tagify
+var input = document.querySelector('input[name=basic]');
+
+// initialize Tagify on the above input node reference
+new Tagify(input)
+  </script>
 </html>
