@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/posts/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div class="side-img">
@@ -19,7 +23,20 @@
           <div>전체공개</div>
           {% endif %}
           <div class="title">
-            <div class="btitle">{{ post.logTitle }}</div>
+            <div class="btitle">
+              <div>{{ post.logTitle }}</div>
+              <div class="icons">
+                <a href="{% url 'posts:update' post.id %}"
+                  ><i class="fa-solid fa-pen-to-square"></i
+                ></a>
+                <form action="{% url 'posts:delete' post.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
             <div class="stitle">작성자</div>
             {% for keyword in post.keywords %}
             <div>{{ keyword.keyword }}</div>

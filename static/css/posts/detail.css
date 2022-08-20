@@ -8,9 +8,32 @@
   position: relative;
 }
 
+.header {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
 .title {
-  text-align: center;
-  z-index: -1;
+  width: 60vw;
+}
+
+.btitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stitle {
+  align-self: flex-end;
+}
+
+.icons {
+  font-size: 1rem;
+
+  display: flex;
+  gap: 1rem;
 }
 
 .log-contents {
