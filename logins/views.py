@@ -55,6 +55,7 @@ def main(request):
 #         return super().form_valid(form)
 
 def login_view(request):
+    error_messages=''
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -65,12 +66,13 @@ def login_view(request):
                     login(request, user)
                     return redirect('/')
                 else:
-                    messages.info(request, '아이디, 비밀번호를 잘못 입력')
+                    error_messages='아이디, 비밀번호를 잘못 입력하였습니다.'
             else:
-                messages.info(request, '이메일인증이 되지않았습니다.')
+                error_messages='이메일인증이 되지않았습니다.'
         else:
-            messages.info(request, '아이디, 비밀번호를 잘못 입력')
-    return render(request, 'logins/login.html')
+            error_messages='아이디, 비밀번호를 잘못 입력하였습니다.'
+    context = {'error_messages': error_messages}
+    return render(request, 'logins/login.html', context=context)
 
 
 def logout_view(request):
@@ -95,13 +97,13 @@ class SignUp(View):
                 'token': account_activation_token.make_token(user),
             })
             
-            mail_subject = 'Activate your accout'
+            mail_subject = '[Group-ing] 회원가입 인증메일입니다.'
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return redirect('/')
         print(form.errors)
-
+        
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -121,7 +123,7 @@ def activate(request, uidb64, token):
 #         nickname = request.POST['nickname']
 #         email = request.POST['email']
 #         age = request.POST['age']
-#         # phoneNumber = request.POST['phoneNumber']
+#         phoneNumber = request.POST['phoneNumber']
 #         address = request.POST['address']
 #         addressDetail = request.POST['addressDetail']
 #         gender = request.POST['gender']
@@ -131,15 +133,14 @@ def activate(request, uidb64, token):
 #         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, profileImg=profileImg, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
 #         return redirect('logins:mypage')
 #     else:
+#         userChangeForm = forms.UpdateUser(instance=request.user)
 #         genders = ['남성', '여성', '선택안함']
-#         user = User.objects.get(id=id)
-#         context={'user':user, 'genders':genders}
+#         context={'userChangeForm':userChangeForm, 'genders':genders}
 #         return render(request, template_name='logins/update.html', context=context)
 
 def userUpdate(request, id):
     if request.method == 'POST':
         userChangeForm = forms.UpdateUser(request.POST, request.FILES, instance=request.user)
-        print(request.user)
         if userChangeForm.is_valid():
             userChangeForm.save()
             messages.success(request, '회원정보가 수정되었습니다.')

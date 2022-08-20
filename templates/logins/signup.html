@@ -24,7 +24,7 @@
       </div>
 
       <main>
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="signups">
             <div class="signup-form">{{form.as_p}}</div>

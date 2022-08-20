@@ -25,11 +25,9 @@
           {% if user.is_authenticated %} {% comment %} 로그인성공! <br />
           <a href="{% url 'logins:logout' %}">로그아웃</a>
           {% endcomment %} {% else %}
-          {% if messages %}
-            {% for message in messages %}
-              {{message.message}}
-            {% endfor %}
-          {% endif %}
+
+          {{error_messages}}
+
           {% comment %}
           {% if form.username.errors %}
           {% for error in form.username.errors %}
