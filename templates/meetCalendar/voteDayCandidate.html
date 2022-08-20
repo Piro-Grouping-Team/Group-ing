@@ -7,8 +7,29 @@
     <title>Document</title>
 </head>
 <body>
-    {% for time in candidate %}
-        <p>{{time}}</p>
-    {% endfor %}
+    {% if meeting.meetStatus == 1%}
+        <form action="{% url 'meetCalendar:voteDayCandidate' meetId=meeting.id%}" method="POST">
+            {% csrf_token %}
+            {%for user in meeting.meetVote.all%}
+                {% if request.user.id == user.id%}
+                <script>
+                    alert("투표를 완료하셨습니다!")
+                    location.href = "{% url 'meetings:detail' id=meeting.meetGroupId.id meetId=meeting.id%}"
+                </script>
+                {% endif %}
+            {% endfor %}
+            {% for vote in voteList %}
+                <p>{{vote.year}}년 {{vote.month}}월 {{vote.day}}일 {{vote.startTime}}시 부터 {{vote.endTime}}시 {{vote.validUser.all.count}}명 가능</p>
+                <input type="checkbox" name="selection[]" value="{{vote.id}}">
+            {% endfor %}
+
+            <input type="submit">
+        </form>
+    {% else %}
+        <script>
+            alert("투표 기간이 아닙니다!")
+            location.href = "{% url 'meetings:detail' id=meeting.meetGroupId.id meetId=meeting.id%}"
+        </script>
+    {% endif %}
 </body>
 </html>
