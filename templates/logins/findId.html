@@ -6,10 +6,6 @@
 <div>
     {% csrf_token %}
     <div>
-        <label name="label_username" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-        {{ form.username }}
-    </div>
-    <div>
         <label name="label_name" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
         {{ form.name }}
     </div>
@@ -21,32 +17,31 @@
         </small>
     </div>
 
-    <div id="div_find_pw">
-        <button id="find_pw" name="find_pw">비밀번호찾기</button>
+    <div id="div_find_id">
+        <button id="find_id" name="find_id">아이디찾기</button>
     </div>
     <div id="loading"></div>
-    <div id="result_pw"></div>
+    <div id="result_Id"></div>
 </div>
 
 <script>
-    const button = document.querySelector('#find_pw');
+    const button = document.querySelector('#find_id');
     button.addEventListener('click', (event) => {
-        var username = document.querySelector('#pw_form_id').value;
-        var name = document.querySelector('#pw_form_name').value;
-        var email = document.querySelector('#pw_form_email').value;
+        var name = document.querySelector('#id_form_name').value;
+        var email = document.querySelector('#id_form_email').value;
         axios.defaults.xsrfCookieName = 'csrftoken';
         axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
         axios.post(
-            '/logins/find/pw/find',
+            '/logins/find/id/find',
             {
-            'username': username,
             'name': name,
             'email': email,
             },)
+
         .then((response) => {
             alert('회원님의 이메일로 인증코드를 발송하였습니다.');
-            const element = document.querySelector('#result_pw');
+            const element = document.querySelector('#result_Id');
             element.innerHTML = '<hr><div class="row justify-content-md-center"><form class="form-inline" style="margin-bottom:-15px; margin-top:-10px;"><div class="md-form md-outline"><label for="input_auth_num">인증번호 입력 (<span id="timeset"></span>)</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/></div></form>'+
             '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-red" style="opacity: 90%; height:30%; margin-top:10px; font-size: 12px;"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div><hr>'
             
@@ -76,8 +71,9 @@
                       updateTimer();
                   }
             countdown("#timeset", 5, 0);
-            console.log(response)
+
             var email = response.data.result
+            console.log(response.data.username)
             const confirmButton = document.querySelector('#id_auth_confirm');
             confirmButton.addEventListener('click', (event) => {
                 var inputAuthNum = document.querySelector('#input_auth_num').value;
@@ -88,7 +84,7 @@
                         'inputAuthNum': inputAuthNum,
                     },)
                     .then((response) => {
-                        location.href = "{% url 'logins:findPwReset' %}";
+                        location.href = "{% url 'logins:showId' %}";
                     })
                     .catch((response) => {
                         if(document.querySelector('#input_auth_num').value == ''){
@@ -100,8 +96,8 @@
             })
         })
         .catch((response) => {
-            if (username == '' || name == '' || email == ''){
-                alert('아이디, 이름, 이메일을 모두 입력해주세요.');
+            if (name == '' || email == ''){
+                alert('이름, 이메일을 모두 입력해주세요.');
             }else{
                 alert('입력하신 정보가 일치하지 않거나 존재하지 않습니다.');
             }
