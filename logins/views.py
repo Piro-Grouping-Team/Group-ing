@@ -74,7 +74,6 @@ def login_view(request):
     context = {'error_messages': error_messages}
     return render(request, 'logins/login.html', context=context)
 
-
 def logout_view(request):
     logout(request)
     return redirect('/')
@@ -103,7 +102,26 @@ class SignUp(View):
             email.send()
             return redirect('/')
         print(form.errors)
-        
+
+def usernameCheck(request):
+    req = json.loads(request.body)
+    username = req['username']
+    print(username)
+    if User.objects.filter(username=username).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})
+
+def emailCheck(request):
+    req = json.loads(request.body)
+    email = req['email']
+    if User.objects.filter(email=email).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})
+
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))

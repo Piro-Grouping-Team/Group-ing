@@ -101,12 +101,17 @@ class SignUpForm(UserCreationForm):
 
         ##아이디
         self.fields["username"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "아이디"}
+            {"class": "form-control", "placeholder": "아이디", "style": 'display: none'}
+            
         )
 
         ##이메일
         self.fields["email"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "example@example.com"}
+            {"class": "form-control", "placeholder": "example@example.com", "style": 'display: none'}
+        )
+
+        self.fields["phoneNumber"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "전화번호"}
         )
 
         self.fields["password1"].widget.attrs.update(
