@@ -1,0 +1,39 @@
+@import url(../init.css);
+
+.side-img {
+  background-image: url("/static/img/side.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.title {
+  text-align: center;
+  z-index: -1;
+}
+
+.log-contents {
+  padding: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.log-content {
+  display: flex;
+
+  font-size: 0.75rem;
+}
+
+.log-label {
+  width: 10rem;
+  font-weight: bold;
+}
+
+.log-places {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
