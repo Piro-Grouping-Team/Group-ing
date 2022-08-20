@@ -60,6 +60,11 @@ class SignUpForm(UserCreationForm):
             {"class": "form-control", "placeholder": "닉네임"}
         )
         
+        ##전화번호
+        self.fields["phoneNumber"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "+821012345678"}
+        )
+        
         ##나이
         self.fields["age"].widget.attrs.update(
             {"class": "form-control", "placeholder": "나이"}

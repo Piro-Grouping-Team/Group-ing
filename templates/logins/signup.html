@@ -17,6 +17,7 @@
     <div class="gradient2"></div>
     <div class="container">
       <div class="title">
+        <img class="eyes" src="{% static 'img/eyes.png' %}" alt="" />
         <div class="btitle">
           같이 <br />
           그룹핑 해요!
@@ -26,51 +27,51 @@
         {% csrf_token %}
         <div class="signup">
           <div class="create-box">
-            <div class="create-quest">아이디</div>
+            <div id="user_id" class="create-quest">아이디</div>
             {{ form.username }}
           </div>
           <div class="create-box">
-            <div class="create-quest">비밀번호</div>
+            <div id="user_password1" class="create-quest">비밀번호</div>
             {{ form.password1 }}
           </div>
           <div class="create-box">
-            <div class="create-quest">비밀번호 확인</div>
+            <div id="user_password2" class="create-quest">비밀번호 확인</div>
             {{ form.password2 }}
           </div>
           <div class="create-box">
-            <div class="create-quest">이름</div>
+            <div id="user_name" class="create-quest">이름</div>
             {{ form.name }}
           </div>
           <div class="create-box">
-            <div class="create-quest">닉네임</div>
+            <div id="user_nickname" class="create-quest">닉네임</div>
             {{ form.nickname }}
           </div>
           <div class="create-box">
-            <div class="create-quest">이메일</div>
+            <div id="user_email" class="create-quest">이메일</div>
             {{ form.email }}
           </div>
           <div class="create-box">
-            <div class="create-quest">전화번호</div>
+            <div id="user_phonenum" class="create-quest">전화번호</div>
             {{ form.phoneNumber }}
           </div>
           <div class="create-box">
-            <div class="create-quest">나이</div>
+            <div id="user_age" class="create-quest">나이</div>
             {{ form.age }}
           </div>
           <div class="create-box">
-            <div class="create-quest">주소</div>
+            <div id="user_address1" class="create-quest">주소</div>
             {{ form.address }}
           </div>
           <div class="create-box">
-            <div class="create-quest">상세주소</div>
+            <div id="user_address2" class="create-quest">상세주소</div>
             {{ form.addressDetail }}
           </div>
           <div class="create-box">
-            <div class="create-quest">성별</div>
+            <div id="user_gender" class="create-quest">성별</div>
             {{ form.gender }}
           </div>
           <div class="create-box">
-            <div class="create-quest">프로필 이미지</div>
+            <div id="user_img" class="create-quest">프로필 이미지</div>
             {{ form.profileImg }}
             <label for="id_profileImg"
               ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
@@ -79,13 +80,15 @@
         </div>
         <input
           class="btn"
-          type="submit"
+          type="button"
           value="그룹핑에 오신 걸 환영합니다!"
           class="submit"
+          onclick="form_check()"
         />
       </form>
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="{% static 'js/logins/signup.js' %}"></script>
     <script>
       window.onload = function () {
         document
