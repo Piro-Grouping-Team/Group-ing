@@ -1,9 +1,11 @@
 import re
 from secrets import choice
+from tokenize import group
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
 from .models import Post, PostImg
 from meetings.models import Meetings
+from groups.models import Group
 from .forms import PostForm, PostImgForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -14,24 +16,54 @@ def main(request):
     #    search = request.GET.get('search')
     #    posts = Post.objects.filter(logKeywords__contains=search)
 
-    if request.GET.get('openRange'):
-        # todo 공개범위 에따른 로그인 판별 필요
-        # ?????????????????????????
-        openRange = request.GET.get('openRange')
-        if openRange == '0':
-            posts = Post.objects.filter(openRange=0, userId = request.user.id)
-        elif openRange == '1':
-            #???????
+    # if request.GET.get('openRange'):
+    #     # todo 공개범위 에따른 로그인 판별 필요
+    #     # ?????????????????????????
+    #     openRange = request.GET.get('openRange')
+    #     if openRange == '0':
+    #         posts = Post.objects.filter(openRange=0, userId = request.user.id)
+    #     elif openRange == '1':
+    #         #???????
             
-            posts = Post.objects.filter(openRange=1)
-        else:
-            posts = Post.objects.filter(openRange=2)
-    else:
-        posts = Post.objects.filter(openRange=2)
-
+    #         posts = Post.objects.filter(openRange=1)
+    #     else:
+    #         posts = Post.objects.filter(openRange=2)
+    # else:
+    #     posts = Post.objects.filter(openRange=2)
     
+    if request.GET.get('openRange'):
+        openRange = request.GET.get('openRange')
+        if openRange == '비공개':
+            posts = Post.objects.filter(openRange='비공개', userId = request.user)
+        elif openRange == '그룹공개':
+            user = request.user
+            myGroups = user.members_group.all()
+            print(myGroups)
+
+            # myMeetings = []
+            # for myGroup in myGroups:
+            #     meeting = Meetings.objects.filter(meetGroupId=myGroup)
+            #     myMeetings.append(meeting)
+            # print(myMeetings)
+            # 게시물 = 약속아이디 -> 그룹아이디 -> 그룹의 멤버에서 -> 내가속한지 확인
+            
+            posts = Post.objects.filter(openRange='그룹공개', groupId__in=myGroups)
+            print(posts)
+        else:
+            #전체공개
+            posts = Post.objects.filter(openRange='전체공개')
+    else:
+        posts = Post.objects.filter(openRange='전체공개')
+
+    nowPost = []
+    for post in posts:
+        tmp = {}
+        tmp['post'] = post
+        tmp['postImgs'] = PostImg.objects.filter(logId=post.id)
+        nowPost.append(tmp)
+
     context = {
-        'posts': posts,
+        'posts': nowPost,
     }
 
     return render(request, 'posts/main.html', context)
@@ -42,19 +74,27 @@ def detail(request, postId):
     #(비공개인 경우는 로그인한 유저만 접근 가능)
     # 그룹공개 설정 필요 (로그인한 유저가 그룹에 속한 경우)
     post = Post.objects.get(id=postId)
+    postImgs = PostImg.objects.filter(logId=postId)
+    meetMembers = post.meetMembers.all()
+    myMeetMembers = []
+    for meetMember in meetMembers:
+        myMeetMembers.append(meetMember.nickname)
+
     context = {
         'post': post,
+        'postImgs': postImgs,
+        'myMeetMembers': myMeetMembers,
     }
     return render(request, 'posts/detail.html', context)
 
 @login_required
 def create(request):
-    imgFormSet = modelformset_factory(PostImg, form=PostImgForm, max_num=3, extra=1)
+    # imgFormSet = modelformset_factory(PostImg, form=PostImgForm, max_num=3, extra=1)
     if request.method == 'POST':
         postForm = PostForm(request.POST)
-        formset = imgFormSet(request.POST, request.FILES, queryset=PostImg.objects.none())
+        # formset = imgFormSet(request.POST, request.FILES, queryset=PostImg.objects.none())
 
-        if postForm.is_valid() and formset.is_valid():
+        if postForm.is_valid():
             post = postForm.save(commit=False)
             post.userId = request.user
             meetId = request.POST.get('meetId')
@@ -62,41 +102,55 @@ def create(request):
             places = request.POST.getlist('place[]')
             placesJson = { 'places': places }
             post.places = placesJson
-            print(placesJson)
+            post.groupId = post.meetId.meetGroupId
             post.save()
-            for form in formset.cleaned_data:
-                if form:
-                    image = form['image']
-                    photo = PostImg(logId=post, image=image)
-                    photo.save()
+            meetMembers = post.meetId.meetMembers.all()
+            for member in meetMembers:
+                post.meetMembers.add(member)
+          
+            for img in request.FILES.getlist('logImgs[]'):
+                postImg = PostImg(logId=post, image=img)
+                postImg.save()
+            # for form in formset.cleaned_data:
+            #     if form:
+            #         image = form['image']
+            #         photo = PostImg(logId=post, image=image)
+            #         photo.save()
             
             return redirect('posts:detail', postId=post.id)
         else:
-            print(postForm.errors, formset.errors)
+            print(postForm.errors)
     else:
         if request.GET.get('meetId'):
             meetId = request.GET.get('meetId')
             meeting = Meetings.objects.get(id=meetId)
             postForm = PostForm(initial={'logTitle': meeting.meetName, 'userId': request.user})
-            formset = imgFormSet(queryset=PostImg.objects.none())
+            # formset = imgFormSet(queryset=PostImg.objects.none())
             openRanges = Post.openRangeChoices
+            meetUsers = meeting.meetMembers.all()
+            myMeetMembers = []
+            for user in meetUsers:
+                myMeetMembers.append(user.nickname)
+
+            
             context = {
                 #'keywords': Post.keyWords,
                 'openRanges': openRanges,
                 'postForm': postForm,
-                'formset': formset,
+                # 'formset': formset,
                 'meeting': meeting,
+                'myMeetMembers': myMeetMembers,
             }
             return render(request, 'posts/create.html', context)
         else:
             postForm = PostForm()
-            formset = imgFormSet(queryset=PostImg.objects.none())
+            # formset = imgFormSet(queryset=PostImg.objects.none())
             openRanges = Post.openRangeChoices
             context = {
                 #'keywords': Post.keyWords,
                 'openRanges': openRanges,
                 'postForm': postForm,
-                'formset': formset,
+                # 'formset': formset,
             }
             return render(request, 'posts/create.html', context)
 
@@ -111,24 +165,41 @@ def update(request, postId):
     # 아니라면 디테일페이지로 강제 이동 (알림 메세지)
 
     nowpost = Post.objects.get(id=postId)
-    if (nowpost.userId == request.user.id):
+    if (nowpost.userId == request.user):
         if request.method == 'POST':
-            nowpost.logTitle = request.POST.get('logTitle')
-            nowpost.logDate = request.POST.get('logDate')
-            nowpost.logLike = request.POST.get('logLike')
-            nowpost.logKeywords = request.POST.get('logKeywords')
-            nowpost.logImgs = request.POST.get('logImgs')
-            nowpost.logContent = request.POST.get('logContent')
-            nowpost.openRange = request.POST.get('openRange')
-            nowpost.save()
-            return redirect('posts:detail', postId=postId)
-        else:
-            openRanges = Post.openRangeChoices
-            context = {
-                'post': nowpost,
+            postForm = PostForm(request.POST, instance=nowpost)
+            if postForm.is_valid():
+                #nowpost.logDate = request.POST.get('logDate')
+                #nowpost.logKeywords = request.POST.get('logKeywords')
+                places = request.POST.getlist('place[]')
+                placesJson = { 'places': places }
+                nowpost.places = placesJson
+
+                for img in request.FILES.getlist('logImgs[]'):
+                    postImg = PostImg(logId=nowpost, image=img)
+                    postImg.save()
+                nowpost.save()
+                return redirect('posts:detail', postId=postId)
+            else:
+                print(postForm.errors)
+        
+        nowpostImgs = PostImg.objects.filter(logId=nowpost)
+        meetMembers = nowpost.meetMembers.all()
+        myMeetMembers = []
+        for user in meetMembers:
+            myMeetMembers.append(user.nickname)
+        openRanges = Post.openRangeChoices
+
+        meeting = {
+            'post': nowpost,
+            'nowpostImgs': nowpostImgs,
+        }
+        context = {
+                'post': meeting,
                 'openRanges': openRanges,
-           }
-            return render(request, 'posts/update.html', context)
+                'myMeetMembers': myMeetMembers,
+        }
+        return render(request, 'posts/update.html', context)
     else:
         return redirect('posts:detail', postId=postId)
 
@@ -139,7 +210,7 @@ def delete(request, postId):
     # 아니라면 디테일페이지로 강제 이동 (알림 메세지)
     if request.method == 'POST':
         nowpost = Post.objects.get(id=postId)
-        if nowpost.userId == request.user.id:
+        if nowpost.userId == request.user:
             nowpost.delete()
             return redirect('posts:main')
         else:

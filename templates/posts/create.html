@@ -39,7 +39,7 @@
               id="logTitle"
               value="{{postForm.logTitle.initial}}"
             />
-          </postForm>
+          </postForm>          
           {% else %}
           <div class="create-box">
             <div class="create-quest">제목</div>
@@ -73,6 +73,11 @@
           <div class="create-box">
             <div class="create-quest">약속 구성원</div>
             <!-- 유저 이름 목록 가져오기 -->
+            {% if postForm.logTitle %}
+              {% for member in myMeetMembers %}
+                <div class='user-name'>{{member}}</div>
+              {% endfor %}
+            {% endif %}
           </div>
           <div class="create-box">
             <div class="create-quest">어디 다녀오셨나요?</div>
@@ -104,9 +109,8 @@
           </div>
           <div class="create-box">
             <div class="create-quest">사진 첨부</div>
-            <!-- <input type="file" name="logImgs[]" multiple />이미지 -->
-            {{ formset.management_form }} {% for form in formset %} {{ form }}
-            {% endfor %}
+            <input type="file" name="logImgs[]"  />
+            <input type="file" name="logImgs[]"  />
           </div>
           <div class="create-box">
             <div class="create-quest">동영상 첨부</div>

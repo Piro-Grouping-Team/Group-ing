@@ -6,26 +6,62 @@
   </head>
   <body>
     <form
-      action="{% url 'posts:update' post.logId %}"
+      action="{% url 'posts:update' post.post.id %}"
       method="post"
       enctype="multipart/form-data"
     >
       {% csrf_token %}
-      <input type='text' name='logTitle' placeholder='제목' value='{{post.logTitle}}'></input>
+      <input type='text' name='logTitle' placeholder='제목' value='{{post.post.logTitle}}'></input>
+      <div class="create-box">
+        <div class="create-quest">공개 범위</div>
+        <select class="log-input" name="openRange">
+          {% for key,value in openRanges %}
+          <option value="{{key}}" {% if key == post.post.openRange %} selected {% endif %}>{{value}}</option>
+          {% endfor %}
+        </select>
+      </div>
       <p>날짜</p>
-      <input type="date" name="logDate" value="{{post.logDate}}" min="2022-01-01" max="2022-12-31">
-      <select name='openRange'> 
-        {% for open in openRanges %}
-        <option value='{{open.id}}' {% if open.id == post.openRange %} selected {% endif %}>{{open.name}}</option>
+      <input type="date" name="logDate" value="{{post.post.logDate}}" min="2022-01-01" max="2022-12-31">
+     
+      <div class="create-box">
+        <div class="create-quest">약속 구성원</div>
+        <!-- 유저 이름 목록 가져오기 -->
+        {% for member in myMeetMembers %}
+          <div class='user-name'>{{member}}</div>
         {% endfor %}
-      </select>
+      </div>
+      <div class="create-box">
+        <div class="create-quest">어디 다녀오셨나요?</div>
+        <div class="places">
+          {% for place in post.post.places.places %}
+          <input
+            class="log-input"
+            name="place[]"
+            type="text"
+            value='{{place}}'
+            placeholder="장소를 추가해주세요"
+          />
+          {% endfor %}
+          <!-- 
+        디폴트(meetPlace) 불러오기
+        + 버튼에 클릭이벤트로 input element 추가 걸어줄 예정
+        장소 여러개 등록
+        --></div>
+        <div class="place-add">
+          <i class="fa-solid fa-circle-plus"></i>
+        </div>
+      </div>
       <p>키워드???</p>
 
-      <p>이미지 {{ post.image.url }}</p>
-      <input type='file' name='logImgs[]' value='{{ post.logImgs }}' multiple ></input>
+      <p>이미지</p>
+      {% for image in post.nowpostImgs %}
+      <img src='{{image.image.url}}' width='100px' height='100px'>
+      {% endfor %}
+      <!-- 여기 버튼추가  -->
+      <input type='file' name='logImgs[]' value='{{ post.nowpostImgs.image }}'></input>
 
       <textarea name='logContent' rows='30' cols='30' placeholder='본문내용' >
-        {{post.logContent}}
+        {{post.post.logContent}}
       </textarea>
 
       <div>

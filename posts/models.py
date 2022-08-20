@@ -1,7 +1,7 @@
 from django.db import models
 from django.forms import JSONField
 from meetings.models import Meetings
-from groups.models import User
+from groups.models import Group, User
 # Create your models here.
 class Post(models.Model):
 
@@ -10,19 +10,19 @@ class Post(models.Model):
         ('그룹공개', '그룹공개'),
         ('전체공개', '전체공개'),
     )
-
+    groupId = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='groupId')
     meetId = models.ForeignKey(Meetings, on_delete=models.CASCADE)
     userId = models.ForeignKey(User, on_delete=models.CASCADE)
     logDate = models.DateTimeField(blank=True, null=True)
     logLike = models.IntegerField(default=0)
     places = models.JSONField()
-    # logImgs = models.ArrayField(models.ImageField(blank = True,upload_to='images'),null = True)
     logTitle = models.CharField(max_length=100)
     logContent = models.TextField()
     openRange = models.CharField(choices=openRangeChoices, max_length=10)
     createAt = models.DateTimeField(auto_now_add=True)
     updateAt = models.DateTimeField(auto_now=True)
-    #다녀간 장소 추가하기
+    meetMembers = models.ManyToManyField(User, related_name='logMeetMembers')
+
 
     def __str__(self):
         return str(self.id)
@@ -36,5 +36,5 @@ class PostImg(models.Model):
     image = models.ImageField(blank=True, upload_to='images')
 
     def __str__(self):
-        return str(self.imgId)
+        return str(self.logId)
  
