@@ -78,7 +78,7 @@ def detail(request, postId):
     meetMembers = post.meetMembers.all()
     myMeetMembers = []
     for meetMember in meetMembers:
-        myMeetMembers.append(meetMember.nickname)
+        myMeetMembers.append(meetMember.name)
 
     context = {
         'post': post,
@@ -130,7 +130,7 @@ def create(request):
             meetUsers = meeting.meetMembers.all()
             myMeetMembers = []
             for user in meetUsers:
-                myMeetMembers.append(user.nickname)
+                myMeetMembers.append(user.name)
 
             
             context = {
@@ -187,7 +187,7 @@ def update(request, postId):
         meetMembers = nowpost.meetMembers.all()
         myMeetMembers = []
         for user in meetMembers:
-            myMeetMembers.append(user.nickname)
+            myMeetMembers.append(user.name)
         openRanges = Post.openRangeChoices
 
         meeting = {

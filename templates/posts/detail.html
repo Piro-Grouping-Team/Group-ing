@@ -74,9 +74,12 @@
           <img src="{{ img.image.url }}" alt="{{ img.image.imgName }}" />
           {% endfor %} {% endif %}
 
-          <div class="log-content">생성날짜{{ post.createdAt }}</div>
-          <div class="log-content">업데이트 날짜{{ post.updatedAt }}</div>
+          <footer>
+            <div class="log-content">생성날짜{{ post.createdAt }}</div>
+            <div class="log-content">업데이트 날짜{{ post.updatedAt }}</div>
+          </footer>
         </div>
+        <a href="{% url 'posts:main' %}" class="btn">목록으로</a>
       </div>
     </div>
   </body>

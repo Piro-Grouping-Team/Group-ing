@@ -60,3 +60,18 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+footer {
+  padding: 3rem 0 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn {
+  width: 5rem;
+
+  border: 2px solid black;
+  background-color: #c6fc23;
+}

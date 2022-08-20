@@ -1,41 +1,50 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/posts/main.css' %}" />
     <script
       src="https://kit.fontawesome.com/c1be11131c.js"
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
-    
-    <form action='{% url 'posts:main' %}' method='get' >
-      {% csrf_token %}
-      <button type='submit' name='openRange' value='비공개'>비공개</button>
-      <button type='submit' name='openRange' value='그룹공개'>그룹공개</button>
-      <button type='submit' name='openRange' value='전체공개'>전체</button>
-    </form>
-    <div class="postContainer">
-      {% for post in posts %}
-      <div class="container">
-        <h1>제목{{ post.post.logTitle }}</h1>
-        <p>작성자</p>
-        <p>좋아요 {{ post.post.likeCount }}</p>
-        <p>키워드</p>
-        {% for keyword in post.post.keywords %}
-        <p>{{ keyword.keyword }}</p>
-        {% endfor %}
-        <p>이미지</p>
-        <div class="thumbNail">
-          {% if post.postImgs %}
-            <img src="{{ post.postImgs.0.image.url }}" alt="{{ post.postImgs.0.image.imgName }}" />
-          {% else %}
-          <i class="fa-duotone fa-camera-retro" style="color: #1c7ed6"></i>
-          {% endif %}
+    <div class="container">
+      <form action="{% url 'posts:main' %}" method="get">
+        {% csrf_token %}
+        <button type="submit" name="openRange" value="비공개">비공개</button>
+        <button type="submit" name="openRange" value="그룹공개">
+          그룹공개
+        </button>
+        <button type="submit" name="openRange" value="전체공개">전체</button>
+      </form>
+      <div class="postContainer">
+        {% for post in posts %}
+        <div class="container">
+          <h1>제목{{ post.post.logTitle }}</h1>
+          <p>작성자</p>
+          <p>좋아요 {{ post.post.likeCount }}</p>
+          <p>키워드</p>
+          {% for keyword in post.post.keywords %}
+          <p>{{ keyword.keyword }}</p>
+          {% endfor %}
+          <p>이미지</p>
+          <div class="thumbNail">
+            {% if post.postImgs %}
+            <img
+              src="{{ post.postImgs.0.image.url }}"
+              alt="{{ post.postImgs.0.image.imgName }}"
+            />
+            {% else %}
+            <i class="fa-duotone fa-camera-retro" style="color: #1c7ed6"></i>
+            {% endif %}
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </body>
 </html>
