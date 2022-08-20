@@ -20,6 +20,8 @@
           {% elif meeting.meetStatus == 1 %}
           <div class="meeting-status">투표중</div>
           {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">조율중</div>
+          {% elif meeting.meetStatus == 3%}
           <div class="meeting-status">모집완료</div>
           <p>{{meeting.meetStartTime}}</p>
           <p>{{meeting.meetEndTime}}</p>
@@ -56,7 +58,7 @@
           href="{% url 'meetCalendar:main' meetId=meeting.id %}"
           ><i class="fa-regular fa-calendar"></i> 시간표 보러가기</a
         >
-          {% if request.user.username == group.head %}
+          {% if request.user.username == meetings.meetHead %}
             <form action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
               {%csrf_token%}
               <button>투표 시작하기</button>
@@ -83,7 +85,22 @@
             </form>
           {%endif%}
         {% elif meeting.meetStatus == 2%}
-          <a
+            {% if meeting.meetType == 'today' %}
+              <a
+              class="meeting-cal"
+              href="{% url 'meetCalendar:voteDayCandidate' meetId=meeting.id %}"
+              ><i class="fa-regular fa-calendar"></i>투표 결과</a
+              >
+            {% else %}
+              <a
+                class="meeting-cal"
+                href="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id %}"
+                ><i class="fa-regular fa-calendar"></i>투표 결과</a
+              >
+            {% endif %}
+          
+        {% elif meeting.meetStatus == 3%}
+        <a
           class="meeting-cal"
           href="{% url 'meetCalendar:main' meetId=meeting.id %}"
           ><i class="fa-regular fa-calendar"></i>약속로그</a

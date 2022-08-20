@@ -259,17 +259,6 @@ def changeStatus(request,id, meetId):
 
     elif meeting.meetStatus == 1 :
         meeting.meetStatus = 2
-
-        if meeting.meetType == 'today':
-            fixedTime = meetDayVote.objects.filter(meetId=meetId).latest('voteUser')
-            meeting.meetStartTime = datetime.datetime(fixedTime.year, fixedTime.month, fixedTime.day, fixedTime.startTime)
-            meeting.meetEndTime = datetime.datetime(fixedTime.year, fixedTime.month, fixedTime.day, fixedTime.endTime)
-        else:
-            fixedTime = meetTravelVote.objects.filter(meetId=meetId).latest('voteUser')
-            meeting.meetStartTime = datetime.datetime(fixedTime.startYear, fixedTime.startMonth, fixedTime.startDay)
-            meeting.meetEndTime = datetime.datetime(fixedTime.endYear, fixedTime.endMonth, fixedTime.endDay)
-
-
         meeting.save()
 
         return redirect('meetings:detail', meeting.meetGroupId.id, meetId)
