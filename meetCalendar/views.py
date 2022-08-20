@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
 
+from meetings.views import changeStatus
+
 from .utils import dateContinue
 from .forms import meetDayForm, meetTravelForm
 from django.contrib import messages
@@ -191,6 +193,8 @@ def voteDayCandidate(request, meetId):
             mdv.voteUser += 1
             mdv.save()
         meeting.meetVote.add(request.user.id)
+        if meeting.meetVote.all().count() == meeting.meetMembers.all().count():
+            changeStatus(request, meeting.meetGroupId.id, meetId)
         return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
     else:
         context = {
