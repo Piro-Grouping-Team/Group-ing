@@ -1,133 +1,126 @@
 @import url(../init.css);
 
-.profile{
-    width: 100%;
-    position: relative;
+.mypage_img {
+  background: url("/static/img/mypage.png");
+  background-repeat: no-repeat;
+  width: 100%;
+  vertical-align: middle;
 }
 
-.mypage_img{
-    width: 100%;
-    vertical-align: middle;
+.profile {
+  height: 35vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.nickname_info{
-    position: absolute;
-    top: 50%;
-    left: 36%;
-    font-size: 25px;
-    text-align: center;
-    font-weight: bold;
+.profile-info {
+  display: flex;
 }
 
-.info_update_text::before{
-    position: absolute;
-    top: 50%;
-    left: 66%;
-    font-family: "FontAwesome"; content: "\f303"; 
+.nickname_info {
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: bold;
 }
 
-
-.motto_place{
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
+.info_update_text::before {
+  font-family: "FontAwesome";
+  content: "\f303";
 }
 
-.motto{
-    font-size: 20px;
-    font-weight: bold;
-    
+.motto_place {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
 }
 
-.my_info{
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    margin-left: 30px;
-    width: 330px;
-    height: 450px;
+.motto {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-
-.age_info{
-    display: flex;
-    flex-direction: column;
-    
+.my_info {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  margin-left: 30px;
+  width: 330px;
+  height: 450px;
 }
 
-.age{
-    margin-top: 10px;
-    font-size: 17px;
+.age_info {
+  display: flex;
+  flex-direction: column;
 }
 
-
-.num_info{
-    display: flex;
-    flex-direction: column;
+.age {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-.num{
-    margin-top: 10px;
-    font-size: 17px;
+.num_info {
+  display: flex;
+  flex-direction: column;
 }
 
-.email_info{
-    display: flex;
-    flex-direction: column;
+.num {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-.email{
-    margin-top: 10px;
-    font-size: 17px;
+.email_info {
+  display: flex;
+  flex-direction: column;
 }
 
-.address_info{
-    display: flex;
-    flex-direction: column;
+.email {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-.address1{
-    margin-top: 10px;
-    font-size: 17px;
+.address_info {
+  display: flex;
+  flex-direction: column;
 }
 
-.address2{
-    margin-top: 10px;
-    font-size: 17px;
+.address1 {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-.gen_info{
-    display: flex;
-    flex-direction: column;
+.address2 {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-.gender{
-    margin-top: 10px;
-    font-size: 17px;
+.gen_info {
+  display: flex;
+  flex-direction: column;
 }
 
-
-
-.my_group_place{
-    display: flex;
-    justify-content: center;
+.gender {
+  margin-top: 10px;
+  font-size: 17px;
 }
 
-
-.my_group{
-    color: black;
-    background-color: transparent;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 10px 20px 10px 20px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 50px;
-    width: 250px;
-    height: 40px;
+.my_group_place {
+  display: flex;
+  justify-content: center;
 }
 
+.my_group {
+  color: black;
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px 10px 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 50px;
+  width: 250px;
+  height: 40px;
+}

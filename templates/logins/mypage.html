@@ -1,87 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{% static 'css/logins/mypage.css' %}" />
-        <script
-            src="https://kit.fontawesome.com/b453b8b1fc.js"
-            crossorigin="anonymous"
-        ></script>
-        <title>MYPAGE</title>
-    </head>
-
-    <body>
-    <div class="mypage_container">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/logins/mypage.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>MYPAGE</title>
+  </head>
+  <body>
+    <div class="mypage_img">
+      <div class="container">
         <div class="profile">
-            <div class="mypage_img">
-                <img src="/static/img/mypage_green.png" alt="마이페이지">
-            </div>
-
-            <div class="nickname_info">
-            {{user.nickname}}
-            </div>
-
+          {% if user.profileImg %}
+          <div class="profile-img">{{ user.profileImg.url }}</div>
+          {% endif %}
+          <div class="profile-info">
+            <div class="nickname_info">{{ user.nickname }}</div>
             <div class="info_update">
-                <a class="info_update_text" href="{% url 'logins:update' user.id%}"></a>
+              <a
+                class="info_update_text"
+                href="{% url 'logins:update' user.id%}"
+              ></a>
             </div>
+          </div>
         </div>
+        <div class="content">
+          <div class="motto_place">
+            <div class="motto">"한줄 소개 들어갈 자리"</div>
+          </div>
 
-        <div class="keyword">
+          <div class="my_info">
+            <div class="age_info">
+              나이
+              <div class="age">{{user.age}}</div>
+            </div>
+
+            <div class="num_info">
+              전화번호
+              <div class="num">010-1234-5678(임시)</div>
+            </div>
+
+            <div class="email_info">
+              이메일
+              <div class="email">{{user.email}}</div>
+            </div>
+
+            <div class="address_info">
+              집주소
+              <div class="address1">{{user.address}}</div>
+              <div class="address2">{{user.addressDetail}}</div>
+            </div>
+
+            <div class="gen_info">
+              성별
+              <div class="gender">{{user.gender}}</div>
+            </div>
+          </div>
         </div>
-        <div class="motto_place">
-            <div class="motto">
-                "한줄 소개 들어갈 자리"
-            </div>
-        </div>
-        
-
-        <div class="my_group_place">
-            
-        </div>
-
-        {% csrf_token %}
-        <div class = "my_info">
-
-            <div class="age_info">나이
-            <div class="age">
-            {{user.age}}
-            </div>
-            </div>
-
-            <div class="num_info">전화번호
-            <div class="num">
-            010-1234-5678(임시)
-            </div>
-            </div>
-
-            <div class="email_info">이메일
-            <div class="email">
-            {{user.email}}
-            </div>
-            </div>
-
-            <div class="address_info">집주소
-            <div class="address1">
-            {{user.address}}
-            </div>
-            <div class="address2"> 
-            {{user.addressDetail}}
-            </div>
-            </div>
-
-            <div class="gen_info">성별
-            <div class="gender">
-            {{user.gender}}
-            </div>
-            </div>
-
-        </div>
-
-
-        
-
-    </body>
+      </div>
+    </div>
+  </body>
 </html>
