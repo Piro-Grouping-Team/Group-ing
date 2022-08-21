@@ -5,6 +5,10 @@ form {
   flex-direction: column;
 }
 
+.create-log {
+  padding-bottom: 7rem;
+}
+
 .create-box {
   padding: 1rem;
 
@@ -49,7 +53,8 @@ form {
   gap: 0.5rem;
 }
 
-.place-add {
+.place-add,
+.img-add {
   align-self: center;
 }
 

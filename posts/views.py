@@ -63,6 +63,7 @@ def main(request):
         tmp['post'] = post
         tmp['postImgs'] = PostImg.objects.filter(logId=post.id)
         nowPost.append(tmp)
+        
 
     context = {
         'posts': nowPost,

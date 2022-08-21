@@ -1,14 +1,28 @@
 @import url(../init.css);
 
-.side-img {
-  background-image: url("/static/img/side.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  position: relative;
+.img-wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cover-img {
+  height: 100%;
+  width: 100%;
+
+  flex-wrap: nowrap;
+  object-fit: cover;
+
+  background: none;
 }
 
 .header {
+  padding-top: 2rem;
+
   display: flex;
   flex-direction: column;
 
@@ -17,6 +31,9 @@
 
 .title {
   width: 60vw;
+  margin-top: 1rem;
+
+  background: none;
 }
 
 .btitle {
@@ -29,6 +46,22 @@
   align-self: flex-end;
 }
 
+.tags {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.3rem 0.5rem 0.3rem;
+
+  border: 2px solid black;
+  border-radius: 3rem;
+
+  background-color: #c6fc23;
+  font-size: 0.5rem;
+  font-weight: bold;
+}
+
 .icons {
   font-size: 1rem;
 
@@ -37,7 +70,7 @@
 }
 
 .log-contents {
-  padding: 3rem;
+  padding: 0 5rem 0;
 
   display: flex;
   flex-direction: column;
@@ -45,6 +78,8 @@
 }
 
 .log-content {
+  width: 100%;
+
   display: flex;
 
   font-size: 0.75rem;
@@ -55,14 +90,19 @@
   font-weight: bold;
 }
 
-.log-places {
+.log-places,
+.log-images {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+.log-image {
+  width: 100%;
+}
+
 footer {
-  padding: 3rem 0 1rem;
+  padding: 3rem 0 3rem;
 
   display: flex;
   flex-direction: column;
@@ -71,6 +111,9 @@ footer {
 
 .btn {
   width: 5rem;
+
+  position: fixed;
+  bottom: 6rem;
 
   border: 2px solid black;
   background-color: #c6fc23;

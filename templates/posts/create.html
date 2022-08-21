@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   {% load static %}
-
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,7 +39,7 @@
           {% else %}
           <div class="create-box">
             <div class="create-quest">약속 이름</div>
-            <select name="meetId">
+            <select class="log-input" name="meetId">
               {% for meet in meetingsId %}
               <option value="{{ meet.id }}">{{ meet.meetName }}</option>
               {% endfor %}
@@ -128,31 +127,10 @@
         </form>
       </div>
     </div>
-    <script>
-      const addBtn1 = document.querySelector(".place-add");
-      const places = document.querySelector(".places");
-      addBtn1.addEventListener("click", () => {
-        let place = document.createElement("input");
-        place.setAttribute("class", "log-input");
-        place.setAttribute("type", "text");
-        place.setAttribute("placeholder", "장소를 추가해주세요");
-        place.setAttribute("name", "place[]");
-        places.appendChild(place);
-      });
-
-      const addBtn2 = document.querySelector(".img-add");
-      const images = document.querySelector(".images");
-      addBtn2.addEventListener("click", () => {
-        let image = document.createElement("input");
-        image.setAttribute("type", "file");
-        image.setAttribute("name", "logImgs[]");
-        images.appendChild(image);
-      });
-    </script>
+    <script src="{% static 'js/posts/create.js' %}"></script>
     <script>
       // The DOM element you wish to replace with Tagify
       var input = document.querySelector("input[name=basic]");
-
       // initialize Tagify on the above input node reference
       new Tagify(input);
     </script>
