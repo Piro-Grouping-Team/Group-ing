@@ -15,14 +15,52 @@
 
   <body>
     <div class="gradient2"></div>
-    <div class=modify_container>
+    <div class=container>
       <div class="title">
         <div class="btitle">내 정보를 <br />
         수정해요</div>
       </div>
       <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {% comment %}
       <div class="img_form">{{userChangeForm.as_p}}</div>
+      {% endcomment %}
+
+      <div class="form_detail">{{userChangeForm.nickname.label}}
+      <div class="form_input">{{userChangeForm.nickname.placeholder}}</div>
+      </div>
+
+      <div class="form_detail">
+      <a class="change_pw" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.email.label}}
+      <div class="form_input">{{userChangeForm.email}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.age.label}}
+      <div class="form_input">{{userChangeForm.age}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.address.label}}
+      <div class="form_input">{{userChangeForm.address}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.addressDetail.label}}
+      <div class="form_input">{{userChangeForm.addressDetail}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.profileImg.label}}
+      {{userChangeForm.profileImg}}
+      </div>
+
+      <div class="form_detail">{{userChangeForm.gender.label}}
+      {{userChangeForm.gender}}
+      </div>
+
+      <div class="form_detail">{{userChangeForm.intro.label}}
+      <div class="form_input">{{userChangeForm.intro}}</div>
+      </div>
       {% comment %}
       <p>
         닉네임
@@ -118,6 +156,7 @@
       <div class= inform>
         <input class="btn update_btn" type="submit" value="완료"/>
       </div>
+      
     </form>
 
     </div>
