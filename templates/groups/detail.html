@@ -33,7 +33,7 @@
           <div class="stitle">{{group.purpose}}</div>
         </div>
         {% if user.username != group.head %}
-        <form action="{% url 'groups:leave' group.id %}" method="POST">
+        <form action="{% url 'groups:leave' group.id %}" method="POST" onsubmit="return leaveCheck()">
           {% csrf_token %}
           <button><i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
@@ -100,6 +100,11 @@
     <script>
       const input = document.querySelector("input[name=tags]");
       new Tagify(input);
+    </script>
+    <script>
+      function leaveCheck(){
+        return confirm("정말 그룹을 탈퇴하시겠습니까?")
+      }
     </script>
   </body>
 </html>
