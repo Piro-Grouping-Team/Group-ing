@@ -55,11 +55,11 @@
                 <div class="post-user">{{ post.post.userId }}</div>
                 <!-- <div>좋아요 {{ post.post.likeCount }}</div> -->
                 <div class="tags">
-                  {% for keyword in post.post.keywords %}
+                  {% for keyword in post.post.logKeywords.all %}
                   <div class="tag">{{ keyword.keyword }}</div>
                   {% endfor %}
                 </div>
-                <div class="post-date">2022.07.11 - 2022.07.12</div>
+                <div class="post-date">{{post.post.updateAt}}</div>
               </div>
             </a>
           </div>

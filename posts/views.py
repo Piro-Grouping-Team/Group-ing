@@ -1,4 +1,5 @@
 import re
+import json
 from secrets import choice
 from tokenize import group
 from django.forms import modelformset_factory
@@ -8,7 +9,9 @@ from keywords.models import Keyword
 from .models import Post, PostImg
 from meetings.models import Meetings
 from groups.models import Group
+from logins.models import User
 from .forms import PostForm, PostImgForm
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -39,9 +42,22 @@ def main(request):
             posts = Post.objects.filter(openRange='비공개', userId = request.user)
         elif openRange == '그룹공개':
             user = request.user
-            myGroups = user.members_group.all()
-            print(myGroups)
-
+            myGroups = []
+            posts = []
+            groups = Group.objects.all()
+            for group in groups:
+                for member in group.members.all():
+                    if member == user:
+                        myGroups.append(group.id)
+            # myGroups = Group.objects.filter(members=user)
+            
+            allPosts = Post.objects.filter(openRange='그룹공개')
+            print(allPosts)
+            for post in allPosts:
+                for myGroup in myGroups:
+                    if post.groupId.id == myGroup:
+                        posts.append(post)
+            print(posts)
             # myMeetings = []
             # for myGroup in myGroups:
             #     meeting = Meetings.objects.filter(meetGroupId=myGroup)
@@ -49,8 +65,7 @@ def main(request):
             # print(myMeetings)
             # 게시물 = 약속아이디 -> 그룹아이디 -> 그룹의 멤버에서 -> 내가속한지 확인
             
-            posts = Post.objects.filter(openRange='그룹공개', groupId__in=myGroups)
-            print(posts)
+            # posts = Post.objects.filter(openRange='그룹공개', groupId__in=myGroups)
         else:
             #전체공개
             posts = Post.objects.filter(openRange='전체공개')
@@ -113,9 +128,11 @@ def create(request):
             post.places = placesJson
             post.groupId = post.meetId.meetGroupId
             post.save()
-            for keyword in eval(postKeywords):
-                key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
-                post.logKeywords.add(key)
+            
+            if postKeywords != '':
+                for keyword in eval(postKeywords):
+                    key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
+                    post.logKeywords.add(key)
 
             meetMembers = post.meetId.meetMembers.all()
             for member in meetMembers:
@@ -133,6 +150,7 @@ def create(request):
             return redirect('posts:detail', postId=post.id)
         else:
             print(postForm.errors)
+            return redirect('posts:create')
     else:
         if request.GET.get('meetId'):
             meetId = request.GET.get('meetId')
@@ -186,7 +204,6 @@ def update(request, postId):
 
     # 로그인 되어있는 유저가 이 게시물의 저자 라면 업데이트 페이지로 이동가능
     # 아니라면 디테일페이지로 강제 이동 (알림 메세지)
-
     nowpost = Post.objects.get(id=postId)
     if (nowpost.userId == request.user):
         if request.method == 'POST':
@@ -198,9 +215,10 @@ def update(request, postId):
                 places = request.POST.getlist('place[]')
                 placesJson = { 'places': places }
                 nowpost.places = placesJson
-                for keyword in eval(postKeywords):
-                    key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
-                    nowpost.logKeywords.add(key)
+                if postKeywords!='':
+                    for keyword in eval(postKeywords):
+                        key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
+                        nowpost.logKeywords.add(key)
 
                 for img in request.FILES.getlist('logImgs[]'):
                     postImg = PostImg(logId=nowpost, image=img)
@@ -246,3 +264,18 @@ def delete(request, postId):
             return redirect('posts:main')
         else:
             return redirect('posts:detail', postId=postId)
+
+@login_required
+def loadMeetingMembers(request):
+    req = json.loads(request.body)
+    if request.method == 'POST':
+        meetingId = req['meetingId']
+        thisMeet = Meetings.objects.get(id=meetingId)
+        meetingPlace = thisMeet.meetPlace
+        meeting = Meetings.objects.get(id = meetingId)
+        allMembers = meeting.meetMembers.all()
+        meetingMembers = []
+        for member in allMembers:
+            meetingMembers.append(member.name)
+        return JsonResponse({'members': meetingMembers, 'place': meetingPlace})
+        
