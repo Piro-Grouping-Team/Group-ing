@@ -13,7 +13,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>SIGN-UP</title>
   </head>
-
   <body>
     <div class="gradient"></div>
     <div class="container">
@@ -24,131 +23,171 @@
           그룹핑 해요!
         </div>
       </div>
-
-      <main>
- <!-- <form method="POST" action="">
+      <form
+        method="POST"
+        action=""
+        enctype="multipart/form-data"
+        ,
+        name="signupForm"
+      >
         {% csrf_token %}
         <div class="signup">
           <div class="create-box">
-            <div class="create-quest">아이디</div>
+            <label
+              class="create-quest"
+              name="label_username"
+              for="{{ form.username.id_for_label }}"
+              >{{ form.username.label }}</label
+            >
+            <input
+              type="text"
+              id="id_username1"
+              placeholder="아이디"
+              onchange="detectID()"
+            />
+            <div id="error_username"></div>
             {{ form.username }}
+            <input id="usernameCheck" type="button" value="ID중복확인" />
           </div>
+          <div id="error_username"></div>
           <div class="create-box">
-            <div class="create-quest">비밀번호</div>
+            <label
+              class="create-quest"
+              name="label_password1"
+              for="{{ form.password1.id_for_label }}"
+              >{{ form.password1.label }}</label
+            >
             {{ form.password1 }}
           </div>
           <div class="create-box">
-            <div class="create-quest">비밀번호 확인</div>
+            <label
+              class="create-quest"
+              name="label_password2"
+              for="{{ form.password2.id_for_label }}"
+              >{{ form.password2.label }}</label
+            >
             {{ form.password2 }}
           </div>
           <div class="create-box">
-            <div class="create-quest">이름</div>
+            <label
+              class="create-quest"
+              name="label_name"
+              for="{{ form.name.id_for_label }}"
+              >{{ form.name.label }}</label
+            >
             {{ form.name }}
           </div>
           <div class="create-box">
-            <div class="create-quest">닉네임</div>
+            <label
+              class="create-quest"
+              name="label_nickname"
+              for="{{ form.nickname.id_for_label }}"
+              >{{ form.nickname.label }}</label
+            >
             {{ form.nickname }}
           </div>
           <div class="create-box">
-            <div i class="create-quest">이메일</div>
-            {{ form.email }}
-          </div>
-          <div class="create-box">
-            <div class="create-quest">전화번호</div>
-            {{ form.phoneNumber }}
-          </div>
-          <div class="create-box">
-            <div class="create-quest">나이</div>
+            <label
+              class="create-quest"
+              name="label_age"
+              for="{{ form.age.id_for_label }}"
+              >{{ form.age.label }}</label
+            >
             {{ form.age }}
           </div>
           <div class="create-box">
-            <div class="create-quest">주소</div>
+            <label
+              class="create-quest"
+              name="label_phoneNumber"
+              for="{{ form.phoneNumber.id_for_label }}"
+              >{{ form.phoneNumber.label }}</label
+            >
+            {{ form.phoneNumber }}
+          </div>
+          <div class="create-box">
+            <label
+              class="create-quest"
+              name="label_email"
+              for="{{ form.email.id_for_label }}"
+              >{{ form.email.label }}</label
+            >
+            <input
+              type="text"
+              id="id_email1"
+              placeholder="example@example.com"
+              onchange="detectEmail()"
+            />
+            {{ form.email }}
+            <div id="error_email"></div>
+            <input id="emailCheck" type="button" value="email중복확인" />
+          </div>
+          <div class="create-box">
+            <label
+              class="create-quest"
+              name="label_address"
+              for="{{ form.address.id_for_label }}"
+              >{{ form.address.label }}</label
+            >
             {{ form.address }}
           </div>
           <div class="create-box">
-            <div class="create-quest">상세주소</div>
+            <label
+              class="create-quest"
+              name="label_addressDetail"
+              for="{{ form.addressDetail.id_for_label }}"
+              >{{ form.addressDetail.label }}</label
+            >
             {{ form.addressDetail }}
           </div>
           <div class="create-box">
-            <div class="create-quest">성별</div>
-            {{ form.gender }}
+            <label
+              class="create-quest"
+              name="label_gender"
+              for="{{ form.gender.id_for_label }}"
+              >{{ form.gender.label }}</label
+            >
+            {{ form.gender }} {% comment %}{{form.as_p}}{% endcomment %}
           </div>
           <div class="create-box">
-            <div class="create-quest">프로필 이미지</div>
-            {{ form.profileImg }}
-            <label for="id_profileImg"
+            <label
+              id="label_profileImg"
+              class="create-quest"
+              name="label_profileImg"
+              for="{{ form.profileImg.id_for_label }}"
               ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
             >
+            {{ form.profileImg }}
           </div>
+          <button
+            id="myform"
+            class="btn"
+            type="button"
+            class="submit"
+            onclick="form_check()"
+          >
+            그룹핑에 오신 걸 환영합니다!
+          </button>
         </div>
-        <button class="btn" type="button" class="submit" onclick="form_check()">
-          그룹핑에 오신 걸 환영합니다!
-        </button>
-      </form> -->
-
-
-        <form method="POST" action="" enctype="multipart/form-data", name="signupForm">
-          {% csrf_token %}
-          <div class="signups">
-            <div class="signup-form">
-              <label name="label_username" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-              <input type="text" id ='id_username1' placeholder="아이디" onchange="detectID()">
-        {{ form.username }}
-        <input id="usernameCheck" type="button" value="ID중복확인"></input>
-        <div id='error_username'></div>
-        <label name="label_password1" for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
-        {{ form.password1 }}
-        <label name="label_password2" for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
-        {{ form.password2 }}
-        <label name="label_name" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-        {{ form.name }}
-        <label name="label_nickname" for="{{ form.nickname.id_for_label }}">{{ form.nickname.label }}</label>
-        {{ form.nickname }}
-        <label name="label_age" for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
-        {{ form.age }}
-        <label name="label_phoneNumber" for="{{ form.phoneNumber.id_for_label }}">{{ form.phoneNumber.label }}</label>
-        {{ form.phoneNumber }}
-        <label name="label_email" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-        <input type="text" id ='id_email1' placeholder="example@example.com" onchange="detectEmail()">
-        {{ form.email }}
-        <input id="emailCheck" type="button" value="email중복확인"></input>
-        <div id='error_email'></div>
-        <label name="label_profileImg" for="{{ form.profileImg.id_for_label }}">{{ form.profileImg.label }}</label>
-        {{ form.profileImg }}
-        <label name="label_address" for="{{ form.address.id_for_label }}">{{ form.address.label }}</label>
-        {{ form.address }}
-        <label name="label_addressDetail" for="{{ form.addressDetail.id_for_label }}">{{ form.addressDetail.label }}</label>
-        {{ form.addressDetail }}
-        <label name="label_gender" for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
-        {{ form.gender }}
-              {% comment %}{{form.as_p}}{% endcomment %}</div>
-
-            <div class="inform">
-              <button id='myform' class="btn" type="button" class="submit" onclick="form_check()"> 그룹핑에 오신 걸 환영합니다! </button>
-            </div>
-          </div>
-        </form>
-      </main>
+      </form>
     </div>
+    <script src="{% static 'js/logins/signup.js' %}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+      window.onload = function () {
+        document
+          .getElementById("address_kakao")
+          .addEventListener("click", function () {
+            //주소입력칸을 클릭하면
+            //카카오 지도 발생
+            new daum.Postcode({
+              oncomplete: function (data) {
+                //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+              },
+            }).open();
+          });
+      };
+    </script>
   </body>
-  <script src="{% static 'js/logins/signup.js' %}"></script>
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script>
-    window.onload = function () {
-      document
-        .getElementById("address_kakao")
-        .addEventListener("click", function () {
-          //주소입력칸을 클릭하면
-          //카카오 지도 발생
-          new daum.Postcode({
-            oncomplete: function (data) {
-              //선택시 입력값 세팅
-              document.getElementById("address_kakao").value = data.address; // 주소 넣기
-              document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
-            },
-          }).open();
-        });
-    };
-  </script>
-
 </html>

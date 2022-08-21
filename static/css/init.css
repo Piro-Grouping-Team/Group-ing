@@ -60,6 +60,7 @@
   .btn {
     width: 76vw;
     padding: 0.7rem 0 0.7rem;
+    margin: 1rem;
 
     position: sticky;
     bottom: 4rem;
