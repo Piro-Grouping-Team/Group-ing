@@ -20,18 +20,17 @@
       <div class="header">
         <div class="title">
           <div class="btitle">그룹 — 로그</div>
-          <input class="search" type="text" placeholder="검색어를 입력하세요" />
           <form class="tags" action="{% url 'posts:main' %}" method="get">
             {% csrf_token %}
-            <button class="tag" type="submit" name="openRange" value="비공개">
-              비공개
+            <input name='titleSearch' class="search" type="text" placeholder="검색어를 입력하세요" />
+            <button class="search-btn" type="submit">
+              <i class="fas fa-search"></i>
             </button>
-            <button class="tag" type="submit" name="openRange" value="그룹공개">
-              그룹공개
-            </button>
-            <button class="tag" type="submit" name="openRange" value="전체공개">
-              전체
-            </button>
+            <select name='openRange'>
+              <option value='전체공개' selected>전체공개</option> 
+              <option value='그룹공개'>그룹공개</option> 
+              <option value='비공개'>비공개</option> 
+            </select>
           </form>
         </div>
       </div>
