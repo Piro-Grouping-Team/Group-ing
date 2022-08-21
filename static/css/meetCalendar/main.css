@@ -121,12 +121,38 @@ body {
   content: "";
 }
 
-.modal {
-  background: rgba(0, 0, 0, 0.1);
-  display: none;
+.modal-container {
+  width: 100vw;
+  height: 100vh;
 
   position: fixed;
-  top: 10rem;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  padding: 2rem 0 2rem;
+
+  background: white;
+  display: flex;
+
+  position: fixed;
+
+  border-radius: 1rem;
+  border: 1px solid black;
+  animation: fade-in 0.5s;
+}
+
+.modal-show {
+  display: flex;
 }
 
 .times {
@@ -151,10 +177,20 @@ body {
 
   text-align: center;
 
+  border: 1px solid black;
   border-radius: 1rem;
   background: black;
 
   font-size: 0.75rem;
   font-weight: bold;
-  color: white;
+  color: black;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

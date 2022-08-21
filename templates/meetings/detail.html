@@ -52,6 +52,7 @@
           </div>
           <div class="meeting-text">시간 되시나요?</div>
         </div>
+        <div class="meeting-btns">
         {% if meeting.meetStatus == 0 %}
           <a
           class="meeting-cal"
@@ -59,7 +60,7 @@
           ><i class="fa-regular fa-calendar"></i> 시간표 보러가기</a
         >
           {% if request.user == meeting.meetHead %}
-            <form action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
+            <form class="meeting-cal" action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
               {%csrf_token%}
               <button>투표 시작하기</button>
             </form>
@@ -84,7 +85,7 @@
               <button>투표 종료하기</button>
             </form>
           {%endif%}
-        {% elif meeting.meetStatus == 2%}
+        {% elif meeting.meetStatus == 2 %}
             {% if meeting.meetType == 'today' %}
               <a
               class="meeting-cal"
@@ -106,7 +107,7 @@
           ><i class="fa-regular fa-calendar"></i>약속로그</a
         >
         {% endif %}
-        
+        </div>
       </div>
 
       {% if meetUsersName %}
