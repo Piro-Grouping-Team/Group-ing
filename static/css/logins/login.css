@@ -72,34 +72,3 @@
 
 }
 
-.naver_login{
-    color: white;
-    background-color: #03C75A;
-    border: 2px solid #03C75A;
-    border-radius: 5px;
-    padding: 15px 20px 15px 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    
-}
-
-.naver_text{
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.google_login{
-    color: white;
-    background-color: #DF5A60;
-    border: 2px solid #DF5A60;
-    border-radius: 5px;
-    padding: 15px 20px 15px 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.google_text{
-    font-size: 17px;
-    font-weight: bold;
-}
