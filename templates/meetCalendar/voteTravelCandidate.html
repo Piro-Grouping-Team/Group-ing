@@ -7,8 +7,46 @@
     <title>Document</title>
 </head>
 <body>
-    {% for time in candidate %}
-        <p>{{time}}</p>
-    {% endfor %}
+    {% if meeting.meetStatus == 1%}
+        {%if user in meeting.meetVote.all%}
+            {% for vote in voteList %}
+            <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
+            <p>현재 투표 인원: {{vote.voteUser}}</p>
+            {% endfor %}
+            
+        {% else %}
+            <form action="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id%}" method="POST">
+                {% csrf_token %}
+                {% for vote in voteList %}
+                    <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
+                    <input type="checkbox" name="selection[]" value="{{vote.id}}">
+                    <p>현재 투표 인원: {{vote.voteUser}}</p>
+                {% endfor %}
+                <input type="submit">
+            </form>
+        {% endif %}
+    {% elif meeting.meetStatus == 2 %}
+        {% if request.user.id == meeting.meetHead.id%}
+            <form action="{% url 'meetCalendar:fixTravelCandidate' meetId=meeting.id%}" method="POST">
+                {% csrf_token %}
+                {% for vote in voteList %}
+                <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
+                <p>현재 투표 인원: {{vote.voteUser}}</p>
+                    <input type="radio" name="fix" value="{{vote.id}}">
+                {% endfor %}
+                <input type="submit">
+            </form>
+        {% else %}
+            {% for vote in voteList %}
+            <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
+            <p>현재 투표 인원: {{vote.voteUser}}</p>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        <script>
+            alert("투표 기간이 아닙니다!")
+            location.href = "{% url 'meetings:detail' id=meeting.meetGroupId.id meetId=meeting.id%}"
+        </script>
+    {% endif %}
 </body>
 </html>

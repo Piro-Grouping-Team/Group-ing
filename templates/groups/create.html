@@ -46,7 +46,7 @@
           </div>
           <div class="create-box">
             <div class="create-quest">그룹의 성향은 무엇인가요?</div>
-            <input type="hidden" name="tags" placeholder="write some tags" />
+            <input name="basic" placeholder="write some tags" />
           </div>
           <div class="create-box">
             <div class="create-quest create-img">
@@ -63,7 +63,7 @@
       </div>
     </div>
   </body>
-  <script>
+  {% comment %} <script>
     var list = {{keywordData|safe}}
     var input = document.querySelector("input[name=tags]"),
       tagify = new Tagify(input, {
@@ -102,5 +102,12 @@
       tagify.dropdown.show(); // load the list
       tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown);
     }
+  </script> {% endcomment %}
+  <script>
+        // The DOM element you wish to replace with Tagify
+    var input = document.querySelector('input[name=basic]');
+
+    // initialize Tagify on the above input node reference
+    new Tagify(input)
   </script>
 </html>
