@@ -1,6 +1,5 @@
 import re
 from secrets import choice
-
 from tokenize import group
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
@@ -114,7 +113,6 @@ def create(request):
             post.groupId = post.meetId.meetGroupId
             post.save()
             for keyword in eval(postKeywords):
-            
                 key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
                 post.logKeywords.add(key)
 

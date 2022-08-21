@@ -25,7 +25,10 @@
         {% for member in myMeetMembers %}
         <p>{{ member }}</p>
         {% endfor %}
-        <p>태그</p>
+        <p>키워드</p>
+        {% for tag in myKeywords %}
+        <p>{{ tag }}</p>
+        {% endfor %}
 
         <p>장소</p>
         {% for place in post.places.places %}
@@ -33,10 +36,6 @@
         {% endfor %}
 
         <p>좋아요 {{ post.likeCount }}</p>
-        <p>키워드</p>
-        {% for keyword in post.keywords %}
-        <p>{{ keyword.keyword }}</p>
-        {% endfor %}
         <p>이미지</p>
         {% if postImgs %} {% for img in postImgs %}
         <img src="{{ img.image.url }}" alt="{{ img.image.imgName }}" />
