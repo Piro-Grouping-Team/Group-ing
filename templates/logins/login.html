@@ -25,6 +25,8 @@
           {% if user.is_authenticated %} {% comment %} 로그인성공! <br />
           <a href="{% url 'logins:logout' %}">로그아웃</a>
           {% endcomment %} {% else %}
+
+          {{error_messages}}
           <form class="login_idpw" action="" method="POST">
             {% csrf_token %}
             <div class="login_id">
@@ -34,6 +36,7 @@
                 placeholder="아이디를 입력해주세요"
               />
               <hr class="id_line" />
+
             </div>
 
             <div class="login_pw">
