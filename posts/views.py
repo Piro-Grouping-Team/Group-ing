@@ -1,6 +1,6 @@
 import re
 from secrets import choice
-from this import d
+
 from tokenize import group
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
@@ -82,11 +82,16 @@ def detail(request, postId):
     myMeetMembers = []
     for meetMember in meetMembers:
         myMeetMembers.append(meetMember.nickname)
+    logKeywords = post.logKeywords.all()
+    myKeywords = []
+    for keyword in logKeywords:
+        myKeywords.append(keyword.keyword)
 
     context = {
         'post': post,
         'postImgs': postImgs,
         'myMeetMembers': myMeetMembers,
+        'myKeywords': myKeywords,
     }
     return render(request, 'posts/detail.html', context)
 
@@ -152,14 +157,24 @@ def create(request):
             }
             return render(request, 'posts/create.html', context)
         else:
-            postForm = PostForm()
+            postForm = PostForm(initial={'logTitle': '', 'userId': request.user})
             # formset = imgFormSet(queryset=PostImg.objects.none())
+
+            meetings = Meetings.objects.filter(meetMembers__in=[request.user])
+            meetingsId = []
+            for meeting in meetings:
+                tmp = {}
+                tmp['id'] = meeting.id
+                tmp['meetName'] = meeting.meetName
+                meetingsId.append(tmp)
+            #내가 속한 meeting 목록을 넘겨주기
             openRanges = Post.openRangeChoices
             context = {
                 #'keywords': Post.keyWords,
                 'openRanges': openRanges,
                 'postForm': postForm,
                 # 'formset': formset,
+                'meetingsId': meetingsId,
             }
             return render(request, 'posts/create.html', context)
 
@@ -177,12 +192,16 @@ def update(request, postId):
     if (nowpost.userId == request.user):
         if request.method == 'POST':
             postForm = PostForm(request.POST, instance=nowpost)
+            postKeywords = request.POST.get('basic')
             if postForm.is_valid():
                 #nowpost.logDate = request.POST.get('logDate')
                 #nowpost.logKeywords = request.POST.get('logKeywords')
                 places = request.POST.getlist('place[]')
                 placesJson = { 'places': places }
                 nowpost.places = placesJson
+                for keyword in eval(postKeywords):
+                    key,flag = Keyword.objects.get_or_create(keyword=keyword['value'])
+                    nowpost.logKeywords.add(key)
 
                 for img in request.FILES.getlist('logImgs[]'):
                     postImg = PostImg(logId=nowpost, image=img)
@@ -198,7 +217,10 @@ def update(request, postId):
         for user in meetMembers:
             myMeetMembers.append(user.nickname)
         openRanges = Post.openRangeChoices
-
+        logKeywords = nowpost.logKeywords.all()
+        myKeywords = []
+        for keyword in logKeywords:
+            myKeywords.append(keyword.keyword)
         meeting = {
             'post': nowpost,
             'nowpostImgs': nowpostImgs,
@@ -207,6 +229,7 @@ def update(request, postId):
                 'post': meeting,
                 'openRanges': openRanges,
                 'myMeetMembers': myMeetMembers,
+                'myKeywords': myKeywords,
         }
         return render(request, 'posts/update.html', context)
     else:
