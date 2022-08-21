@@ -35,10 +35,12 @@
           </a>
           <form
             action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
-            method="post"
+            method="post" name='deleteMeeting'
           >
             {% csrf_token %}
-            <button type="submit">
+            <input type='hidden' id='meetId' value='{{ meeting.id }}' />
+            <input type='hidden' id='groupId' value='{{ group.id }}' />
+            <button type="button" name='deleteMeeting' id='deleteBtn' onclick='deleteMeetingBtn()'>
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </form>
@@ -139,4 +141,7 @@
       </form>
     </div>
   </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="{% static 'js/meetings/detail.js' %}"></script>
+ 
 </html>
