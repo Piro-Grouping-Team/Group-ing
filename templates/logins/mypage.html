@@ -16,9 +16,11 @@
     <div class="mypage_img">
       <div class="container">
         <div class="profile">
-          {% if user.profileImg %}
-          <div class="profile-img">{{ user.profileImg.url }}</div>
-          {% endif %}
+          <div class="profile-img_box">
+            {% if user.profileImg %}
+            <img class="profile-img" src="{{ user.profileImg.url }}" />
+            {% endif %}
+          </div>
           <div class="profile-info">
             <div class="nickname_info">{{ user.nickname }}</div>
             <div class="info_update">
@@ -28,38 +30,39 @@
               ></a>
             </div>
           </div>
+          <div class="motto">" {{ user.intro }} "</div>
         </div>
-        <div class="content">
-          <div class="motto_place">
-            <div class="motto">"한줄 소개 들어갈 자리"</div>
+        <div class="my_infos">
+          <a class="btn" href="{% url 'groups:main' %}"> 내 그룹들 보기 </a>
+          <div class="info-wrapper">
+            <div class="info-label">아이디</div>
+            <div class="info-content">{{user.username}}</div>
           </div>
-
-          <div class="my_info">
-            <div class="age_info">
-              나이
-              <div class="age">{{user.age}}</div>
+          <div class="info-wrapper">
+            <div class="info-label">닉네임</div>
+            <div class="info-content">{{user.nickname}}</div>
+          </div>
+          <div class="info-wrapper">
+            <div class="info-label">나이</div>
+            <div class="info-content">{{user.age}}</div>
+          </div>
+          <div class="info-wrapper">
+            <div class="info-label">전화번호</div>
+            <div class="info-content">{{user.phoneNumber}}</div>
+          </div>
+          <div class="info-wrapper">
+            <div class="info-label">이메일</div>
+            <div class="info-content">{{user.email}}</div>
+          </div>
+          <div class="info-wrapper">
+            <div class="info-label">집주소</div>
+            <div class="info-content">
+              {{user.address}} {{user.addressDetail}}
             </div>
-
-            <div class="num_info">
-              전화번호
-              <div class="num">010-1234-5678(임시)</div>
-            </div>
-
-            <div class="email_info">
-              이메일
-              <div class="email">{{user.email}}</div>
-            </div>
-
-            <div class="address_info">
-              집주소
-              <div class="address1">{{user.address}}</div>
-              <div class="address2">{{user.addressDetail}}</div>
-            </div>
-
-            <div class="gen_info">
-              성별
-              <div class="gender">{{user.gender}}</div>
-            </div>
+          </div>
+          <div class="info-wrapper">
+            <div class="info-label">성별</div>
+            <div class="info-content">{{user.gender}}</div>
           </div>
         </div>
       </div>

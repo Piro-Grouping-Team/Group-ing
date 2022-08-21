@@ -2,19 +2,42 @@
 
 .mypage_img {
   background: url("/static/img/mypage.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat-x;
   width: 100%;
   vertical-align: middle;
 }
 
 .profile {
-  height: 35vh;
+  height: 30vh;
+
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.profile-img_box {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 70%;
+  border: 2px solid black;
+  overflow: hidden;
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+
+  flex-wrap: nowrap;
+  object-fit: cover;
 }
 
 .profile-info {
+  padding-left: 1.8rem;
+
   display: flex;
+  gap: 1rem;
 }
 
 .nickname_info {
@@ -28,99 +51,37 @@
   content: "\f303";
 }
 
-.motto_place {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-}
-
 .motto {
-  font-size: 20px;
   font-weight: bold;
 }
 
-.my_info {
-  font-size: 20px;
-  font-weight: bold;
+.my_infos {
+  padding: 1rem;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-evenly;
-  margin-left: 30px;
-  width: 330px;
-  height: 450px;
+  gap: 2rem;
 }
 
-.age_info {
+.info-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
-.age {
-  margin-top: 10px;
-  font-size: 17px;
+.info-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: black;
 }
 
-.num_info {
-  display: flex;
-  flex-direction: column;
-}
-
-.num {
-  margin-top: 10px;
-  font-size: 17px;
-}
-
-.email_info {
-  display: flex;
-  flex-direction: column;
-}
-
-.email {
-  margin-top: 10px;
-  font-size: 17px;
-}
-
-.address_info {
-  display: flex;
-  flex-direction: column;
-}
-
-.address1 {
-  margin-top: 10px;
-  font-size: 17px;
-}
-
-.address2 {
-  margin-top: 10px;
-  font-size: 17px;
-}
-
-.gen_info {
-  display: flex;
-  flex-direction: column;
-}
-
-.gender {
-  margin-top: 10px;
-  font-size: 17px;
+.info-content {
+  font-size: 0.75rem;
 }
 
 .my_group_place {
   display: flex;
   justify-content: center;
-}
-
-.my_group {
-  color: black;
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px 20px 10px 20px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  margin-top: 50px;
-  width: 250px;
-  height: 40px;
 }
