@@ -33,16 +33,17 @@ def create(request):
 
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
-        groupKeywords = request.POST.get('tags')
+        groupKeywords = request.POST.get('basic')
         
         if form.is_valid():
             group = form.save(commit=False)
             group.head = request.user.username
             group.code =  groupCodeGenerate()
             group.save()
-            for groupKeyword in eval(groupKeywords):
-                k = Keyword.objects.get(keyword=groupKeyword['value']).id
-                group.keywords.add(k)
+            if groupKeywords != '':
+                for groupKeyword in eval(groupKeywords):
+                    k,f = Keyword.objects.get_or_create(keyword=groupKeyword['value'])
+                    group.keywords.add(k)
             group.members.add(request.user.id)
             return redirect(f'/groups/group/{group.id}')
         else:
@@ -116,14 +117,16 @@ def leave(request, id):
 def modify(request, id):
     group = Group.objects.get(id=id)
     groupKeywords = group.keywords.all()
-    allKeywords = Keyword.objects.all().values('keyword')
-    keywordList = []
-    for keyword in allKeywords:
-        keywordList.append(keyword['keyword'])
-    jsonKeywordList = json.dumps(keywordList)
+    # allKeywords = Keyword.objects.all().values('keyword')
+    # keywordList = []
+    # for keyword in allKeywords:
+    #     keywordList.append(keyword['keyword'])
+    # jsonKeywordList = json.dumps(keywordList)
 
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
+        newGroupKeywords = request.POST.get('basic')
+
         
         #취소 박스 선택 값 가져오기
         imageCancel = request.POST.get('image-clear', False)
@@ -143,6 +146,11 @@ def modify(request, id):
                 group.image = form.cleaned_data['image']
             else:
                 group.image = group.image
+
+            if newGroupKeywords != '':
+                for groupKeyword in eval(newGroupKeywords):
+                    k,f = Keyword.objects.get_or_create(keyword=groupKeyword['value'])
+                    group.keywords.add(k)
             group.save()
             return redirect(f'/groups/group/{group.id}')
     else:
@@ -152,8 +160,6 @@ def modify(request, id):
             'form' : form,
             'group' : group,
             'keywords': groupKeywords,
-            'allKeywords' : jsonKeywordList
-
         }
 
         return render(request, template_name='groups/modify.html', context=context)
