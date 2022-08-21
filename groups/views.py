@@ -25,11 +25,11 @@ def main(request):
     return render(request, 'groups/main.html', context=context)
 
 def create(request):
-    keywords = Keyword.objects.all().values('keyword')
-    keywordList = []
-    for keyword in keywords:
-        keywordList.append(keyword['keyword'])
-    jsonKeywordList = json.dumps(keywordList)
+    # keywords = Keyword.objects.all().values('keyword')
+    # keywordList = []
+    # for keyword in keywords:
+    #     keywordList.append(keyword['keyword'])
+    # jsonKeywordList = json.dumps(keywordList)
 
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
@@ -48,17 +48,16 @@ def create(request):
             return redirect(f'/groups/group/{group.id}')
         else:
             form = GroupForm()
-            keywords = Keyword.objects.all()
             context = {
             'form' : form,
-            'keywordData' : jsonKeywordList
+            # 'keywordData' : jsonKeywordList
             }
             return render(request, template_name='groups/create.html', context=context)
     else:
         form = GroupForm()
         context = {
             'form' : form,
-            'keywordData' : jsonKeywordList
+            # 'keywordData' : jsonKeywordList
         }
         return render(request, template_name='groups/create.html', context=context)
 
@@ -146,11 +145,13 @@ def modify(request, id):
                 group.image = form.cleaned_data['image']
             else:
                 group.image = group.image
-
+            group.keywords.clear()
             if newGroupKeywords != '':
                 for groupKeyword in eval(newGroupKeywords):
-                    k,f = Keyword.objects.get_or_create(keyword=groupKeyword['value'])
+                    k,f = Keyword.objects.get_or_create(keyword=groupKeyword['value'])  
                     group.keywords.add(k)
+                    
+                            
             group.save()
             return redirect(f'/groups/group/{group.id}')
     else:
