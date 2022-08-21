@@ -23,8 +23,6 @@
           <div class="meeting-status">조율중</div>
           {% elif meeting.meetStatus == 3%}
           <div class="meeting-status">모집완료</div>
-          <p>{{meeting.meetStartTime}}</p>
-          <p>{{meeting.meetEndTime}}</p>
           {% endif %}
           <div class="btitle">{{ meeting.meetName }}</div>
           <div class="stitle">일정을 확인해주세요!</div>
@@ -45,6 +43,7 @@
         </div>
       </div>
       <div class="meeting-content">
+        {% if meeting.meetStatus == 0 %}
         <div class="meeting-quest">
           <div class="meeting-period">
             {{ meeting.meetStart }} <br />
@@ -53,7 +52,6 @@
           <div class="meeting-text">시간 되시나요?</div>
         </div>
         <div class="meeting-btns">
-        {% if meeting.meetStatus == 0 %}
           <a
           class="meeting-cal"
           href="{% url 'meetCalendar:main' meetId=meeting.id %}"
@@ -65,51 +63,77 @@
               <button>투표 시작하기</button>
             </form>
           {%endif%}
+        </div>
         {% elif meeting.meetStatus == 1 %}
+          <div class="meeting-quest">
+            <div class="meeting-period">
+              {{ meeting.meetStart }} <br />
+              ~ {{ meeting.meetEnd }}
+            </div>
+            <div class="meeting-text">시간 되시나요?</div>
+          </div>
+          <div class="meeting-btns">
           {% if meeting.meetType == 'today' %}
             <a
             class="meeting-cal"
             href="{% url 'meetCalendar:voteDayCandidate' meetId=meeting.id %}"
-            ><i class="fa-regular fa-calendar"></i>투표하기</a
+            ><i class="fa-regular fa-calendar"></i> 투표하기</a
           >
           {% else %}
             <a
               class="meeting-cal"
               href="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id %}"
-              ><i class="fa-regular fa-calendar"></i>투표하기</a
+              ><i class="fa-regular fa-calendar"></i> 투표하기</a
             >
           {% endif %}
           {% if request.user == meeting.meetHead %}
-            <form action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
+            <form class="meeting-cal" action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
               {%csrf_token%}
               <button>투표 종료하기</button>
             </form>
           {%endif%}
+          </div>
         {% elif meeting.meetStatus == 2 %}
+        <div class="meeting-quest">
+          <div class="meeting-period">
+            {{ meeting.meetStart }} <br />
+            ~ {{ meeting.meetEnd }}
+          </div>
+          <div class="meeting-text">시간 되시나요?</div>
+        </div>
+        <div class="meeting-btns">
             {% if meeting.meetType == 'today' %}
               <a
               class="meeting-cal"
               href="{% url 'meetCalendar:voteDayCandidate' meetId=meeting.id %}"
-              ><i class="fa-regular fa-calendar"></i>투표 결과</a
+              ><i class="fa-regular fa-calendar"></i> 투표 결과</a
               >
             {% else %}
               <a
                 class="meeting-cal"
                 href="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id %}"
-                ><i class="fa-regular fa-calendar"></i>투표 결과</a
+                ><i class="fa-regular fa-calendar"></i> 투표 결과</a
               >
             {% endif %}
-          
-        {% elif meeting.meetStatus == 3%}
+        </div>
+        {% elif meeting.meetStatus == 3 %}
+        <div class="meeting-quest">
+          <div class="meeting-period">
+            {{ meeting.meetStartTime }} <br />
+            ~ {{ meeting.meetEndTime }}
+          </div>
+          <div class="meeting-text">약속은 어떠셨나요?</div>
+        </div>
+        <div class="meeting-btns">
         <a
           class="meeting-cal"
           href="{% url 'meetCalendar:main' meetId=meeting.id %}"
-          ><i class="fa-regular fa-calendar"></i>약속로그</a
+          ><i class="fa-regular fa-calendar"></i> 약속로그</a
         >
-        {% endif %}
         </div>
+        {% endif %}
       </div>
-
+        
       {% if meetUsersName %}
       <div class="meeting-people quest">
         <div class="users">
