@@ -12,6 +12,8 @@
     ></script>
     <title>GROUPING</title>
   </head>
+
+
   <body>
     <div class="container">
       <div class="title">
@@ -20,28 +22,35 @@
           사람들
         </div>
       </div>
+
+
       <div class="members">
         <div class="members-head">그룹장 {{group.head}}</div>
         {% for member in members %}
-        <div class="members-mem">
-          <div>{{member}}</div>
-          {% if group.head == user%}
-          <div><i class="fa-solid fa-chevrons-right"></i></div>
-          {% endif %}
-        </div>
+          <div class="members-mem">{{member}}
+            {% if member.username == user%}
+              <button class="to-blist">
+                <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
+                ><i class="fa-regular fa-angle-right"></i></a>
+              </button>
+            {% else %}
+              <button class="new-btn">
+              <i class="fa-solid fa-circle-plus fa-lg"></i>
+              </button>
+              <div class="modal">
+                <a class="modal-list" href="{% url 'groups:create' %}"
+                >그룹원 삭제</a>
+                <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
+                >블랙리스트 추가</a>
+              </div>
+            {% endif %}
+          </div>
         {% endfor %}
-        
-        <button class="new-btn">
-        <i class="fa-solid fa-circle-plus fa-lg"></i>
-        </button>
-        <div class="modal">
-          <a class="modal-list" href="{% url 'groups:create' %}"
-          >그룹원 삭제</a>
-          <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
-          >블랙리스트 관리</a>
-      </div>
+
       </div>
     </div>
   </body>
   <script src="{% static 'js/groups/members.js' %}"></script>
 </html>
+
+

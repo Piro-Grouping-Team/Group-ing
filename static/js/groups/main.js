@@ -10,3 +10,5 @@ window.addEventListener("click", (e) => {
     modal.classList.remove("modal-show");
   } else false;
 });
+
+
