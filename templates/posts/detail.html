@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/posts/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="gradient"></div>
+    <div class="img-wrapper">
+      <img class="cover-img" src="/static/img/cover.png" />
+    </div>
+    <div class="container">
+      <div class="header">
+        {% if post.openRange == 0 %}
+        <div>비공개</div>
+        {% elif post.openRange == 1 %}
+        <div>그룹공개</div>
+        {% elif post.openRange == 2 %}
+        <div>전체공개</div>
+        {% endif %}
+        <div class="title">
+          <div class="btitle">
+            <div>{{ post.logTitle }}</div>
+            <div class="icons">
+              <a href="{% url 'posts:update' post.id %}"
+                ><i class="fa-solid fa-pen-to-square"></i
+              ></a>
+              <form action="{% url 'posts:delete' post.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="stitle">작성자</div>
+          <div class="tags">
+            {% for tag in myKeywords %}
+            <div class="tag">{{ tag }}</div>
+            {% endfor %}
+          </div>
+          <!-- <p>좋아요 {{ post.likeCount }}</p> -->
+        </div>
+      </div>
+      <div class="log-contents">
+        <div class="log-content">
+          <div class="log-label">약속 날짜</div>
+          <div>{{ post.logDate }}</div>
+        </div>
+        <div class="log-content">
+          <div class="log-label">누구랑?</div>
+          <div>
+            {% for member in myMeetMembers %}
+            <div>{{ member }}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="log-content">
+          <div class="log-label">다녀온 곳들</div>
+          <div class="log-places">
+            {% for place in post.places.places %}
+            <div>📍{{ place }}</div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="log-content">
+          <div>{{ post.logContent }}</div>
+        </div>
+
+        <div class="log-content">
+          <div class="log-images">
+            {% if postImgs %} {% for img in postImgs %}
+            <img
+              class="log-image"
+              src="{{ img.image.url }}"
+              alt="{{ img.image.imgName }}"
+            />
+            {% endfor %} {% endif %}
+          </div>
+        </div>
+
+        <footer>
+          <div class="log-content">생성날짜{{ post.createdAt }}</div>
+          <div class="log-content">업데이트 날짜{{ post.updatedAt }}</div>
+        </footer>
+        <a href="{% url 'posts:main' %}" class="btn">목록으로</a>
+      </div>
+    </div>
+  </body>
+</html>

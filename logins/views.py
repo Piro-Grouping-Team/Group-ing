@@ -174,7 +174,6 @@ def mypage(request):
 class FindIdView(View):
     template_name = 'logins/findId.html'
     findId = forms.FindIdForm
-
     def get(self, request):
         if request.method == 'GET':
             form = self.findId(None)
@@ -256,7 +255,6 @@ def authPwResetView(request):
     if request.method == 'GET':
         if not request.session.get('auth', False):
             raise PermissionDenied
-
     if request.method == 'POST':
         sessionUser = request.session['auth']
         currentUser = User.objects.get(email=sessionUser)

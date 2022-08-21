@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
@@ -54,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=20, null=False, blank=False, verbose_name='이름')
     nickname = models.CharField(max_length=20, unique=True, verbose_name='닉네임')
     age = models.IntegerField(null=True, blank=True, verbose_name='나이')
-    profileImg =models.ImageField(null=True, blank=True, upload_to='logins/profile', verbose_name='프로필사진')
+    profileImg =models.ImageField(null=True, blank=True, upload_to='logins/profile', verbose_name='프로필사진', default="no_img.png")
     phoneNumber = PhoneNumberField(unique=True, null=False, blank=False, verbose_name='전화번호')
     address = models.CharField(max_length=100, null=True, blank=True, verbose_name='주소')
     addressDetail = models.CharField(max_length=100, null=True, blank=True, verbose_name='상세주소')

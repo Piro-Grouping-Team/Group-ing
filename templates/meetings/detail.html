@@ -132,6 +132,11 @@
       <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
         >약속목록</a
       >
+      <form action="{% url 'posts:create' %}" method="get">
+        {% csrf_token %}
+        <input type="hidden" name="meetId" value="{{ meeting.id }}" />
+        <input type="submit" class="btn post-btn" value="후기 작성" />
+      </form>
     </div>
   </body>
 </html>

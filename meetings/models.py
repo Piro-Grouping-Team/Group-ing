@@ -10,7 +10,7 @@ class Meetings(models.Model):
     )
 
     meetHead = models.ForeignKey(User, on_delete=models.CASCADE)
-    meetGroupId = models.ForeignKey(Group, on_delete=models.CASCADE)
+    meetGroupId = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='meetGroupId')
     meetName = models.CharField(max_length=100)
     meetStartTime = models.DateTimeField(null=True, blank=True)
     meetEndTime = models.DateTimeField(null=True, blank=True)

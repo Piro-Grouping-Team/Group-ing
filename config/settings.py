@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'logins',
     'groups',
+    'posts',
     'meetings',
     'meetCalendar',
     'keywords',
