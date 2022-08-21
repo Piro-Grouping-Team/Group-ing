@@ -57,6 +57,7 @@ const form_check = () => {
   }
   if (email1.value != "" && email2.value == "") {
     alert("이메일 중복확인을 해주세요!");
+    console.log(email1.value + email2.value);
     email1.focus();
     return false;
   }
@@ -126,8 +127,7 @@ const form_check = () => {
   }
 
   // 모두 통과하면 form 제출
-  let form = document.getElementById("myform");
-  form.submit();
+  document.signupForm.submit();
 };
 
 function detectID() {
@@ -158,6 +158,10 @@ usernameCheck.addEventListener("click", (event) => {
   const username = document.querySelector("#id_username1").value;
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
+  if (username == "") {
+    alert("아이디를 입력하세요!");
+    return false;
+  }
   axios
     .post("/logins/signup/usernameCheck", {
       username: username,
@@ -186,6 +190,10 @@ emailCheck.addEventListener("click", (event) => {
   const email = document.querySelector("#id_email1").value;
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
+  if (email == "") {
+    alert("이메일을 입력하세요!");
+    return false;
+  }
   if (!emailForm.test(email)) {
     alert("이메일 형식을 지켜주세요!");
     email1.focus();
