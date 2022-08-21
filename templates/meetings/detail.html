@@ -1,40 +1,83 @@
 <html>
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetings/detail.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
     <title>약속 등록</title>
   </head>
   <body>
-    <div>약속이름{{ meeting.meetName }}</div>
-    <div>약속이 속한 그룹 {{group.name}}</div>
-    <div>약속 날짜{{ meeting.meetTime }}</div>
-    <div>장소{{ meeting.meetPlace }}</div>
-    <div>
-      현재상태
-    </div>
-      {% if meeting.meetStatus == 0 %} 
-      <div>모집중 </div>
-      {% elif meeting.meetStatus == 1 %} 
-      <div>투표중</div> 
-      {% elif meeting.meetStatus == 2%} 
-      <div>모집완료 </div>
+    <div class="container">
+      <div class="header">
+        <div class="title">
+          {% if meeting.meetStatus == 0 %}
+          <div class="meeting-status">모집중</div>
+          {% elif meeting.meetStatus == 1 %}
+          <div class="meeting-status">투표중</div>
+          {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">모집완료</div>
+          {% endif %}
+          <div class="btitle">{{ meeting.meetName }}</div>
+          <div class="stitle">일정을 확인해주세요!</div>
+        </div>
+        <div class="icons">
+          <a href="{% url 'meetings:update' id=group.id meetId=meeting.id %}">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <form
+            action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}"
+            method="post"
+          >
+            {% csrf_token %}
+            <button type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="meeting-content">
+        <div class="meeting-quest">
+          <div class="meeting-period">
+            {{ meeting.meetStart }} <br />
+            ~ {{ meeting.meetEnd }}
+          </div>
+          <div class="meeting-text">시간 되시나요?</div>
+        </div>
+        <a
+          class="meeting-cal"
+          href="{% url 'meetCalendar:main' meetId=meeting.id %}"
+          ><i class="fa-regular fa-calendar"></i> 시간표 보러가기</a
+        >
+      </div>
+
+      {% if meetUsersName %}
+      <div class="meeting-people quest">
+        <div class="users">
+          {% for key, val in meetUsersName.items %}
+          <div class="user">
+            <div class="user-img_box">
+              <img class="user-img" src="{{ val.url }}" alt="이미지 없음" />
+            </div>
+            <div class="user-name">{{ key }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <div class="q">🥲 아직 참여한 사람이 없어요</div>
       {% endif %}
-    </div>
-    <div>기간범위 시작{{ meeting.meetStart }}</div>
-    <div>기간범위 끝{{ meeting.meetEnd }}</div>
 
-
-    <div>
-      <a href='{% url 'groups:detail' id=group.id %}'>약속목록</a>
-      <a href='{% url 'meetings:update' id=group.id meetId=meeting.id %}'>
-        약속 수정
-      </a>
-
-      <form action="{% url 'meetings:delete' id=group.id meetId=meeting.id %}" method='post'>
-        {% csrf_token %}
-        <input type="submit" value="약속 삭제">
-      </form>
+      <div class="meeting-place quest">
+        <div class="q">📍{{ meeting.meetPlace }} 에서 만나요!</div>
+      </div>
+      <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
+        >약속목록</a
+      >
     </div>
   </body>
 </html>

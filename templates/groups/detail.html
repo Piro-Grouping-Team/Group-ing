@@ -20,6 +20,7 @@
     <title>GroupDetail</title>
   </head>
   <body>
+    <div class="gradient"></div>
     <div class="container">
       <div class="header">
         {% if group.image %}
@@ -46,24 +47,54 @@
         class="customLook"
         name="tags"
         readonly
-        value="활동적인, 술, 자기개발"
+        value="
+        {% for keyword in keywords %}
+          {% if forloop.last %}
+            {{keyword.keyword}}
+          {% else %}
+            {{keyword.keyword}},
+           {% endif %} 
+        {% endfor %}
+   
+        "
       />
       <a class="members" href="{% url 'groups:members' group.id%}"
         >누가 있나요?</a
       >
-      <div class="group-code">그룹 코드 : {{group.code}}</div>
+      <div class="group-code">
+        그룹 코드 :
+        <div class="group-code-content">{{group.code}}</div>
+      </div>
+      <div class="group-code-modal">코드가 복사되었어요! 🥳</div>
       <div class="group-intro">" {{group.introduction}} "</div>
+      <div class="meetings">
+        {% for meeting in meetings %}
+        <a
+          class="meeting"
+          href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}"
+        >
+          {% if meeting.meetStatus == 0 %}
+          <div class="meeting-status">모집중</div>
+          {% elif meeting.meetStatus == 1 %}
+          <div class="meeting-status">투표중</div>
+          {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">모집완료</div>
+          {% endif %}
+          <div class="meeting-content">
+            <div class="meeting-name">{{ meeting.meetName }}</div>
+            <div class="meeting-period">
+              {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+        <a class="new-btn" href="{% url 'meetings:create' group.id %}"
+          ><i class="fa-solid fa-circle-plus fa-lg"></i
+        ></a>
+      </div>
       <a class="btn list-btn" href="{% url 'groups:main' %}">목록으로</a>
     </div>
-    <div>
-      {% for meeting in meetings %}
-      <a href="{% url 'meetings:detail' id=group.id meetId=meeting.id%}"
-        >약속이름{{ meeting.meetName }}</a
-      >
-      {% endfor %}
-    </div>
-
-    <a href="{% url 'meetings:create' group.id %}">약속 생성하러 가기</a>
+    <script src="{% static 'js/groups/detail.js' %}"></script>
     <script>
       const input = document.querySelector("input[name=tags]");
       new Tagify(input);

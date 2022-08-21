@@ -1,0 +1,129 @@
+@import url(../init.css);
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.meeting-status {
+  width: 3rem;
+  padding: 0.3rem 0 0.3rem;
+  margin-bottom: 0.5rem;
+
+  border: 2px solid rgb(198, 252, 35);
+  border-radius: 0.3rem;
+  color: rgb(198, 252, 35);
+
+  font-size: 0.75rem;
+  font-weight: 800;
+
+  text-align: center;
+}
+
+.icons {
+  display: flex;
+  gap: 1rem;
+}
+
+.q {
+  padding: 0.5rem;
+
+  font-weight: bold;
+}
+
+.meeting-content {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 0.5rem;
+  background: rgba(198, 252, 35, 0.7);
+}
+
+.meeting-quest {
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.meeting-period {
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1.25rem;
+  color: #545454;
+  /* text-shadow: 0.1rem 0.1rem 0.5rem #c4c4c4; */
+}
+
+.meeting-cal {
+  width: 7rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+
+  border-radius: 0.5rem;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+
+  background: white;
+  color: #545454;
+}
+
+.meeting-text {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  color: #545454;
+}
+
+.users {
+  padding: 0 1.25rem 0;
+  margin-bottom: 1rem;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  border-radius: 0.5rem;
+  background: #f2f2f2;
+}
+
+.user {
+  padding: 1rem 0 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-img_box {
+  width: 3.4rem;
+  height: 3.4rem;
+
+  border-radius: 70%;
+  overflow: hidden;
+}
+
+.user-img {
+  width: 100%;
+  height: 100%;
+
+  flex-wrap: nowrap;
+  object-fit: cover;
+}
+
+.user-name {
+  padding: 0.5rem 0 0.5rem;
+
+  font-size: 0.75rem;
+}
+
+.meet-btn {
+  margin: 3rem 0 3rem;
+
+  align-self: center;
+}

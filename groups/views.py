@@ -1,11 +1,18 @@
+import json
 import os
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from groups.forms import GroupForm
 from groups.utils import groupCodeGenerate
+from keywords.models import Keyword
 from .models import Group
+from logins.models import User
 from meetings.models import Meetings
 from config import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+
 
 # Create your views here.
 
@@ -18,26 +25,39 @@ def main(request):
     return render(request, 'groups/main.html', context=context)
 
 def create(request):
+    keywords = Keyword.objects.all().values('keyword')
+    keywordList = []
+    for keyword in keywords:
+        keywordList.append(keyword['keyword'])
+    jsonKeywordList = json.dumps(keywordList)
+
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
+        groupKeywords = request.POST.get('tags')
+        
         if form.is_valid():
             group = form.save(commit=False)
             group.head = request.user.username
+            group.code =  groupCodeGenerate()
             group.save()
-            group.code =  groupCodeGenerate(request.user.username, group.id)
-            group.save()
+            for groupKeyword in eval(groupKeywords):
+                k = Keyword.objects.get(keyword=groupKeyword['value']).id
+                group.keywords.add(k)
             group.members.add(request.user.id)
             return redirect(f'/groups/group/{group.id}')
         else:
             form = GroupForm()
+            keywords = Keyword.objects.all()
             context = {
-            'form' : form
+            'form' : form,
+            'keywordData' : jsonKeywordList
             }
             return render(request, template_name='groups/create.html', context=context)
     else:
         form = GroupForm()
         context = {
-            'form' : form
+            'form' : form,
+            'keywordData' : jsonKeywordList
         }
         return render(request, template_name='groups/create.html', context=context)
 
@@ -72,6 +92,7 @@ def detail(request, id):
     group = Group.objects.get(id = id)
     user = request.user
     members = group.members.all()
+    keywords = group.keywords.all()
 
     #그룹내 약속정보들 가져오기
     meetings = Meetings.objects.filter(meetGroupId=group)
@@ -80,6 +101,7 @@ def detail(request, id):
         'members' : members,
         'user' : user,
         'meetings': meetings,
+        'keywords': keywords,
     }
     return render(request, template_name='groups/detail.html', context=context)
 
@@ -93,9 +115,16 @@ def leave(request, id):
 
 def modify(request, id):
     group = Group.objects.get(id=id)
+    groupKeywords = group.keywords.all()
+    allKeywords = Keyword.objects.all().values('keyword')
+    keywordList = []
+    for keyword in allKeywords:
+        keywordList.append(keyword['keyword'])
+    jsonKeywordList = json.dumps(keywordList)
+
     if request.method == 'POST':
         form = GroupForm(request.POST, request.FILES)
-
+        
         #취소 박스 선택 값 가져오기
         imageCancel = request.POST.get('image-clear', False)
 
@@ -108,6 +137,7 @@ def modify(request, id):
             group.name = form.cleaned_data['name']
             group.introduction = form.cleaned_data['introduction']
             group.purpose = form.cleaned_data['purpose']
+            group.head = request.POST['head']
             # group.image = form.cleaned_data['image']           
             if form.cleaned_data['image']:
                 group.image = form.cleaned_data['image']
@@ -120,10 +150,27 @@ def modify(request, id):
     
         context = {
             'form' : form,
-            'group' : group
+            'group' : group,
+            'keywords': groupKeywords,
+            'allKeywords' : jsonKeywordList
+
         }
 
         return render(request, template_name='groups/modify.html', context=context)
+
+@csrf_exempt
+def getGroup(request):
+    req = json.loads(request.body)
+    groupId = req['id']
+    print("groupId:" , groupId)
+    headCandidate = req['headCandidate']
+    print(headCandidate)
+    group = Group.objects.get(id=groupId)
+    try: 
+        group.members.get(username=headCandidate)
+        return JsonResponse({'valid': True, 'headCandidate': headCandidate})
+    except:
+        return JsonResponse({'valid': False, 'headCandidate': headCandidate})
 
 def members(request, id):
     group = Group.objects.get(id=id)
@@ -136,3 +183,41 @@ def members(request, id):
         'user' : user,
     }
     return render(request, template_name='groups/members.html', context=context)
+
+def delete(request, id):
+    group = Group.objects.get(id=id)
+    if request.method == 'POST':
+        group.delete()
+    return redirect('groups:main')
+
+def blackList(request,id):
+    user = request.user.username
+    group = Group.objects.get(id=id)
+    blackList = group.blackList.all()
+
+    context = {
+        'group' : group,
+        'blackList' : blackList,
+        'user' : user
+    }
+    
+    return render(request, template_name='groups/blackList.html', context=context)
+
+def addBlackList(request, id):
+    if request.method == 'POST':
+        group = Group.objects.get(id=id)
+        try:
+            user = User.objects.get(username=request.POST['username'])
+            group.blackList.add(user)
+        except:
+            messages.error(request, '존재하지 않는 사용자입니다!')
+    return redirect('groups:blackList', id)
+
+@csrf_exempt
+def removeBlackList(request):
+    req = json.loads(request.body)
+    userId = req['userId']
+    groupId = req['groupId']
+    group = Group.objects.get(id=groupId)
+    group.blackList.remove(userId)
+    return JsonResponse({'userId' : userId})

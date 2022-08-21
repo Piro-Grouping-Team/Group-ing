@@ -26,8 +26,29 @@ form {
   border-radius: 0.5rem;
 }
 
+.tagify {
+  --tag-bg: greenyellow !important;
+  --tag-hover: none !important;
+}
+
+.tagify--focus {
+  width: 100%;
+  height: 100%;
+}
+
+.tagify__tag::after {
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+
+.tagify__tag {
+  background-color: greenyellow;
+  font-size: 0.5rem;
+  font-weight: 600;
+}
+
 .tagify__input {
-  display: flex !important;
+  display: none !important;
 }
 
 .tagify__dropdown__wrapper {
@@ -35,7 +56,16 @@ form {
   border-radius: 0.5rem;
 }
 
+.tagify__dropdown__item {
+  padding: 0.5rem !important;
+  font-size: 0.8rem;
+}
+
 .create-btn {
   margin: 4rem 0 4rem;
   align-self: center;
+}
+
+.create-img {
+  display: none;
 }

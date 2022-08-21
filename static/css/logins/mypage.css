@@ -1,0 +1,133 @@
+@import url(../init.css);
+
+.profile{
+    width: 100%;
+    position: relative;
+}
+
+.mypage_img{
+    width: 100%;
+    vertical-align: middle;
+}
+
+.nickname_info{
+    position: absolute;
+    top: 50%;
+    left: 36%;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.info_update_text::before{
+    position: absolute;
+    top: 50%;
+    left: 66%;
+    font-family: "FontAwesome"; content: "\f303"; 
+}
+
+
+.motto_place{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.motto{
+    font-size: 20px;
+    font-weight: bold;
+    
+}
+
+.my_info{
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    margin-left: 30px;
+    width: 330px;
+    height: 450px;
+}
+
+
+.age_info{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.age{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+
+.num_info{
+    display: flex;
+    flex-direction: column;
+}
+
+.num{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.email_info{
+    display: flex;
+    flex-direction: column;
+}
+
+.email{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.address_info{
+    display: flex;
+    flex-direction: column;
+}
+
+.address1{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.address2{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+.gen_info{
+    display: flex;
+    flex-direction: column;
+}
+
+.gender{
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+
+
+.my_group_place{
+    display: flex;
+    justify-content: center;
+}
+
+
+.my_group{
+    color: black;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 50px;
+    width: 250px;
+    height: 40px;
+}
+

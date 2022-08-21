@@ -6,9 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/groups/modify.css' %}" />
-    <title>GruopCreate</title>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>GROUPING</title>
   </head>
   <body>
+    <div class="gradient2"></div>
     <div class="container">
       <div class="title">
         <div class="btitle">
@@ -16,17 +24,27 @@
           수정해요
         </div>
       </div>
+      <input type="checkbox" id="id-uncheck">
+      <button id="change-btn" onclick='headChange()'>그룹장 양도하기</button>
       <div class="create-group">
+        <div id="head-change" class="create-box" style="display:none">
+          <div class="create-quest">그룹장을 양도받을 아이디를 적어주세요.</div>
+            <input type="text" id="id_head" value="{{group.head}}">
+            <button onclick="onClickSearch({{group.id}})">조회하기</button>
+            <button onclick='headCancel()'>취소</button>
+        </div>
         <form
           action="{% url 'groups:modify' group.id %}"
           enctype="multipart/form-data"
           method="POST"
+          onsubmit = "return searchChecked()"
         >
           {% csrf_token %}
           <div class="create-box">
             <div class="create-quest">그룹 이름이 무엇인가요?</div>
             {{ form.name }}
           </div>
+          
           <div class="create-box">
             <div class="create-quest">그룹 목적은요?</div>
             {{ form.purpose }}
@@ -36,16 +54,134 @@
             {{ form.introduction }}
           </div>
           <div class="create-box">
+            <div class="create-quest">그룹의 성향은 무엇인가요?</div>
+            <input
+              name="tags"
+              placeholder="write some tags"
+              value="
+              {% for keyword in keywords %}
+                {% if forloop.last %}
+                  {{keyword.keyword}}
+                {% else %}
+                  {{keyword.keyword}},
+                {% endif %} 
+              {% endfor %}
+              "
+            />
+          </div>
+          <div class="create-box">
             <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
             {{ form.image }}
           </div>
+          <input type="text" class="head" name="head" style="display:none">
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
-        <form action="{% url 'groups:leave' group.id %}" method="POST">
+        <form action="{% url 'groups:delete' group.id %}" method="POST">
           {% csrf_token %}
-          <button class="btn leave-btn">그룹 떠나기</button>
+          <button class="btn leave-btn">그룹 해체하기</button>
         </form>
       </div>
     </div>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    var list = {{allKeywords|safe}}
+    var input = document.querySelector("input[name=tags]"),
+      tagify = new Tagify(input, {
+        whitelist: list,
+        dropdown: {
+          position: "manual",
+          maxItems: Infinity,
+          enabled: 0,
+          classname: "tag-list",
+        },
+        enforceWhitelist: true,
+      });
+
+    tagify
+      .on("dropdown:show", onSuggestionsListUpdate)
+      .on("dropdown:hide", onSuggestionsListHide)
+      .on("dropdown:scroll", onDropdownScroll);
+
+    renderSuggestionsList();
+
+    // ES2015 argument destructuring
+    function onSuggestionsListUpdate({ detail: suggestionsElm }) {
+      console.log(suggestionsElm);
+    }
+
+    function onSuggestionsListHide() {
+      console.log("hide dropdown");
+    }
+
+    function onDropdownScroll(e) {
+      console.log(e.detail);
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement
+    function renderSuggestionsList() {
+      tagify.dropdown.show(); // load the list
+      tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown);
+    }
+  </script>
+  <script>
+    const headChange = () => {
+      let con = document.getElementById("head-change") 
+      let c = document.getElementById("id-uncheck")
+      let head = document.getElementById("id_head")
+      if(con.style.display === "none"){
+        con.style.display = "flex"
+        c.checked = true
+        head.value=""
+      } 
+    }
+
+    const headCancel = () => {
+      let con = document.getElementById("head-change")
+      let c = document.getElementById("id-uncheck") 
+      let head = document.querySelector(".head")
+      if(con.style.display != "none"){
+        con.style.display = "none"
+        c.checked = false
+      } 
+    }
+
+    const onClickSearch = async(id) => {
+      const url = '/groups/getGroup/'
+      const headCandidate = document.getElementById("id_head").value
+      const {data} = await axios.post(url, {id, headCandidate})
+      
+      fillHead(data.valid, data.headCandidate)
+  
+    }
+
+    const fillHead = async(valid, headCandidate) => {
+      let c = document.getElementById("id-uncheck")
+      if (!valid) {
+        window.alert("그룹원이 아닙니다!") 
+        c.checked = true
+      }else{
+        let head = document.querySelector(".head")
+        head.value = headCandidate
+        c.checked = false
+        window.alert("그룹장의 요건을 충족합니다!")
+        
+      }
+    }
+
+    const searchChecked = () => {
+      const con = document.getElementById("head-change")
+      const c = document.getElementById("id-uncheck") 
+      if (c.checked){
+        alert('그룹장을 양도받을 아이디를 확인해주세요!')
+        return false
+      }else{
+        if (con.style.display === 'none'){
+          let head = document.querySelector(".head")
+          head.value = '{{group.head}}'
+        }
+        return true
+      }
+    }
+  </script>
 </html>

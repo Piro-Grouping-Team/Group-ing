@@ -48,9 +48,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'logins',
     'groups',
-    'django_tagify',
     'meetings',
-    'meetingsMember',
+    'meetCalendar',
+    'keywords',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -166,4 +167,5 @@ EMAIL_HOST_PASSWORD = logins.my_settings.EMAIL['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = logins.my_settings.EMAIL['EMAIL_USE_TLS']
 # # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+SOCIALACCOUNT_ADAPTER = 'logins.adapter.SocialAccountAdpater'

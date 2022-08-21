@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/logins/update.css' %}" />    
+    <script
+      src="https://kit.fontawesome.com/0dee369a16.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>UPDATE</title>
+  </head>
+
+  <body>
+    <div class="gradient2"></div>
+    <div class=modify_container>
+      <div class="title">
+        <div class="btitle">내 정보를 <br />
+        수정해요</div>
+      </div>
+      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{userChangeForm.as_p}}
+      {% comment %}
+      <p>
+        닉네임
+        <input
+          type="text"
+          name="nickname"
+          value="{{user.nickname}}"
+          placeholder= "nickname"
+        />
+
+        아이디
+        <input
+          type="text"
+          name="id"
+          value="{{user.username}}"
+          placeholder="ID"
+        />
+        비밀번호
+        <input
+          type="text"
+          name="password"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+        비밀번호확인
+        <input
+          type="text"
+          name="id"
+          value="{{user.password}}"
+          placeholder="PASSWORD"
+        />
+
+        이메일
+        <input
+          type="text"
+          name="email"
+          value="{{user.email}}"
+          placeholder= "example@example.com"
+
+        />
+        나이
+        <input
+          type="number"
+          name="age"
+          value="{{user.age}}"
+          placeholder="나이"
+        />
+
+        주소
+        <input
+          type="text"
+          name="address"
+          id="address_kakao"
+          value="{{user.address}}"
+          placeholder = "주소"
+        />
+        상세주소
+        <input
+          type="text"
+          name="addressDetail"
+          value="{{user.addressDetail}}"
+          placeholder = "상세주소"
+        />
+        프로필사진
+        <input
+          type="file"
+          name="profileImg"
+          value="{{user.profileImg}}"
+        />
+        성별
+        <select name="gender">
+            <option value="">{{user.gender}}</option>
+            {% for gender in genders %}
+            {% if user.gender != gender%}
+            <option value="{{gender}}">{{gender}}</option>
+            {% endif %}
+            {% endfor %}
+          </select>
+        한줄소개
+        <input
+          type="text"
+          name="intro"
+          value="{{user.intro}}"
+          />
+        </p>
+        {% endcomment %}
+    
+
+      <div class= inform>
+        <input type="submit" value="완료"/>
+      </div>
+      <a href="{% url 'logins:changePW' user.id %}">비밀번호변경</a>
+    </form>
+
+    </div>
+
+  </body>
+
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+  window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+            }
+        }).open();
+        
+    });
+}
+</script>
+</html>
