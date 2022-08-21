@@ -102,7 +102,6 @@ class SignUp(View):
             email.send()
             return redirect('/')
         print(form.errors)
-
 def usernameCheck(request):
     req = json.loads(request.body)
     username = req['username']
@@ -147,7 +146,6 @@ def activate(request, uidb64, token):
 #         gender = request.POST['gender']
 #         profileImg = request.FILES['profileImg']
 #         intro = request.POST['intro']
-
 #         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, profileImg=profileImg, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
 #         return redirect('logins:mypage')
 #     else:
@@ -176,7 +174,6 @@ def mypage(request):
 class FindIdView(View):
     template_name = 'logins/findId.html'
     findId = forms.FindIdForm
-
     def get(self, request):
         if request.method == 'GET':
             form = self.findId(None)
@@ -258,7 +255,6 @@ def authPwResetView(request):
     if request.method == 'GET':
         if not request.session.get('auth', False):
             raise PermissionDenied
-
     if request.method == 'POST':
         sessionUser = request.session['auth']
         currentUser = User.objects.get(email=sessionUser)
@@ -296,3 +292,22 @@ def changePW(request, id):
         else:
             form = forms.CustomPasswordChangeForm(request.user)
         return render(request, 'logins/changePW.html', {'form': form})
+    
+def usernameCheck(request):
+    req = json.loads(request.body)
+    username = req['username']
+    print(username)
+    if User.objects.filter(username=username).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})
+
+def emailCheck(request):
+    req = json.loads(request.body)
+    email = req['email']
+    if User.objects.filter(email=email).exists():
+        duplicate = 'fail'
+    else:
+        duplicate = 'pass'
+    return JsonResponse({'result': duplicate})
