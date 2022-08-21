@@ -21,14 +21,6 @@
     <div class="postContainer">
       {% for post in posts %}
       <div class="container">
-        <h1>제목{{ post.post.logTitle }}</h1>
-        <p>작성자</p>
-        <p>좋아요 {{ post.post.likeCount }}</p>
-        <p>키워드</p>
-        {% for keyword in post.post.keywords %}
-        <p>{{ keyword.keyword }}</p>
-        {% endfor %}
-        <p>이미지</p>
         <div class="thumbNail">
           {% if post.postImgs %}
             <img src="{{ post.postImgs.0.image.url }}" alt="{{ post.postImgs.0.image.imgName }}" />
@@ -36,6 +28,14 @@
           <i class="fa-duotone fa-camera-retro" style="color: #1c7ed6"></i>
           {% endif %}
         </div>
+        <h1><a href="{% url 'posts:detail' post.post.id %}">제목{{ post.post.logTitle }}</a></h1>
+        <p>작성자{{ post.post.userId }}</p>
+        <p>키워드</p>
+        {% for keyword in post.post.logKeywords.all %}
+        <p>{{ keyword.keyword }}</p>
+        {% endfor %}
+        <p>게시일</p>
+        {{post.post.updateAt}}
       </div>
       {% endfor %}
     </div>
