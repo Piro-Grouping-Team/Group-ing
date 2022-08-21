@@ -105,6 +105,28 @@ def detail(request, id):
     }
     return render(request, template_name='groups/detail.html', context=context)
 
+def handOverHead(request, id):
+    group = Group.objects.get(id=id)
+    if request.method == 'POST':
+        nextHead = request.POST['nextHead']
+        prevHead = request.user.id
+        leaveCheck = request.POST.getlist('leaveCheck[]')
+        group.head = nextHead
+        if len(leaveCheck) > 0:
+            group.members.remove(prevHead)
+        group.save()
+        return redirect('groups:main')
+    members = group.members.all()
+    groupmembers = []
+    for member in members:
+        groupmembers.append(member.username)
+    
+    context = {
+        'members':groupmembers,
+    }
+    return render(request, template_name='groups/handOverHead.html', context=context)
+
+
 def leave(request, id):
     if request.method == 'POST':
         user = request.user.id
