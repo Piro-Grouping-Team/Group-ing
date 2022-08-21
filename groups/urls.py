@@ -15,6 +15,8 @@ urlpatterns = [
     path('delete/<int:id>', views.delete, name='delete'),
     path('group/<int:id>/blackList', views.blackList, name='blackList'),
     path('group/<int:id>/addBlackList', views.addBlackList, name='addBlackList'),
-    path('group/removeBlackList', views.removeBlackList, name='removeBlackList')
+    path('group/removeBlackList', views.removeBlackList, name='removeBlackList'),
+    path('leaveForce/<int:id>/', views.leaveForce, name='leaveForce'),
+
 
 ]

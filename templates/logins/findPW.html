@@ -1,32 +1,51 @@
-<head>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
-<body>
 
-<div>
-    {% csrf_token %}
-    <div>
-        <label name="label_username" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-        {{ form.username }}
-    </div>
-    <div>
-        <label name="label_name" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-        {{ form.name }}
-    </div>
-    <div>
-        <label name="label_email" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-        <small>
-            등록하신 메일로 인증번호가 발송됩니다.
-        </small>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/logins/findPW.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>FINDPW</title>
+  </head>
 
-    <div id="div_find_pw">
-        <button id="find_pw" name="find_pw">비밀번호찾기</button>
-    </div>
-    <div id="loading"></div>
-    <div id="result_pw"></div>
-</div>
+  <body>
+  <div class="container">
+        <div class="title">
+            <div class="btitle">패스워드 찾기</div>
+            <div class="stitle">아이디/이름/이메일을 입력해주세요</div>
+        </div>
+
+        <div class="find_pw">
+            {% csrf_token %}
+            <div class="find_pw_detail">
+                <label name="label_username" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                {{ form.username }}
+            </div>
+            <div class="find_pw_detail">
+                <label name="label_name" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                {{ form.name }}
+            </div>
+            <div class="find_pw_detail">
+                <label name="label_email" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+            </div>
+
+            <div>등록하신 메일로 인증번호가 발송됩니다.</div>
+
+            <div id="div_find_pw">
+                <button id="find_pw" name="find_pw"class="find_pw_btn">비밀번호찾기</button>
+            </div>
+            <div id="loading"></div>
+            <div id="result_pw"></div>
+        </div>    
+  </div>
 
 <script>
     const button = document.querySelector('#find_pw');
@@ -47,9 +66,10 @@
         .then((response) => {
             alert('회원님의 이메일로 인증코드를 발송하였습니다.');
             const element = document.querySelector('#result_pw');
-            element.innerHTML = '<hr><div class="row justify-content-md-center"><form class="form-inline" style="margin-bottom:-15px; margin-top:-10px;"><div class="md-form md-outline"><label for="input_auth_num">인증번호 입력 (<span id="timeset"></span>)</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/></div></form>'+
-            '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn btn-red" style="opacity: 90%; height:30%; margin-top:10px; font-size: 12px;"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div><hr>'
-            
+
+            element.innerHTML = '<div class="row justify-content-md-center"><form class="form-inline"><div class="md-form md-outline"><label class="certificate_num" for="input_auth_num">인증번호 입력</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/></div></form>'+
+            '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn-certi"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div>'
+
             function countdown( elementName, minutes, seconds ) {
                       var elementName, endTime, hours, mins, msLeft, time;
                       function twoDigits( n ) {
@@ -110,4 +130,6 @@
     });
 
 </script>
+
 </body>
+</html>

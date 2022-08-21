@@ -1,0 +1,23 @@
+@import url(../init.css);
+
+
+.id_design{
+    border: 2px solid black;
+    width: 20rem;
+    height: 10rem;
+    background-color: #C6FC23;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.show_id{
+    border: 2px solid black;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+}
