@@ -13,6 +13,7 @@ urlpatterns = [
     path('modify/<int:id>/', views.modify, name='modify'),
     path('getGroup/', views.getGroup, name='getGroup'),
     path('delete/<int:id>', views.delete, name='delete'),
+    path('handOverHead/<int:id>', views.handOverHead, name='handOverHead'),
     path('group/<int:id>/blackList', views.blackList, name='blackList'),
     path('group/<int:id>/addBlackList', views.addBlackList, name='addBlackList'),
     path('group/removeBlackList', views.removeBlackList, name='removeBlackList'),
