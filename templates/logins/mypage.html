@@ -14,74 +14,77 @@
     </head>
 
     <body>
-    <div class="mypage_container">
-        <div class="profile">
-            <div class="mypage_img">
-                <img src="/static/img/mypage_green.png" alt="마이페이지">
-            </div>
+    <div class="container">
+        <div class="mypage">
+            <div class="profile">
+                <div class="mypage_img">
+                    <img src="/static/img/green.png" alt="마이페이지">
+                </div>
 
-            <div class="nickname_info">
-            {{user.nickname}}
-            </div>
+                <div class="up-profile">
+                    <img 
+                        class="user-img"
+                        src="{{user.profileImg}}"
+                    />
 
-            <div class="info_update">
-                <a class="info_update_text" href="{% url 'logins:update' user.id%}"></a>
+                <div class="nickname_info">
+                    {{user.nickname}}
+                </div>
+
+                <div class="info_update">
+                    <a class="info_update_text" href="{% url 'logins:update' user.id%}"></a>
+                </div>
             </div>
         </div>
 
-        <div class="keyword">
-        </div>
-        <div class="motto_place">
-            <div class="motto">
-                "한줄 소개 들어갈 자리"
+    
+            <div class="down-profile">
+                <div class="down1">
+                    <div class="intro">
+                        "{{user.intro}}" 
+                    </div>
+                <a class="my_group" href="{% url 'groups:main' %}">내 그룹들 보기</a>
             </div>
-        </div>
-        
-
-        <div class="my_group_place">
             
-        </div>
 
         {% csrf_token %}
-        <div class = "my_info">
+            <div class="down2">
+                <div class="age_info">나이
+                    <div class="info_detail">
+                    {{user.age}}
+                    </div>
+                </div>
 
-            <div class="age_info">나이
-            <div class="age">
-            {{user.age}}
-            </div>
-            </div>
+                <div class="num_info">전화번호
+                    <div class="info_detail">
+                    010-1234-5678(임시)
+                    </div>
+                </div>
 
-            <div class="num_info">전화번호
-            <div class="num">
-            010-1234-5678(임시)
-            </div>
-            </div>
+                <div class="email_info">이메일
+                    <div class="info_detail">
+                    {{user.email}}
+                    </div>
+                </div>
 
-            <div class="email_info">이메일
-            <div class="email">
-            {{user.email}}
-            </div>
-            </div>
+                <div class="address_info">집주소
+                    <div class="info_detail">
+                    {{user.address}}
+                    </div>
+                    <div class="info_detail"> 
+                    {{user.addressDetail}}
+                    </div>
+                </div>
 
-            <div class="address_info">집주소
-            <div class="address1">
-            {{user.address}}
+                <div class="gen_info">성별
+                    <div class="info_detail">
+                    {{user.gender}}
+                    </div>
+                </div>
             </div>
-            <div class="address2"> 
-            {{user.addressDetail}}
-            </div>
-            </div>
-
-            <div class="gen_info">성별
-            <div class="gender">
-            {{user.gender}}
-            </div>
-            </div>
-
         </div>
 
 
-        
-
+        </div>
     </body>
 </html>

@@ -5,6 +5,10 @@ form {
   flex-direction: column;
 }
 
+.content {
+  padding-bottom: 8rem;
+}
+
 .create-box {
   padding: 1rem;
 
@@ -24,6 +28,9 @@ form {
 
   border: 1px solid black;
   border-radius: 0.5rem;
+}
+
+.create-select {
 }
 
 .meet-btn {

@@ -1,5 +1,7 @@
+@import url(./init.css);
+
 body {
-  background: black;
+  background: rgb(28, 28, 28);
 }
 
 .container {
@@ -7,6 +9,7 @@ body {
 }
 
 .buttons {
+  padding: 5rem;
   display: flex;
   flex-wrap: wrap;
 }
@@ -23,17 +26,29 @@ body {
   text-decoration: none;
 }
 
-.space2 {
-  width: 4rem;
-}
-
-.space4 {
-  width: 7rem;
-}
-
 .login:hover,
-.signup:hover {
+.signup:hover,
+.mygroup:hover {
   background: #c6fc23;
   color: black;
   border-color: #c6fc23;
 }
+
+.ti.show {
+  opacity: 1;
+  transform: none;
+}
+
+.ti-up {
+  transform: translate(0, 100px);
+}
+
+/* 
+@keyframe show-text {
+  from {
+    color: black;
+  }
+  to {
+    color: white;
+  }
+} */

@@ -65,3 +65,7 @@ form {
   margin: 4rem 0 4rem;
   align-self: center;
 }
+
+.create-img {
+  display: none;
+}

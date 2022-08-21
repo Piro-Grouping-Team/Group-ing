@@ -1,133 +1,91 @@
 @import url(../init.css);
 
-.profile{
-    width: 100%;
-    position: relative;
+.container{
+    height: 100vh;
+    width: 100vw;
+    padding: 0px;
 }
 
-.mypage_img{
-    width: 100%;
-    vertical-align: middle;
+.mypage{
+    position:relative;
+}
+
+.mypage_img img {
+    width: 100vw;
+}
+
+.up-profile{
+    display: flex;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.user-img{
+    position: absolute;
+    top: 15%;
 }
 
 .nickname_info{
     position: absolute;
-    top: 50%;
-    left: 36%;
-    font-size: 25px;
-    text-align: center;
-    font-weight: bold;
+    top: 25%;
 }
 
 .info_update_text::before{
+    font-family: "FontAwesome"; content: "\f303";
     position: absolute;
-    top: 50%;
-    left: 66%;
-    font-family: "FontAwesome"; content: "\f303"; 
+    top: 25%; 
+    left: 60%;
 }
 
 
-.motto_place{
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-}
 
-.motto{
-    font-size: 20px;
+.down-profile{
+    font-size: 1.2rem;
     font-weight: bold;
-    
+    height: 100vw;
 }
 
-.my_info{
-    font-size: 20px;
-    font-weight: bold;
+.down1{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    margin-left: 30px;
-    width: 330px;
-    height: 450px;
+    align-items: center;
+    font-size: 1.5rem;
 }
 
-
-.age_info{
-    display: flex;
-    flex-direction: column;
-    
+.intro{
+    margin-bottom: 1.2rem;
 }
-
-.age{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-
-.num_info{
-    display: flex;
-    flex-direction: column;
-}
-
-.num{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-.email_info{
-    display: flex;
-    flex-direction: column;
-}
-
-.email{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-.address_info{
-    display: flex;
-    flex-direction: column;
-}
-
-.address1{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-.address2{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-.gen_info{
-    display: flex;
-    flex-direction: column;
-}
-
-.gender{
-    margin-top: 10px;
-    font-size: 17px;
-}
-
-
-
-.my_group_place{
-    display: flex;
-    justify-content: center;
-}
-
 
 .my_group{
-    color: black;
-    background-color: transparent;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 10px 20px 10px 20px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 50px;
-    width: 250px;
-    height: 40px;
+    width: 15rem;
+    height: 2.5rem;
 }
 
+.down1 a{
+    border: 2px solid #545454;
+    border-radius: 5px;
+    color: #545454;
+    padding: 2px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+}
+
+
+.down2{
+    padding-left: 10vw;
+    display: flex;
+    flex-direction: column;
+    height: 100vw;
+    justify-content: space-evenly;
+}
+
+.info_detail{
+    margin-top: 10px;
+    font-size: 1rem;
+}
