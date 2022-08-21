@@ -7,18 +7,35 @@
 }
 
 .meeting-status {
-  width: 3rem;
-  padding: 0.3rem 0 0.3rem;
+  width: 4rem;
+  padding: 0.4rem 0 0.4rem;
   margin-bottom: 0.5rem;
 
-  border: 2px solid rgb(198, 252, 35);
   border-radius: 0.3rem;
-  color: rgb(198, 252, 35);
 
   font-size: 0.75rem;
   font-weight: 800;
 
   text-align: center;
+}
+
+.status0 {
+  border: 2px solid rgb(198, 252, 35);
+  color: rgb(198, 252, 35);
+}
+.status1 {
+  border: 2px solid #789915;
+  background: #789915;
+  color: white;
+}
+.status2 {
+  border: 2px solid #808080;
+  color: #808080;
+}
+.status3 {
+  border: 2px solid #545454;
+  background: #545454;
+  color: white;
 }
 
 .icons {
