@@ -3,10 +3,16 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
+
+from meetings.views import changeStatus
+
+from .utils import dateContinue
 from .forms import meetDayForm, meetTravelForm
 from django.contrib import messages
+from django.db.models import Max,Min
 
-from meetCalendar.models import meetDay, meetTravel, meetTravelInfo,meetDayInfo
+
+from meetCalendar.models import meetDay, meetDayVote, meetTravel, meetTravelInfo,meetDayInfo, meetTravelVote
 from logins.models import User
 from meetings.models import Meetings
 
@@ -53,7 +59,7 @@ def getDayInfo(request):
 @csrf_exempt
 def getTravelInfo(request):
     req = json.loads(request.body)
-    meetId = req['meetId']
+    meetId = req['meetId1']
     year = req['viewYear']
     month = req['viewMonth']
     month +=1
@@ -178,3 +184,73 @@ def savemeetDayInfo(meetDay):
             meetDayInfo.objects.create(meetId=meetId,year=year,month=month,day=day,hour=startTime)
             meetDayInfo.objects.get(meetId=meetId,year=year,month=month,day=day,hour=startTime).meetUsers.add(userId)
         startTime += 1
+
+def voteDayCandidate(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    voteList = meetDayVote.objects.filter(meetId=meetId)
+    if request.method == 'POST':
+        results = request.POST.getlist('selection[]')
+        for result in results:
+            mdv = meetDayVote.objects.get(id=int(result)) 
+            mdv.voteUser += 1
+            mdv.save()
+        meeting.meetVote.add(request.user.id)
+        if meeting.meetVote.all().count() == meeting.meetMembers.all().count():
+            changeStatus(request, meeting.meetGroupId.id, meetId)
+        return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
+    else:
+        context = {
+            'meeting' : meeting,
+            'voteList' : voteList,
+        }
+
+        return render(request, template_name='meetCalendar/voteDayCandidate.html', context=context)
+
+def voteTravelCandidate(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    voteList = meetTravelVote.objects.filter(meetId=meetId)
+    if request.method == 'POST':
+        results = request.POST.getlist('selection[]')
+        print(results)
+        for result in results:
+            mdv = meetTravelVote.objects.get(id=int(result)) 
+            mdv.voteUser += 1
+            mdv.save()
+        meeting.meetVote.add(request.user.id)
+        if meeting.meetVote.all().count() == meeting.meetMembers.all().count():
+            changeStatus(request, meeting.meetGroupId.id, meetId)
+        return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
+    else:
+        context = {
+            'meeting' : meeting,
+            'voteList' : voteList,
+        }
+
+        return render(request, template_name='meetCalendar/voteTravelCandidate.html', context=context)
+
+def fixDayCandidate(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+
+    if request.method == 'POST':
+        fixedTime = meetDayVote.objects.get(id=request.POST['fix'])
+        meeting.meetStartTime = datetime.datetime(fixedTime.year, fixedTime.month, fixedTime.day, fixedTime.startTime)
+        meeting.meetEndTime = datetime.datetime(fixedTime.year, fixedTime.month, fixedTime.day, fixedTime.endTime)
+        meeting.meetStatus = 3
+        meeting.save()
+
+    return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)
+
+
+def fixTravelCandidate(request, meetId):
+    meeting = Meetings.objects.get(id=meetId)
+    if request.method == 'POST':
+        fixedTime = meetTravelVote.objects.get(id=request.POST['fix'])
+        st = meetTravel.objects.filter(startDate=datetime.datetime(fixedTime.startYear, fixedTime.startMonth, fixedTime.startDay)).aggregate(Max('startTime'))
+        et = meetTravel.objects.filter(endDate=datetime.datetime(fixedTime.endYear, fixedTime.endMonth, fixedTime.endDay)).aggregate(Min('endTime'))
+        print(et)
+        meeting.meetStartTime = datetime.datetime(fixedTime.startYear, fixedTime.startMonth, fixedTime.startDay, int(st['startTime__max']))
+        meeting.meetEndTime = datetime.datetime(fixedTime.endYear, fixedTime.endMonth, fixedTime.endDay, int(et['endTime__min']))
+        meeting.meetStatus = 3
+        meeting.save()
+
+    return redirect('meetings:detail', meeting.meetGroupId.id, meeting.id)

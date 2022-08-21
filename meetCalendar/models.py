@@ -125,3 +125,25 @@ class meetTravelInfo(models.Model):
     meetUsers = models.ManyToManyField(User, related_name='travelUser')
 
     #array필드 ()
+class meetDayVote(models.Model):
+    meetId = models.ForeignKey(Meetings, on_delete=models.CASCADE , verbose_name='약속 PK')
+    year = models.IntegerField()
+    month = models.IntegerField()
+    day = models.IntegerField()
+    startTime = models.IntegerField()
+    endTime = models.IntegerField()
+    validUser = models.ManyToManyField(User, related_name='validUserDay')
+    voteUser = models.IntegerField(default=0)
+
+class meetTravelVote(models.Model):
+    meetId = models.ForeignKey(Meetings, on_delete=models.CASCADE , verbose_name='약속 PK')
+    startYear = models.IntegerField()
+    startMonth = models.IntegerField()
+    startDay = models.IntegerField()
+    startTime = models.IntegerField()
+    endYear = models.IntegerField()
+    endMonth = models.IntegerField()
+    endDay = models.IntegerField()
+    endTime = models.IntegerField()
+    validUser = models.ManyToManyField(User, related_name='validUserTravel')
+    voteUser = models.IntegerField(default=0)

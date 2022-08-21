@@ -102,7 +102,6 @@ class SignUp(View):
             email.send()
             return redirect('/')
         print(form.errors)
-
 def usernameCheck(request):
     req = json.loads(request.body)
     username = req['username']
@@ -147,7 +146,6 @@ def activate(request, uidb64, token):
 #         gender = request.POST['gender']
 #         profileImg = request.FILES['profileImg']
 #         intro = request.POST['intro']
-
 #         User.objects.filter(id=id).update(nickname=nickname, email=email, age=age, profileImg=profileImg, address=address, addressDetail=addressDetail, gender=gender, intro=intro)
 #         return redirect('logins:mypage')
 #     else:

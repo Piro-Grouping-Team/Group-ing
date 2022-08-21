@@ -78,6 +78,8 @@
           {% elif meeting.meetStatus == 1 %}
           <div class="meeting-status">투표중</div>
           {% elif meeting.meetStatus == 2%}
+          <div class="meeting-status">조율중</div>
+          {% elif meeting.meetStatus == 3%}
           <div class="meeting-status">모집완료</div>
           {% endif %}
           <div class="meeting-content">

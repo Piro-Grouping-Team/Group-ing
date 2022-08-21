@@ -26,7 +26,9 @@
           <a href="{% url 'logins:logout' %}">로그아웃</a>
           {% endcomment %} {% else %}
 
+
           {{error_messages}}
+
           <form class="login_idpw" action="" method="POST">
             {% csrf_token %}
             <div class="login_id">
@@ -56,6 +58,7 @@
             <div class="login_signup">
               <a href="{% url 'logins:signup' %}">그룹핑이 처음이신가요?</a>
             </div>
+
             <div class="login_find">
               <a href="{% url 'logins:findId' %}">아이디찾기</a>
               /

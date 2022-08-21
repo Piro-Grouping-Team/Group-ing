@@ -65,9 +65,10 @@
         .then((response) => {
             alert('회원님의 이메일로 인증코드를 발송하였습니다.');
             const element = document.querySelector('#result_pw');
+
             element.innerHTML = '<div class="row justify-content-md-center"><form class="form-inline"><div class="md-form md-outline"><label class="certificate_num" for="input_auth_num">인증번호 입력</label><input type="text" id="input_auth_num" class="form-control mx-sm-2" autofocus/></div></form>'+
             '<button type="submit" name="auth_confirm" id="id_auth_confirm" class="btn-certi"><i class="fas fa-check"></i>&nbsp;&nbsp;인증확인</button></div>'
-            
+
             function countdown( elementName, minutes, seconds ) {
                       var elementName, endTime, hours, mins, msLeft, time;
                       function twoDigits( n ) {

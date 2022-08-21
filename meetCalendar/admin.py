@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from meetCalendar.models import meetDay,meetTravel,meetDayInfo,meetTravelInfo
+from meetCalendar.models import meetDay,meetTravel,meetDayInfo,meetTravelInfo,meetDayVote,meetTravelVote
 
 # Register your models here.
 @admin.register(meetDay)
@@ -21,4 +21,14 @@ class meetDayInfoAdmin(admin.ModelAdmin):
 @admin.register(meetTravelInfo)
 class meetTravelInfoAdmin(admin.ModelAdmin):
     list_display= ('meetId', 'year', 'month', 'day')
+    pass
+
+@admin.register(meetDayVote)
+class meetDayVoteAdmin(admin.ModelAdmin):
+    list_display = ('meetId', 'year', 'month', 'day', 'startTime', 'endTime', 'voteUser')
+    pass
+
+@admin.register(meetTravelVote)
+class meetTravelVoteAdmin(admin.ModelAdmin):
+    list_display = ('meetId', 'startYear', 'startMonth', 'startDay', 'startTime', 'endYear', 'endMonth', 'endDay', 'endTime', 'voteUser')
     pass

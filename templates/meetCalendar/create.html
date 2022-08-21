@@ -1,64 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/meetCalendar/create.css' %}" />
     <title>시간 기입</title>
   </head>
   <body>
     {% if meeting.meetType == 'today' %}
     <form
+      class="container"
       action="{% url 'meetCalendar:create' meetId=meetId %}"
       ,
       method="POST"
     >
-      {% csrf_token %} {% if form.errors %} {% if messages %}
-      <div>{% for message in messages %} {{message.message }} {% endfor %}</div>
-      {% endif %} {% endif %}
-      <div>투표범위 : {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}</div>
-      <input type="date" name="validDate" id="validDate" />
-      <div>가능한 시작시간</div>
-      <select name="startTime" id="startTime">
-        {% for key,value in meetTimes %}
-        <option value="{{key}}">{{value}}</option>
-        {% endfor %}
-      </select>
-      <div>가능한 종료시간</div>
-      <select name="endTime" id="endTime">
-        {% for key,value in meetTimes %}
-        <option value="{{key}}">{{value}}</option>
-        {% endfor %}
-      </select>
+      <div class="container-content">
+        {% csrf_token %} {% if form.errors %} {% if messages %}
+        <div>
+          {% for message in messages %} {{ message.message }} {% endfor %}
+        </div>
+        {% endif %} {% endif %}
+        <div class="content-title">
+          <div class="title-range">
+            {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}
+          </div>
+          <div>📆 원하는 시간을 알려주세요! 📆</div>
+        </div>
+        <div class="content-body">
+          <input
+            class="selectdate"
+            type="date"
+            name="validDate"
+            id="validDate"
+          />
+          <div class="selecttime">
+            <div class="starttime">
+              <select name="startTime" id="startTime">
+                {% for key,value in meetTimes %}
+                <option value="{{key}}">{{value}}</option>
+                {% endfor %}
+              </select>
+              <div>시부터</div>
+            </div>
+            <div class="endtime">
+              <select name="endTime" id="endTime">
+                {% for key,value in meetTimes %}
+                <option value="{{key}}">{{value}}</option>
+                {% endfor %}
+              </select>
+              <div>시까지</div>
+            </div>
+          </div>
+        </div>
 
-      <input type="submit" value="시간 제출" />
+        <input class="btn" type="submit" value="시간 제출" />
+      </div>
     </form>
+
     {% else %}
     <form
+      class="container"
       action="{% url 'meetCalendar:create' meetId=meetId %}"
       ,
       method="POST"
     >
-      {% csrf_token %} {% if form.errors %} {% if messages %}
-      <div>{% for message in messages %} {{message.message }} {% endfor %}</div>
-      {% endif %} {% endif %}
+      <div class="container-content">
+        {% csrf_token %} {% if form.errors %} {% if messages %}
+        <div>
+          {% for message in messages %} {{message.message }} {% endfor %}
+        </div>
+        {% endif %} {% endif %}
 
-      <div>투표범위 : {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}</div>
-      <input type="date" name="startDate" id="startDate" />
-
-      <select name="startTime" id="startTime">
-        {% for key,value in meetTimes %}
-        <option value="{{key}}">{{value}}</option>
-        {% endfor %}
-      </select>
-      <input type="date" name="endDate" id="endDate" />
-      <select name="endTime" id="endTime">
-        {% for key,value in meetTimes %}
-        <option value="{{key}}">{{value}}</option>
-        {% endfor %}
-      </select>
-
-      <input type="submit" value="시간 제출" />
+        <div class="content-title">
+          <div class="title-range">
+            {{ meeting.meetStart }} ~ {{ meeting.meetEnd }}
+          </div>
+          <div>📆 원하는 시간을 알려주세요! 📆</div>
+        </div>
+        <input class="selectdate" type="date" name="startDate" id="startDate" />
+        <select name="startTime" id="startTime">
+          {% for key,value in meetTimes %}
+          <option value="{{key}}">{{value}}</option>
+          {% endfor %}
+        </select>
+        <input class="selectdate" type="date" name="endDate" id="endDate" />
+        <select name="endTime" id="endTime">
+          {% for key,value in meetTimes %}
+          <option value="{{key}}">{{value}}</option>
+          {% endfor %}
+        </select>
+        <input class="btn" type="submit" value="시간 제출" />
+      </div>
     </form>
     {% endif %}
   </body>
