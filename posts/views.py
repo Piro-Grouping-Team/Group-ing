@@ -76,7 +76,8 @@ def main(request):
         tmp['post'] = post
         tmp['postImgs'] = PostImg.objects.filter(logId=post.id)
         nowPost.append(tmp)
-    print(nowPost)
+        
+
     context = {
         'posts': nowPost,
     }
@@ -157,7 +158,7 @@ def create(request):
             meetUsers = meeting.meetMembers.all()
             myMeetMembers = []
             for user in meetUsers:
-                myMeetMembers.append(user.nickname)
+                myMeetMembers.append(user.name)
 
             
             context = {
@@ -228,7 +229,7 @@ def update(request, postId):
         meetMembers = nowpost.meetMembers.all()
         myMeetMembers = []
         for user in meetMembers:
-            myMeetMembers.append(user.nickname)
+            myMeetMembers.append(user.name)
         openRanges = Post.openRangeChoices
         logKeywords = nowpost.logKeywords.all()
         myKeywords = []

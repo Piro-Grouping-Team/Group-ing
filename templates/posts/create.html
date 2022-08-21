@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   {% load static %}
-
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -35,24 +34,22 @@
           method="post"
           enctype="multipart/form-data"
         >
-          {% csrf_token %} {% if postForm.logTitle %}
-
-          {% if meeting %}
+          {% csrf_token %} {% if postForm.logTitle %} {% if meeting %}
           <input type="hidden" name="meetId" value="{{ meeting.id }}" />
           {% else %}
-          <div class='create-box'>
-            <div class='create-quest'>약속 이름</div>
-            <select name="meetId">
+          <div class="create-box">
+            <div class="create-quest">약속 이름</div>
+            <select class="log-input" name="meetId">
               {% for meet in meetingsId %}
               <option value="{{ meet.id }}">{{ meet.meetName }}</option>
               {% endfor %}
             </select>
           </div>
           {% endif %}
-          <postForm class='create-box'>
-            <label class='create-quest' for="logTitle">제목</label>
+          <postForm class="create-box">
+            <label class="create-quest" for="logTitle">제목</label>
             <input
-              class='log-input'
+              class="log-input"
               type="text"
               name="logTitle"
               id="logTitle"
@@ -70,29 +67,19 @@
           </div>
           <div class="create-box">
             <div class="create-quest">약속 날짜</div>
-            <input
-              class="log-input"
-              type="date"
-              name="logDate"
-              value="2022-08-23"
-              min="2022-01-01"
-              max="2022-12-31"
-            />
+            <!-- 날짜 받아오기 ~ ~ -->
           </div>
-          <div class='create-box'>
-            <div class='create-quest'>태그</div>
-            <input
-              name="basic"
-            />
+          <div class="create-box">
+            <div class="create-quest">태그</div>
+            <input name="basic" />
           </div>
           <div class="create-box">
             <div class="create-quest">약속 구성원</div>
-            <!-- 유저 이름 목록 가져오기 -->
-            {% if postForm.logTitle %}
-              {% for member in myMeetMembers %}
-                <div class='user-name'>{{member}}</div>
-              {% endfor %}
-            {% endif %}
+            <div class="log-input user-names">
+              {% if postForm.logTitle %} {% for member in myMeetMembers %}
+              <div class="user-name">{{member}}</div>
+              {% endfor %} {% endif %}
+            </div>
           </div>
           <div class="create-box">
             <div class="create-quest">어디 다녀오셨나요?</div>
@@ -101,13 +88,15 @@
                 class="log-input"
                 name="place[]"
                 type="text"
+                value="{{ meeting.meetPlace }}"
+              />
+              <input
+                class="log-input"
+                name="place[]"
+                type="text"
                 placeholder="장소를 추가해주세요"
               />
-              <!-- 
-            디폴트(meetPlace) 불러오기
-            + 버튼에 클릭이벤트로 input element 추가 걸어줄 예정
-            장소 여러개 등록
-            --></div>
+            </div>
             <div class="place-add">
               <i class="fa-solid fa-circle-plus"></i>
             </div>
@@ -124,8 +113,12 @@
           </div>
           <div class="create-box">
             <div class="create-quest">사진 첨부</div>
-            <input type="file" name="logImgs[]"  />
-            <input type="file" name="logImgs[]"  />
+            <div class="images">
+              <input type="file" name="logImgs[]" />
+            </div>
+            <div class="img-add">
+              <i class="fa-solid fa-circle-plus"></i>
+            </div>
           </div>
           <div class="create-box">
             <div class="create-quest">동영상 첨부</div>
@@ -134,24 +127,12 @@
         </form>
       </div>
     </div>
-    <script>
-      const addBtn = document.querySelector(".place-add");
-      const places = document.querySelector(".places");
-      addBtn.addEventListener("click", () => {
-        let place = document.createElement("input");
-        place.setAttribute("class", "log-input");
-        place.setAttribute("type", "text");
-        place.setAttribute("placeholder", "장소를 추가해주세요");
-        place.setAttribute("name", "place[]");
-        places.appendChild(place);
-      });
-    </script>
+    <script src="{% static 'js/posts/create.js' %}"></script>
     <script>
       // The DOM element you wish to replace with Tagify
-var input = document.querySelector('input[name=basic]');
-
-// initialize Tagify on the above input node reference
-new Tagify(input)
+      var input = document.querySelector("input[name=basic]");
+      // initialize Tagify on the above input node reference
+      new Tagify(input);
     </script>
   </body>
 </html>

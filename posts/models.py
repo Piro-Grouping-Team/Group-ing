@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.forms import JSONField
 from meetings.models import Meetings
