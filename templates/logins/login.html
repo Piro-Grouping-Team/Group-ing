@@ -45,9 +45,10 @@
               <hr class="pw_line" />
             </div>
 
-            <div class="login_btn">
-              <input name="login_btn" type="submit" value="로그인" />
-            </div>
+
+            <input class="login_btn" type="submit" value="로그인" />
+
+
           </form>
           <div class="login_signup_container">
             <div class="login_signup">
@@ -56,19 +57,6 @@
           </div>
         </div>
 
-        <div class="social login">
-          {% load socialaccount %}
-          <div class="naver_login">
-            <a class="naver_text" href=" {% provider_login_url 'naver' %}"
-              >네이버로 시작하기</a
-            ><br />
-          </div>
-          <div class="google_login">
-            <a class="google_text" href=" {% provider_login_url 'google' %}"
-              >Google로 시작하기</a
-            ><br />
-          </div>
-        </div>
         {% endif %}
       </ul>
     </div>

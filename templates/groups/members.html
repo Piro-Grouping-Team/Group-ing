@@ -13,7 +13,6 @@
     <title>GROUPING</title>
   </head>
 
-
   <body>
     <div class="container">
       <div class="title">
@@ -27,11 +26,13 @@
       <div class="members">
         <div class="members-head">그룹장 {{group.head}}</div>
         {% for member in members %}
+
           <div class="members-mem">{{member}}
-            {% if member.username == user%}
+            {% if request.user.username == group.head %}
+            {% if member.username == group.head%}
               <button class="to-blist">
-                <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
-                ><i class="fa-regular fa-angle-right"></i></a>
+                <a class="blacklist" href="{% url 'groups:blackList' group.id %}"
+                ><p class="blist-btn"><i class="fa-solid fa-ban"></i></p></a>
               </button>
             {% else %}
               <button class="new-btn">
@@ -43,6 +44,7 @@
                 <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
                 >블랙리스트 추가</a>
               </div>
+            {% endif %}
             {% endif %}
           </div>
         {% endfor %}
