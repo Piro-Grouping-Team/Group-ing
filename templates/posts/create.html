@@ -36,29 +36,32 @@
           enctype="multipart/form-data"
           name="createPost"
         >
-          {% csrf_token %} {% if postForm.logTitle %} {% if meeting %}
-          <input type="hidden" name="meetId" value="{{ meeting.id }}" />
-          {% else %}
-          <div class="create-box">
-            <div class="create-quest">약속 이름</div>
-            <select id='meetId' class="log-input" name="meetId" onchange="loadMeetingInfo(this.value)">
-              <option value="">약속을 선택해주세요</option>
-              {% for meet in meetingsId %}
-              <option value="{{ meet.id }}">{{ meet.meetName }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          {% endif %}
-          <postForm class="create-box">
-            <label class="create-quest" for="logTitle">제목</label>
-            <input
-              class="log-input"
-              type="text"
-              name="logTitle"
-              id="logTitle"
-              value="{{postForm.logTitle.initial}}"
-            />
-          </postForm>
+          {% csrf_token %} 
+          <!-- 약속 디테일에서 가져온경우 -->
+          {% if postForm.logTitle %} 
+            {% if meeting.id %}
+            <input type="hidden" id='meetId' name="meetId" value="{{ meeting.id }}" />
+            {% else %}
+            <div class="create-box">
+              <div class="create-quest">약속 이름</div>
+              <select id='meetId' class="log-input" name="meetId" onchange="loadMeetingInfo(this.value)">
+                <option value="">약속을 선택해주세요</option>
+                {% for meet in meetingsId %}
+                <option value="{{ meet.id }}">{{ meet.meetName }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+            <postForm class="create-box">
+              <label class="create-quest" for="logTitle">제목</label>
+              <input
+               class="log-input"
+                type="text"
+                name="logTitle"
+                id="logTitle"
+                value="{{postForm.logTitle.initial}}"
+              />
+            </postForm>
           {% endif %}
           <div class="create-box">
             <div class="create-quest">공개 범위</div>
