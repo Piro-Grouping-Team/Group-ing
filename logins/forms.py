@@ -163,6 +163,12 @@ class UpdateUser(forms.ModelForm):
             'gender',
             'intro',
             )
+        widget = {
+            'profileImg': forms.ClearableFileInput(),
+        }
+    def __init__(self, *args, **kwargs):
+        super(UpdateUser, self).__init__(*args, **kwargs)
+        self.fields['profileImg'].widget.attrs = {'id': 'id_profileImg'}
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):

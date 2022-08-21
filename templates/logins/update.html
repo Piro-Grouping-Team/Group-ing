@@ -22,7 +22,7 @@
       </div>
       <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {{userChangeForm.as_p}}
+      <div class="img_form">{{userChangeForm.as_p}}</div>
       {% comment %}
       <p>
         닉네임

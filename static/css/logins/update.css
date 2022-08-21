@@ -89,3 +89,16 @@
     padding: 0.8rem;
     margin-bottom: 0.8rem;
 }
+
+input#profileImg-clear_id{
+    cursor: pointer;
+}
+
+.img_form{
+    display: flex;
+    flex-direction: column;
+}
+.img_form p{
+    display: flex;
+    flex-direction: row;
+}
