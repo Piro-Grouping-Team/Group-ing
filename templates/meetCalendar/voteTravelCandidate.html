@@ -1,46 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/meetCalendar/vote.css' %}" />
+    <script
+    src="https://kit.fontawesome.com/b453b8b1fc.js"
+    crossorigin="anonymous"
+    ></script>
     <title>Document</title>
 </head>
 <body>
-    {% if meeting.meetStatus == 1%}
+    <div class="container">
+    {% if meeting.meetStatus == 1 %}
         {%if user in meeting.meetVote.all%}
+        <div class="votelist">
             {% for vote in voteList %}
-            <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
-            <p>현재 투표 인원: {{vote.voteUser}}</p>
+            <div class="vote">
+                <div class="vote-time">{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지</div>
+                <div class="vote-pnum">{{vote.validUser.all.count}}명이 함께할 수 있어요!</div>
+                <div>현재 투표 인원 {{vote.voteUser}}</div>
+            </div>
             {% endfor %}
-            
+        </div>
         {% else %}
-            <form action="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id%}" method="POST">
+        <div class="title-self">
+            <div class="btitle">투표중</div>
+            <div class="stitle">원하는 시간에 투표하세요!</div>
+        </div>
+            <form class="votelist" action="{% url 'meetCalendar:voteTravelCandidate' meetId=meeting.id%}" method="POST">
                 {% csrf_token %}
                 {% for vote in voteList %}
-                    <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
-                    <input type="checkbox" name="selection[]" value="{{vote.id}}">
-                    <p>현재 투표 인원: {{vote.voteUser}}</p>
+                <div class="vote">
+                    <div class="vote-info">
+                        <div class="vote-time">{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 ~
+                            {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일 </div>
+                        <div class="vote-pnum">{{vote.validUser.all.count}}명이 함께할 수 있어요!</div>
+                        <div>🔖 투표 인원 {{vote.voteUser}}</div>
+                    </div>
+                    <input id="vote-checkbox{{vote.id}}" type="checkbox" name="selection[]" value="{{vote.id}}">
+                    <label for="vote-checkbox{{vote.id}}"></label>
+                </div>
                 {% endfor %}
-                <input type="submit">
+                <input class="btn" type="submit">
             </form>
         {% endif %}
     {% elif meeting.meetStatus == 2 %}
         {% if request.user.id == meeting.meetHead.id%}
-            <form action="{% url 'meetCalendar:fixTravelCandidate' meetId=meeting.id%}" method="POST">
+            <div class="title-self">
+                <div class="btitle">조율중</div>
+                <div class="stitle">약속 시간을 확정하세요!</div>
+            </div>
+            <form class="votelist" action="{% url 'meetCalendar:fixTravelCandidate' meetId=meeting.id%}" method="POST">
                 {% csrf_token %}
                 {% for vote in voteList %}
-                <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
-                <p>현재 투표 인원: {{vote.voteUser}}</p>
-                    <input type="radio" name="fix" value="{{vote.id}}">
+                <div class="vote">
+                    <div class="vote-info">
+                        <div class="vote-time">{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지</div>
+                        <div class="vote-pnum">{{vote.validUser.all.count}}명이 함께할 수 있어요!</div>
+                        <div>🔖 투표 인원 {{vote.voteUser}}</div>
+                    </div>
+                    <input id="vote-radio{{vote.id}}" type="radio" name="fix" value="{{vote.id}}">
+                    <label for="vote-radio{{vote.id}}"></label>
+                </div>
                 {% endfor %}
-                <input type="submit">
+                <input class="btn" type="submit">
             </form>
         {% else %}
+            <div class="votelist">
             {% for vote in voteList %}
-            <p>{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지 {{vote.validUser.all.count}}명 가능</p>
-            <p>현재 투표 인원: {{vote.voteUser}}</p>
+            <div class="vote">
+                <div class="vote-time">{{vote.startYear}}년 {{vote.startMonth}}월 {{vote.startDay}}일 부터 {{vote.endYear}}년 {{vote.endMonth}}월 {{vote.endDay}}일까지</div>
+                <div class="vote-pnum">{{vote.validUser.all.count}}명 가능</div>
+                <div>🔖 투표 인원 {{vote.voteUser}}</div>
+            </div>
             {% endfor %}
+            </div>
         {% endif %}
     {% else %}
         <script>
@@ -48,5 +85,6 @@
             location.href = "{% url 'meetings:detail' id=meeting.meetGroupId.id meetId=meeting.id%}"
         </script>
     {% endif %}
+    </div>
 </body>
 </html>

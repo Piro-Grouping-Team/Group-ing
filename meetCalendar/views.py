@@ -3,6 +3,7 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
+from groups.models import Group
 
 from meetings.views import changeStatus
 
@@ -11,9 +12,9 @@ from .forms import meetDayForm, meetTravelForm
 from django.contrib import messages
 from django.db.models import Max,Min
 
-
 from meetCalendar.models import meetDay, meetDayVote, meetTravel, meetTravelInfo,meetDayInfo, meetTravelVote
 from logins.models import User
+
 from meetings.models import Meetings
 
 # Create your views here.
@@ -28,7 +29,10 @@ def main(request, meetId):
     #users = test[0].meetUsers.all()
     #print(users[0].username)
 
+    groupId = Meetings.objects.get(id=meetId).meetGroupId.id
+
     context = {
+        'groupId': groupId,
         'meetId': meetId,
     }
 
