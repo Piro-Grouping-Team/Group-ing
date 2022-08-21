@@ -1,4 +1,5 @@
 import re
+import json
 from secrets import choice
 from tokenize import group
 from django.forms import modelformset_factory
@@ -10,6 +11,7 @@ from meetings.models import Meetings
 from groups.models import Group
 from logins.models import User
 from .forms import PostForm, PostImgForm
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -148,6 +150,7 @@ def create(request):
             return redirect('posts:detail', postId=post.id)
         else:
             print(postForm.errors)
+            return redirect('posts:create')
     else:
         if request.GET.get('meetId'):
             meetId = request.GET.get('meetId')
@@ -261,3 +264,16 @@ def delete(request, postId):
             return redirect('posts:main')
         else:
             return redirect('posts:detail', postId=postId)
+
+@login_required
+def loadMeetingMembers(request):
+    req = json.loads(request.body)
+    if request.method == 'POST':
+        meetingId = req['meetingId']
+        meeting = Meetings.objects.get(id = meetingId)
+        allMembers = meeting.meetMembers.all()
+        meetingMembers = []
+        for member in allMembers:
+            meetingMembers.append(member.name)
+        return JsonResponse({'members': meetingMembers})
+        
