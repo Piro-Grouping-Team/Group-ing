@@ -221,3 +221,7 @@ def removeBlackList(request):
     group = Group.objects.get(id=groupId)
     group.blackList.remove(userId)
     return JsonResponse({'userId' : userId})
+
+@csrf_exempt
+def leaveForce(request):
+    pass
