@@ -22,16 +22,19 @@ const loadMeetingInfo = async (value) => {
   axios.defaults.xsrfCookieName = "csrftoken";
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const element = document.querySelector('#meetingsMembers')
+  const meetPlaceElement = document.querySelector('#meetPlace')
   const {data} = await axios.post(
     '/posts/loadMeetingMembers',
     {
       'meetingId': value,
     },);
-    console.log(data.members);
   for (i = 0; i < data.members.length; i++){
     element.innerHTML = `<div class="user-name">${data.members[i]}</div>`
   }
+  meetPlaceElement.value = data.place;
 }
+
+
 
 const logForm = () => {
   const meetId = document.getElementById('meetId').value;

@@ -270,10 +270,12 @@ def loadMeetingMembers(request):
     req = json.loads(request.body)
     if request.method == 'POST':
         meetingId = req['meetingId']
+        thisMeet = Meetings.objects.get(id=meetingId)
+        meetingPlace = thisMeet.meetPlace
         meeting = Meetings.objects.get(id = meetingId)
         allMembers = meeting.meetMembers.all()
         meetingMembers = []
         for member in allMembers:
             meetingMembers.append(member.name)
-        return JsonResponse({'members': meetingMembers})
+        return JsonResponse({'members': meetingMembers, 'place': meetingPlace})
         
