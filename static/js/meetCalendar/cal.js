@@ -189,23 +189,23 @@ const nextMonth = () => {
   }
 };
 
+const modalContainer = document.querySelector(".modal-container");
+
 const myClick = (...times) => {
-  const modal = document.querySelector(".modal");
-  modal.style.display = "flex";
+  modalContainer.classList.add("modal-show");
 
   let amTimes = [];
   let pmTimes = [];
-
   times.forEach((userNum, i) => {
     if (i >= 0 && i < 12) {
       amTimes[i] = `<div class="time" style="background: rgba(198, 252, 35, ${
-        userNum / 10
+        userNum / meetCount
       }">${i} - ${i + 1}</div>`;
     } else {
       pmTimes[
         i - 12
       ] = `<div class="time" style="background: rgba(198, 252, 35, ${
-        userNum / 10
+        userNum / meetCount
       }">${i} - ${i + 1}</div>`;
     }
   });
@@ -213,3 +213,9 @@ const myClick = (...times) => {
   document.querySelector(".am").innerHTML = amTimes.join("");
   document.querySelector(".pm").innerHTML = pmTimes.join("");
 };
+
+window.addEventListener("click", (e) => {
+  if (e.target === modalContainer) {
+    modalContainer.classList.remove("modal-show");
+  } else false;
+});
