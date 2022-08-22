@@ -161,7 +161,6 @@ def modify(request, id):
             group.name = form.cleaned_data['name']
             group.introduction = form.cleaned_data['introduction']
             group.purpose = form.cleaned_data['purpose']
-            group.head = request.POST['head']
             # group.image = form.cleaned_data['image']           
             if form.cleaned_data['image']:
                 group.image = form.cleaned_data['image']
