@@ -1,4 +1,12 @@
 @import url("./reset.css");
+@font-face {
+  font-family: 'pretendard';
+  src: url('../fonts/Pretendard-ExtraBold.ttf') format('truetype');
+}
+
+body {
+	font-family: 'pretendard';
+}
 
 /* @media (max-width: 767px) { */
   /* 모바일 */
