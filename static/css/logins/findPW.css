@@ -5,8 +5,9 @@
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 2rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     width: 320px;
+    padding: 10px;
 }
 
 .find_pw{

@@ -71,3 +71,7 @@ input[type='checkbox' i]{
     font-size: 1rem;
     padding: 10px;
 }
+
+.blist-btn{
+    font-weight: bold;
+}
