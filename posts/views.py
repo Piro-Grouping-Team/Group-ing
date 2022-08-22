@@ -75,12 +75,10 @@ def main(request):
             # myGroups = Group.objects.filter(members=user)
             
             allPosts = Post.objects.filter(openRange='그룹공개')
-            print(allPosts)
             for post in allPosts:
                 for myGroup in myGroups:
                     if post.groupId.id == myGroup:
                         posts.append(post)
-            print(posts)
             # myMeetings = []
             # for myGroup in myGroups:
             #     meeting = Meetings.objects.filter(meetGroupId=myGroup)
@@ -93,7 +91,8 @@ def main(request):
             #전체공개
             posts = Post.objects.filter(openRange='전체공개')
     else:
-        posts = Post.objects.filter(openRange='전체공개')
+        openRange = request.GET.get('openRange')
+        posts = Post.objects.filter(openRange='openRange')
 
     nowPost = []
     for post in posts:
@@ -105,6 +104,7 @@ def main(request):
 
     context = {
         'posts': nowPost,
+        'openRange': openRange,
     }
 
     return render(request, 'posts/main.html', context)
