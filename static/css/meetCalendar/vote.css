@@ -1,0 +1,101 @@
+@import url(../init.css);
+
+
+.title-self {
+    padding: 3rem 0 4rem;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    align-self: center;
+    gap: 0.5rem;
+  }
+
+.votelist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.vote {
+    width: 100%;
+    padding: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    border: 2px solid black;
+    border-radius: 0.5rem;
+}
+
+.vote-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.vote-time {
+    font-weight: bold;
+}
+
+[id^="vote-checkbox"] + label,
+[id^="vote-radio"] + label {
+    cursor: pointer;
+}
+
+[id^="vote-checkbox"] + label:before {
+    width: 0.8rem;
+    height: 0.8rem;
+
+    border: 2px solid rgb(42, 42, 42);
+    border-radius: 0.1rem;
+    
+    content: "";
+    display: flex;
+}
+
+[id^="vote-checkbox"]:checked + label:before {
+    width: 0.8rem;
+    height: 0.8rem;
+
+    content: " \f00c";
+    font-family:"FontAwesome";
+    font-size: 0.75rem;
+    color: white;
+    text-align: center;
+
+    background:  rgb(42, 42, 42);
+    border: 2px solid  rgb(42, 42, 42);
+}
+
+[id^="vote-radio"] + label::before {
+    width: 0.8rem;
+    height: 0.8rem;
+
+    border: 2px solid rgb(42, 42, 42);
+    border-radius: 1rem;
+    
+    content: "";
+    display: flex;
+}
+
+[id^="vote-radio"]:checked + label:before {
+    width: 0.8rem;
+    height: 0.8rem;
+
+    background:  rgb(42, 42, 42);
+    border: 2px solid  rgb(42, 42, 42);
+}
+
+
+.btn {
+    width: 100%;
+    margin: 2rem 0 2rem;
+
+    border: 2px solid black;
+}
