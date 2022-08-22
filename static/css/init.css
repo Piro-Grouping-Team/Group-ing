@@ -113,6 +113,7 @@
     border: 1px solid black;
     border-radius: 0.5rem;
   }
+
   
   .tagify__input::before,
   .tagify__input::after {
