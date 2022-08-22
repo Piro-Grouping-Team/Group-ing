@@ -65,6 +65,6 @@ const logForm = () => {
     logContent.focus();
     return false;
   }
-
+  
   document.createPost.submit();
 }

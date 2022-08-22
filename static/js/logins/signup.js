@@ -50,6 +50,21 @@ const form_check = () => {
     userNickName.focus();
     return false;
   }
+
+  const phoneNumCheck = /^\+[0-9]([0-9]){11,11}$/;
+  if (phoneNum.value == "") {
+    alert("전화번호를 입력하세요!");
+    phoneNum.focus();
+    return false;
+  }
+  if (!phoneNumCheck.test(phoneNum.value)){
+    alert(
+      '+8210xxxxxxxx 형식을 지켜주세요!'
+    )
+    phoneNum.focus();
+    return false;
+  }
+  
   if (email1.value == "") {
     alert("이메일을 입력하세요!");
     email1.focus();
@@ -61,12 +76,8 @@ const form_check = () => {
     email1.focus();
     return false;
   }
-  if (phoneNum.value == "") {
-    alert("전화번호를 입력하세요!");
-    phoneNum.focus();
-    return false;
-  }
-
+  
+  
   if (userAge.value == "") {
     alert("나이를 입력하세요!");
     userAge.focus();
@@ -130,7 +141,7 @@ const form_check = () => {
   document.signupForm.submit();
 };
 
-function detectID() {
+const detectID = () => {
   const username1 = document.querySelector("#id_username1").value;
   const username2 = document.querySelector("#id_username").value;
   const element = document.querySelector("#error_username");

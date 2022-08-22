@@ -36,8 +36,15 @@
     height: 30rem;
     font-weight: bold;
     font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    
 }
 
-.name-place p {
-    padding: 2rem;
+.name-place-detail {
+    display: flex;
+    width: 80vw;
+    justify-content: space-between;
+    padding: 1rem;
 }
+

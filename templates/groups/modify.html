@@ -76,6 +76,7 @@
           <input type="text" class="head" name="head" style="display:none">
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
+        <a href="{% url 'groups:handOverHead' group.id %}">그룹장 양도하기</a>
         <form action="{% url 'groups:delete' group.id %}" method="POST">
           {% csrf_token %}
           <button class="btn leave-btn">그룹 해체하기</button>
@@ -188,6 +189,10 @@
         }
         return true
       }
+    }
+
+    function deleteCheck(){
+      return confirm("정말 그룹을 해체하시겠습니까?")
     }
   </script>
 </html>

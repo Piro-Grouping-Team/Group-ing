@@ -13,13 +13,40 @@ from logins.models import User
 from .forms import PostForm, PostImgForm
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+
 
 def main(request):
-    # todo 키워드 검색
-    #if request.GET.get('search'):
-    #    search = request.GET.get('search')
-    #    posts = Post.objects.filter(logKeywords__contains=search)
+    # 검색
+    if request.GET.get('titleSearch'):
+        search = request.GET.get('titleSearch')
+        openRange = request.GET.get('openRange')
+        print(search, openRange)
+
+        if openRange == '전체공개':
+            posts = Post.objects.filter(logTitle__icontains=search, openRange=openRange)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange)
+        elif openRange == '그룹공개':
+
+            user = request.user
+            myGroups = []
+            posts = []
+            groups = Group.objects.all()
+            for group in groups:
+                for member in group.members.all():
+                    if member == user:
+                        myGroups.append(group.id)
+
+
+            allposts = Post.objects.filter(logTitle__icontains=search, openRange=openRange)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange)
+
+            print(allPosts)
+            for post in allPosts:
+                for myGroup in myGroups:
+                    if post.groupId.id == myGroup:
+                        posts.append(post)
+            print(posts)
+
+        else:
+            posts = Post.objects.filter(logTitle__icontains=search, openRange=openRange,userId = request.user)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange,userId = request.user)
 
     # if request.GET.get('openRange'):
     #     # todo 공개범위 에따른 로그인 판별 필요
@@ -35,8 +62,7 @@ def main(request):
     #         posts = Post.objects.filter(openRange=2)
     # else:
     #     posts = Post.objects.filter(openRange=2)
-    
-    if request.GET.get('openRange'):
+    elif request.GET.get('openRange'):
         openRange = request.GET.get('openRange')
         if openRange == '비공개':
             posts = Post.objects.filter(openRange='비공개', userId = request.user)

@@ -34,8 +34,8 @@
             <div class="name-place">
             {% for person in blackList %}
                 <div id='person{{person.id}}'>
-                    <p>{{person}}</p>
-                    <button onclick="removeBlackList({{person.id}}, {{group.id}})" >블랙리스트에서 제거</button>
+                    <p class="name-place-detail">{{person}}<button onclick="removeBlackList({{person.id}}, {{group.id}})" ><i class="fa-regular fa-trash-can"></i></button></p>
+                    
                 </div> 
             {% endfor %}
             </div>
@@ -54,9 +54,6 @@
         removed.remove()
 
     }
-
-
-        
     
 </script>
 </html>
