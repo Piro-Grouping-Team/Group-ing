@@ -27,9 +27,15 @@
               <i class="fas fa-search"></i>
             </button>
             <select name='openRange'>
-              <option value='전체공개' selected>전체공개</option> 
-              <option value='그룹공개'>그룹공개</option> 
-              <option value='비공개'>비공개</option> 
+              <option value='전체공개' {% if openRange == '전체공개' %}
+                selected
+              {% endif %}>전체공개</option>
+              <option value='그룹공개'{% if openRange == '그룹공개' %}
+              selected
+            {% endif %}>그룹공개</option> 
+              <option value='비공개'{% if openRange == '비공개' %}
+              selected
+            {% endif %}>비공개</option> 
             </select>
           </form>
         </div>
