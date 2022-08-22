@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
+    </style>
     <title>GROUP-ING</title>
   </head>
   <body>
@@ -23,9 +26,15 @@
           <a class="button signup" href="{% url 'logins:signup' %}">SIGNUP</a>
         </div>
       {% endif %}
-      <a href="/">
+      <!-- <a href="/">
         <img class="main-logo" src="{% static 'img/logo_main.png' %}" alt="" />
+      </a> -->
+      <a href="/">
+        <div class="main-logo-wrapper">
+          <img class="main-logo" src="{% static 'img/logo.gif' %}" alt="" />
+        </div>
       </a>
+
       <div class="main-title">
         <div class="ti ti-up we">우리는__</div>
         <div class="ti ti-up now" data-sa-delay="200">지금__</div>
@@ -34,7 +43,139 @@
       </div>
     </header>
     <div class="main-container">
+      <div class="container-intro">
+        <div class="intro-content">
+        <div class="text">
+        그룹핑은 <span class="pen">GROUP + ING</span>의 합쳐진 형태로<br/>
+        그룹을 언제나 생성중이라는 의미입니다.
+        </div>
+        <div class="text">
+        그룹핑은 모두의 일치하지 않는 <br/>
+        <span class="pen">스케줄을 하나로 통합</span>시켜드립니다.
+        </div>
+        <div class="text">
+        그룹핑은 약속을 확정하지 못하는 <br/>
+        당신을 위해 만들어졌습니다.
+        </div>
+        <div class="text">
+        그룹핑은 당신의 그룹이 <span class="pen">약속을 잡는 것</span>을 <br/>
+        <span class="pen">수월하게</span> 만들어드립니다. 
+        </div>
+        <div class="text">
+        그룹핑은 당신이 편하길 기대합니다.
+        </div>
+        </div>
+
+      </div>
+      <div class="start-title">START <br />
+      GROUPING</div>
+      <div class="container-group">
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+        <div class="content">
+          <div class="small-title">GROUP</div>
+          <div class="text">그룹 이름, 그룹 소개, 그룹 성향을 입력하고 <br/>
+          당신의 그룹을 만들어 보세요!</div>
+        </div>
+      </div>
+      <div class="container-meet">
+        <div class="content">
+          <div class="small-title">MEET</div>
+          <div class="text">약속 이름, 약속 소개, 약속 성향을 통해<br />
+            그룹원들 간의 약속을 만들어보세요!
+          </div>
+          <div class="text">
+            당일치기와 여행의 구분을 통해<br />
+            다양한 형태의 약속을 만들수 있습니다!
+          </div>
+        </div>
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+      </div>
+      <div class="container-keyword">
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+        <div class="content">
+          <div class="small-title">KEYWORD</div>
+          <div class="text">
+            당신의 그룹과 약속에<br />
+            해당하는 키워드를 스스로 입력하여<br />
+            더욱 특색있게 만들 수 있습니다!<br />
+          </div>
+        </div>
+      </div>
+      <!-- <div class="middle-title">그룹-핑</div> -->
+      <div class="container-table">
+        <div class="content">
+          <div class="small-title">TIME-TABLE</div>
+          <div class="text">당신이 가능한 시간대를<br />
+            달력에 기입해주세요!
+          </div>
+          <div class="text">
+            가능한 인원에 따라 달력의 색깔이<br />
+            조정되며 가능한 인원수 파악이<br />
+            가능합니다!
+          </div>
+        </div>
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+      </div>
+      <div class="container-vote">
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+        <div class="content">
+          <div class="small-title">VOTE</div>
+          <div class="text">
+            각자의 시간대 설정을 통하여<br />
+            멤버들이 가능한 시간대가 나옵니다!<br />
+            본인이 원하는 시간대를 투표해주세요!<br />
+          </div>
+      </div>
+      </div>
+      <div class="container-log">
+        <div class="content">
+          <div class="small-title">GROUP-LOG</div>
+          <div class="text">
+            약속을 토대로 그룹로그를 작성해보세요!
+          </div>
+          <div class="text">
+            그룹로그별 약속에 참여한 그룹원<br />
+            확인이 가능합니다!
+          </div>
+          <div class="text">
+            또한 사진과 함께 소감도 기록이 가능하여<br />
+            추억을 남길 수 있습니다!
+          </div>
+          <div class="text">
+            전체공개, 그룹공개, 개인 별 게시판의<br/>
+            공개범위 제한을 두었습니다!
+          </div>
+        </div>
+        <div class="line-wrapper">
+          <img class="line" src="{% static 'img/line.png' %}" alt="">
+        </div>
+      </div>
     </div>
+    <footer>
+      <div class="footer-title">PIROGRAMMING17</div>
+      <div class="footer-text">
+        <div>KIMNAHYUN</div>
+        <div>LEEHYUNYOUNG</div>
+        <div>CHOSEOCKHYUN</div>
+        <div>HANJONGUK : )</div>
+        <div>HWANGSUNGHA</div>
+      </div>
+      <div class="footer-title">GROUP-ING</div>
+      <div class="footer-text">
+        <div>2022 08 23</div>
+      </div>
+    </footer>
     <script src="{% static 'js/main.js' %}"></script>
+    
   </body>
 </html>
