@@ -1,7 +1,7 @@
-import uuid
+import shortuuid
 
 def groupCodeGenerate():
-    code = uuid.uuid4().hex
+    code = shortuuid.uuid()
     return code
 
 

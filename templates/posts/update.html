@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/posts/create.css' %}" />
+    <script
+    src="https://kit.fontawesome.com/b453b8b1fc.js"
+    crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>    
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          그룹 로그를 <br />
+          수정해요
+        </div>
+      </div>
+      <div class="create-log">
+      <form
+        action="{% url 'posts:update' post.post.id %}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="create-box">
+          <div class="create-quest">제목</div>
+          <input class="log-input" type='text' name='logTitle' placeholder='제목' value='{{post.post.logTitle}}' />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">공개 범위</div>
+          <select class="log-input" name="openRange">
+            {% for key,value in openRanges %}
+            <option value="{{key}}" {% if key == post.post.openRange %} selected {% endif %}>{{value}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="create-box">
+          <div class="create-quest">약속 날짜</div>
+          <input class="log-input" type="date" name="logDate" value="{{post.post.logDate}}" min="2022-01-01" max="2022-12-31" />
+        </div>
+        <div class='create-box'>
+          <div class='create-quest'>태그</div>
+          <input
+            class="log-input"
+            name="basic"
+            value="{% for tag in myKeywords %}
+            {{tag}}
+            {% if not forloop.last %}
+            ,
+            {% endif %}
+            {% endfor %}"
+          />
+        </div>
+        <div class="create-box">
+          <div class="create-quest">약속 구성원</div>
+          <!-- 유저 이름 목록 가져오기 -->
+          <div class="log-input user-names">
+          {% for member in myMeetMembers %}
+            <div class='user-name'>{{member}}</div>
+          {% endfor %}
+          </div>
+        </div>
+        <div class="create-box">
+          <div class="create-quest">어디 다녀오셨나요?</div>
+          <div class="places">
+            {% for place in post.post.places.places %}
+            <input
+              class="log-input"
+              name="place[]"
+              type="text"
+              value='{{place}}'
+              placeholder="장소를 추가해주세요"
+            />
+            {% endfor %}
+            <!-- 
+          디폴트(meetPlace) 불러오기
+          + 버튼에 클릭이벤트로 input element 추가 걸어줄 예정
+          장소 여러개 등록
+          --></div>
+          <div class="place-add">
+            <i class="fa-solid fa-circle-plus"></i>
+          </div>
+        </div>
+
+        <div class="create-box">
+          <div class="create-quest">약속은 어땠나요?</div>
+          <textarea  class="log-textarea" name='logContent' rows='30' cols='30' placeholder='본문내용' >
+            {{post.post.logContent}}
+          </textarea>
+        </div>
+
+        <div class="create-box">
+          <div class="images">
+          {% for image in post.nowpostImgs %}
+          <img src='{{image.image.url}}' width='100px' height='100px'>
+          {% endfor %}
+          <input type='file' name='logImgs[]' value='{{ post.nowpostImgs.image }}' />
+          </div>
+          <div class="img-add">
+            <i class="fa-solid fa-circle-plus"></i>
+          </div>
+        </div>
+
+        <input class="btn" type="submit" value="수정 완료" />
+      </form>
+      </div>
+    </div>
+    <script src="{% static 'js/posts/create.js' %}"></script>
+    <script>
+      // The DOM element you wish to replace with Tagify
+      var input = document.querySelector('input[name=basic]');
+
+      // initialize Tagify on the above input node reference
+      new Tagify(input)
+    </script>
+  </body>
+</html>

@@ -1,10 +1,47 @@
-# from dataclasses import field
-from xml.dom import ValidationErr
 from django import forms
+from django.contrib.auth.hashers import check_password
 from .models import User
-# from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
+
+# class LoginForm(forms.Form):
+#     username = forms.CharField(
+#         min_length=5,
+#         max_length=20,
+#         label='아이디',
+#         widget=forms.TextInput,
+#         error_messages={
+#             'required': '아이디를 입력해주세요.'
+#         },
+#     )
+#     password = forms.CharField(
+#         min_length=8,
+#         max_length=16,
+#         label='비밀번호',
+#         widget=forms.PasswordInput,
+#         error_messages={
+#             'required': '비밀번호를 입력해주세요.'
+#         },
+#     )
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         username = cleaned_data.get('username')
+#         password = cleaned_data.get('password')
+
+#         if username and password:
+#             try:
+#                 user = User.objects.get(username=username)
+#             except User.DoesNotExist:
+#                 self.add_error('username', '아이디가 존재하지 않습니다.')
+#                 return
+            
+#             if not user.is_active:
+#                 self.add_error('username', '이메일인증을 하지 않았습니다.')
+
+#             elif not check_password(password, user.password):
+#                 self.add_error('password', '비밀번호가 틀렸습니다.')
+
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
@@ -27,7 +64,6 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-            
             'username', 
             'password1', 
             'password2', 
@@ -58,6 +94,11 @@ class SignUpForm(UserCreationForm):
             {"class": "form-control", "placeholder": "닉네임"}
         )
         
+        ##전화번호
+        self.fields["phoneNumber"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "+821012345678"}
+        )
+        
         ##나이
         self.fields["age"].widget.attrs.update(
             {"class": "form-control", "placeholder": "나이"}
@@ -65,12 +106,17 @@ class SignUpForm(UserCreationForm):
 
         ##아이디
         self.fields["username"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "아이디"}
+            {"class": "form-control", "placeholder": "아이디", "style": 'display: none'}
+            
         )
 
         ##이메일
         self.fields["email"].widget.attrs.update(
-            {"class": "form-control", "placeholder": "example@example.com"}
+            {"class": "form-control", "placeholder": "example@example.com", "style": 'display: none'}
+        )
+
+        self.fields["phoneNumber"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "전화번호"}
         )
 
         self.fields["password1"].widget.attrs.update(
@@ -88,6 +134,48 @@ class SignUpForm(UserCreationForm):
 
         self.fields["addressDetail"].widget.attrs.update(
             {"name": "address_detail", "placeholder": "상세주소"}
+        )
+
+# class CustomUserChangeForm(UserChangeForm):
+#     class Meta:
+#         model = get_user_model()
+#         fields = (
+#             'nickname', 
+#             'email', 
+#             'age', 
+#             'address',
+#             'addressDetail',
+#             'profileImg',
+#             'gender',
+#             'intro',
+#             )
+
+class UpdateUser(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            'nickname', 
+            'email', 
+            'age', 
+            'address',
+            'addressDetail',
+            'profileImg',
+            'gender',
+            'intro',
+            )
+        widget = {
+            'profileImg': forms.ClearableFileInput(),
+        }
+    def __init__(self, *args, **kwargs):
+        super(UpdateUser, self).__init__(*args, **kwargs)
+        self.fields['profileImg'].widget.attrs = {'id': 'id_profileImg'}
+
+        self.fields["address"].widget.attrs.update(
+            {"id": "address_kakao", "name" : "address"}
+        )
+
+        self.fields["addressDetail"].widget.attrs.update(
+            {"name": "address_detail"}
         )
 
 class CustomPasswordChangeForm(PasswordChangeForm):
@@ -117,19 +205,78 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 raise forms.ValidationError('새로운 비밀번호는 기존 비밀번호와 다르게 입력해주세요.')
         return new_password1
 
-class PasswordChangeForm(forms.Form):
-    password1 = forms.CharField(
-        min_length=8,
-        max_length=16,
-        label='비밀번호',
-        widget=forms.PasswordInput,
+
+class FindIdForm(forms.Form):
+    name = forms.CharField(
+        widget=forms.TextInput,
     )
-    password2 = forms.CharField(
-        min_length=8,
-        max_length=16,
-        label='비밀번호 확인',
-        widget=forms.PasswordInput,
+    email = forms.EmailField(
+        widget=forms.EmailInput,
     )
 
-    def clean_new_password1(self):
-        password1 = self.cleaned_data.get('')
+    class Meta:
+        field = ('name', 'email')
+    
+    def __init__(self, *args, **kwargs):
+        super(FindIdForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'id_form_name',
+        })
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'id_form_email',
+        })
+
+class FindPwForm(forms.Form):
+    username = forms.CharField(
+        min_length=5,
+        max_length=20,
+        widget=forms.TextInput,
+    )
+    name = forms.CharField(
+        widget=forms.TextInput,
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput,
+    )
+    class Meta:
+        field = ('username', 'name', 'email')
+    
+    def __init__(self, *args, **kwargs):
+        super(FindPwForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = '아이디'
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_id',
+        })
+
+        self.fields['name'].label = '이름'
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_name',
+        })
+
+        self.fields['email'].label = '이메일'
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'id' : 'pw_form_email',
+        })
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    class Meta:
+        field = ('new_password1', 'new_password2')
+    def __init__(self, *args, **kwargs):
+        super(CustomSetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'forms-control',
+        })
+
+        self.fields['new_password2'].label = '새 비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'forms-control',
+        })

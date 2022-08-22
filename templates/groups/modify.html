@@ -56,7 +56,7 @@
           <div class="create-box">
             <div class="create-quest">그룹의 성향은 무엇인가요?</div>
             <input
-              name="tags"
+              name="basic"
               placeholder="write some tags"
               value="
               {% for keyword in keywords %}
@@ -76,6 +76,7 @@
           <input type="text" class="head" name="head" style="display:none">
           <input class="btn create-btn" type="submit" value="완료" />
         </form>
+        <a href="{% url 'groups:handOverHead' group.id %}">그룹장 양도하기</a>
         <form action="{% url 'groups:delete' group.id %}" method="POST">
           {% csrf_token %}
           <button class="btn leave-btn">그룹 해체하기</button>
@@ -84,7 +85,7 @@
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
+  {% comment %} <script>
     var list = {{allKeywords|safe}}
     var input = document.querySelector("input[name=tags]"),
       tagify = new Tagify(input, {
@@ -123,6 +124,12 @@
       tagify.dropdown.show(); // load the list
       tagify.DOM.scope.parentNode.appendChild(tagify.DOM.dropdown);
     }
+  </script> {% endcomment %}
+  <script>
+      // The DOM element you wish to replace with Tagify
+      var input = document.querySelector('input[name=basic]')
+      // initialize Tagify on the above input node reference
+      new Tagify(input)
   </script>
   <script>
     const headChange = () => {
@@ -182,6 +189,10 @@
         }
         return true
       }
+    }
+
+    function deleteCheck(){
+      return confirm("정말 그룹을 해체하시겠습니까?")
     }
   </script>
 </html>

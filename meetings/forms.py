@@ -5,7 +5,7 @@ from .models import Meetings
 class MeetingForm(forms.ModelForm):
     class Meta:
         model = Meetings
-        fields = ['meetName','meetPlace','meetStart','meetEnd','meetPurpose']
+        fields = ['meetName','meetPlace','meetStart','meetEnd','meetPurpose','meetType']
         #meetType 추가필요
 
     meetName = forms.CharField(error_messages = {
@@ -19,7 +19,7 @@ class MeetingForm(forms.ModelForm):
     meetPurpose = forms.CharField(error_messages = {
     'required': '목적을 입력해 주세요'
 },max_length=100)
-    #meetType = forms.CharField(max_length=20)
+    meetType = forms.CharField(max_length=20)
 
     def clean_meetEnd(self):
         meetStart = self.cleaned_data.get('meetStart')

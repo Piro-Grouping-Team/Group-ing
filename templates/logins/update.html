@@ -15,13 +15,53 @@
 
   <body>
     <div class="gradient2"></div>
-    <div class=modify_container>
+    <div class=container>
       <div class="title">
         <div class="btitle">내 정보를 <br />
         수정해요</div>
       </div>
-      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST">
+      <form class="update_form" action="{% url 'logins:update' user.id %}" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+      {% comment %}
+      <div class="img_form">{{userChangeForm.as_p}}</div>
+      {% endcomment %}
+
+      <div class="form_detail">{{userChangeForm.nickname.label}}
+      <div class="form_input">{{userChangeForm.nickname.placeholder}}</div>
+      </div>
+
+      <div class="form_detail">
+      <a class="change_pw" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.email.label}}
+      <div class="form_input">{{userChangeForm.email}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.age.label}}
+      <div class="form_input">{{userChangeForm.age}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.address.label}}
+      <div class="form_input">{{userChangeForm.address}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.addressDetail.label}}
+      <div class="form_input">{{userChangeForm.addressDetail}}</div>
+      </div>
+
+      <div class="form_detail">{{userChangeForm.profileImg.label}}
+      {{userChangeForm.profileImg}}
+      </div>
+
+      <div class="form_detail">{{userChangeForm.gender.label}}
+      {{userChangeForm.gender}}
+      </div>
+
+      <div class="form_detail">{{userChangeForm.intro.label}}
+      <div class="form_input">{{userChangeForm.intro}}</div>
+      </div>
+      {% comment %}
       <p>
         닉네임
         <input
@@ -38,6 +78,8 @@
           value="{{user.username}}"
           placeholder="ID"
         />
+        비밀번호 변경
+        <a class="change_pw" href="{% url 'logins:changePW' user.id %}">비밀번호변경 하러가기</a>
 
         {% comment %}
         비밀번호
@@ -54,7 +96,6 @@
           value="{{user.password}}"
           placeholder="PASSWORD"
         />
-        {% endcomment %}
 
         이메일
         <input
@@ -93,6 +134,7 @@
           name="profileImg"
           value="{{user.profileImg}}"
         />
+        성별
         <select name="gender">
             <option value="">{{user.gender}}</option>
             {% for gender in genders %}
@@ -100,18 +142,21 @@
             <option value="{{gender}}">{{gender}}</option>
             {% endif %}
             {% endfor %}
-      </p>
-      한줄소개
-      <input
+          </select>
+        한줄소개
+        <input
           type="text"
           name="intro"
           value="{{user.intro}}"
-        />
+          />
+        </p>
+        {% endcomment %}
+    
 
       <div class= inform>
-        <input type="submit" value="완료"/>
+        <input class="btn update_btn" type="submit" value="완료"/>
       </div>
-      <a href="{% url 'logins:changePW' %}">비밀번호변경</a>
+      
     </form>
 
     </div>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/posts/create.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/b453b8b1fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>LogCreate</title>
+  </head>
+  <body>
+    <div class="gradient2"></div>
+    <div class="container">
+      <div class="title">
+        <div class="btitle">
+          약속은 <br />
+          어떠셨나요?
+        </div>
+      </div>
+      <div class="create-log">
+        <form
+          action="{% url 'posts:create' %}"
+          method="post"
+          enctype="multipart/form-data"
+          name="createPost"
+        >
+          {% csrf_token %} 
+          <!-- 약속 디테일에서 가져온경우 -->
+          {% if postForm.logTitle %} 
+            {% if meeting.id %}
+            <input type="hidden" id='meetId' name="meetId" value="{{ meeting.id }}" />
+            {% else %}
+            <div class="create-box">
+              <div class="create-quest">약속 이름</div>
+              <select id='meetId' class="log-input" name="meetId" onchange="loadMeetingInfo(this.value)">
+                <option value="">약속을 선택해주세요</option>
+                {% for meet in meetingsId %}
+                <option value="{{ meet.id }}">{{ meet.meetName }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+            <postForm class="create-box">
+              <label class="create-quest" for="logTitle">제목</label>
+              <input
+               class="log-input"
+                type="text"
+                name="logTitle"
+                id="logTitle"
+                value="{{postForm.logTitle.initial}}"
+              />
+            </postForm>
+          {% endif %}
+          <div class="create-box">
+            <div class="create-quest">공개 범위</div>
+            <select class="log-input" name="openRange">
+              {% for key,value in openRanges %}
+              <option value="{{key}}">{{value}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속 날짜</div>
+            <!-- 날짜 받아오기 ~ ~ -->
+          </div>
+          <div class="create-box">
+            <div class="create-quest">태그</div>
+            <input name="basic" />
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속 구성원</div>
+            <div class="log-input user-names" id="meetingsMembers">
+              {% if postForm.logTitle %} {% for member in myMeetMembers %}
+              <div class="user-name">{{member}}</div>
+              {% endfor %}
+              {% else %}
+              <div class="user-name"></div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">어디 다녀오셨나요?</div>
+            <div class="places">
+              <input
+                id = 'meetPlace'
+                class="log-input"
+                name="place[]"
+                type="text"
+                value="{{ meeting.meetPlace }}"
+              />
+            </div>
+            <div class="place-add">
+              <i class="fa-solid fa-circle-plus"></i>
+            </div>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">약속은 어땠나요?</div>
+            <textarea
+              id = 'logContent'
+              class="log-textarea"
+              name="logContent"
+              rows="30"
+              cols="10"
+              placeholder="본문내용"
+            ></textarea>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">사진 첨부</div>
+            <div class="images">
+              <input type="file" name="logImgs[]" />
+            </div>
+            <div class="img-add">
+              <i class="fa-solid fa-circle-plus"></i>
+            </div>
+          </div>
+          <div class="create-box">
+            <div class="create-quest">동영상 첨부</div>
+          </div>
+          <button class="btn log-btn" type="button" onclick="logForm()">로그 저장</button>
+        </form>
+      </div>
+    </div>
+    
+    <script>
+      // The DOM element you wish to replace with Tagify
+      var input = document.querySelector("input[name=basic]");
+      // initialize Tagify on the above input node reference
+      new Tagify(input);
+    </script>
+  </body>
+  <script src="{% static 'js/posts/create.js' %}"></script>
+</html>

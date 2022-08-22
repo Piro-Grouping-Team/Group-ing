@@ -56,10 +56,6 @@ form {
   font-weight: 600;
 }
 
-.tagify__input {
-  display: none !important;
-}
-
 .tagify__dropdown__wrapper {
   border: 1px solid black !important;
   border-radius: 0.5rem;

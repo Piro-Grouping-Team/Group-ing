@@ -1,0 +1,30 @@
+@import url(../init.css);
+
+
+.change_pw_form{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+
+.form-control{
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    width: 320px;
+}
+
+.helptext{
+    color: #545454;
+    font-size: 0.8rem;
+}
+
+.btn{
+    width: 82vw;
+    height: 80%;
+    margin-top: 18rem;
+}
