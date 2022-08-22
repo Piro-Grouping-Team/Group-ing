@@ -128,11 +128,11 @@
           <div class="meeting-text">약속은 어떠셨나요?</div>
         </div>
         <div class="meeting-btns">
-        <a
-          class="meeting-cal"
-          href="{% url 'meetCalendar:main' meetId=meeting.id %}"
-          ><i class="fa-regular fa-calendar"></i> 약속로그 작성하기</a
-        >
+        <form action="{% url 'posts:create' %}" method="get">
+          {% csrf_token %}
+          <input type="hidden" name="meetId" value="{{ meeting.id }}" />
+          <input type="submit" class="meeting-cal" value="✎ 약속로그 작성하기" />
+        </form>
         </div>
         {% endif %}
       </div>
@@ -160,11 +160,6 @@
       <a class="btn meet-btn" href="{% url 'groups:detail' id=group.id %}"
         >약속목록</a
       >
-      <form action="{% url 'posts:create' %}" method="get">
-        {% csrf_token %}
-        <input type="hidden" name="meetId" value="{{ meeting.id }}" />
-        <input type="submit" class="btn post-btn" value="후기 작성" />
-      </form>
     </div>
   </body>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
