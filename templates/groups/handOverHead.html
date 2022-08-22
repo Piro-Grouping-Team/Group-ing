@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/groups/head.css' %}" />
     <script
         src="https://kit.fontawesome.com/b453b8b1fc.js"
         crossorigin="anonymous"
@@ -16,23 +17,26 @@
     <div class="container">
     <div class="title">
         <div class="btitle">
-            그룹원들
+            그룹장 양도
         </div>
     </div>
-    <div><form action="" method = 'POST' name="handOver">
+    <div class="content">
+    <form class="content-change" action="" method = 'POST' name="handOver">
         {%csrf_token%}
-        <p>그룹장을 받을 아이디</p>
-        <input id='nextHead' type="text" name="nextHead">
+        <div class="change-input">
+            <div>그룹장을 받을 아이디 검색</div>
+            <input id='nextHead' type="text" name="nextHead">
+        </div>
         <button class="submit" type="button" onclick="sumbitHead()">제출하기</button>
         <p>탈퇴하기</p>
         <input type="checkbox" id="leaveCheckbox" name='leaveCheck[]' value ='1'>
-        </form>
-    </div>
+    </form>
         <div>
             {% for member in members %}
             <div>{{member}}</div>
             {% endfor %}
         </div>
+    </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

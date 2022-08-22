@@ -19,6 +19,7 @@
   height: 3.4rem;
   border-radius: 70%;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .group-img {
