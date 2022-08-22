@@ -1,6 +1,6 @@
 @import url("./reset.css");
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) { */
   /* 모바일 */
 
   .container {
@@ -46,9 +46,14 @@
     background: white;
   }
 
+  .eyes {
+    width: 3.5rem;
+  }
+
   .btitle {
     font-size: 2rem;
     font-weight: bold;
+    line-height: 2.3rem;
   }
 
   .stitle {
@@ -79,7 +84,6 @@
 
   tags {
     width: 12rem;
-    height: 2rem;
 
     align-items: center;
     justify-content: left;
@@ -104,9 +108,9 @@
 
   .tagify__tag-text {
     padding: 0.05rem 0.4rem 0.05rem;
-  }
-}
+   }
+/* }  */
 
-@media (min-width: 1200px) {
-  /* 데스크탑 일반 */
-}
+/* @media (min-width: 1200px) {
+  데스크탑 일반
+ } */
