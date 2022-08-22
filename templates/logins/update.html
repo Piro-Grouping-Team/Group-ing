@@ -14,9 +14,10 @@
   </head>
 
   <body>
-    <div class="gradient2"></div>
+    <div class="gradient"></div>
     <div class=container>
       <div class="title">
+        <img class="eyes" src="{% static 'img/eyes.png' %}" alt="" />
         <div class="btitle">내 정보를 <br />
         수정해요</div>
       </div>
@@ -26,40 +27,52 @@
       <div class="img_form">{{userChangeForm.as_p}}</div>
       {% endcomment %}
 
-      <div class="form_detail">{{userChangeForm.nickname.label}}
-      <div class="form_input">{{userChangeForm.nickname}}</div>
+
+      <a class="change-btn" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
+     <div class="create-box">
+        <div class="form_detail">{{userChangeForm.nickname.label}}</div>
+        <div class="form_input">{{userChangeForm.nickname}}</div>
       </div>
 
-      <div class="form_detail">
-      <a class="change_pw" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.email.label}}</div>
+        <div class="form_input">{{userChangeForm.email}}</div>
       </div>
 
-      <div class="form_detail">{{userChangeForm.email.label}}
-      <div class="form_input">{{userChangeForm.email}}</div>
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.age.label}}</div>
+        <div class="form_input">{{userChangeForm.age}}</div>
       </div>
 
-      <div class="form_detail">{{userChangeForm.age.label}}
-      <div class="form_input">{{userChangeForm.age}}</div>
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.address.label}}</div>
+        <div class="form_input">{{userChangeForm.address}}</div>
       </div>
 
-      <div class="form_detail">{{userChangeForm.address.label}}
-      <div class="form_input">{{userChangeForm.address}}</div>
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.addressDetail.label}}</div>
+        <div class="form_input">{{userChangeForm.addressDetail}}</div>
       </div>
 
-      <div class="form_detail">{{userChangeForm.addressDetail.label}}
-      <div class="form_input">{{userChangeForm.addressDetail}}</div>
+      <div class="create-box">
+        <label
+        id="label_profileImg"
+        class="create-quest"
+        name="label_profileImg"
+        for="{{ userChangeForm.profileImg.id_for_label }}"
+        ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
+      >
+        {{userChangeForm.profileImg}}
       </div>
 
-      <div class="form_detail">{{userChangeForm.profileImg.label}}
-      {{userChangeForm.profileImg}}
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.gender.label}}</div>
+        {{userChangeForm.gender}}
       </div>
 
-      <div class="form_detail">{{userChangeForm.gender.label}}
-      {{userChangeForm.gender}}
-      </div>
-
-      <div class="form_detail">{{userChangeForm.intro.label}}
-      <div class="form_input">{{userChangeForm.intro}}</div>
+      <div class="create-box">
+        <div class="form_detail">{{userChangeForm.intro.label}}</div>
+        <div class="form_input">{{userChangeForm.intro}}</div>
       </div>
       {% comment %}
       <p>
@@ -153,9 +166,7 @@
         {% endcomment %}
     
 
-      <div class= inform>
-        <input class="btn update_btn" type="submit" value="완료"/>
-      </div>
+    <input class="btn" type="submit" value="완료"/>
       
     </form>
 

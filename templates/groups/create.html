@@ -14,12 +14,17 @@
       rel="stylesheet"
       type="text/css"
     />
+    <script
+    src="https://kit.fontawesome.com/0dee369a16.js"
+    crossorigin="anonymous"
+  ></script>
     <title>GroupCreate</title>
   </head>
   <body>
     <div class="gradient2"></div>
     <div class="container">
       <div class="title">
+        <img class="eyes" src="{% static 'img/eyes.png' %}" alt="" />
         <div class="btitle">
           새로운 그룹을 <br />
           만들어요!
@@ -46,12 +51,19 @@
           </div>
           <div class="create-box">
             <div class="create-quest">그룹의 성향은 무엇인가요?</div>
-            <input name="basic" placeholder="write some tags" />
+            <input name="basic" placeholder="성향을 입력하세요" />
           </div>
           <div class="create-box">
-            <div class="create-quest create-img">
+            <div class="create-quest">
               그룹을 대표할 이미지를 골라주세요
             </div>
+            <label
+            id="label_Img"
+            class="create-quest"
+            name="label_Img"
+            for="{{ form.image.id_for_label }}"
+            ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
+          >
             {% if form.image %} {{ form.image }} {% else %} {% endif %}
           </div>
           <input

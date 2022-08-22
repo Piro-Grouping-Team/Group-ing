@@ -16,7 +16,7 @@ class Group(models.Model):
     keywords = models.ManyToManyField(Keyword, blank=True, related_name='keywords_group')
 
     #이미지 업로드 경로 추가 
-    image = models.ImageField(null=True, blank=True, upload_to='groups/%Y%m%d', verbose_name='그룹 대표사진')
+    image = models.ImageField(null=True, blank=True, upload_to='groups/%Y%m%d', verbose_name='그룹 대표사진', default="no_img.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

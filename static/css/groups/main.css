@@ -19,6 +19,7 @@
   height: 3.4rem;
   border-radius: 70%;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .group-img {
@@ -32,10 +33,6 @@
   flex-direction: column;
 
   gap: 0.5rem;
-}
-
-.customLook {
-  height: 1.5rem;
 }
 
 .group-name {
@@ -62,7 +59,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 3;
 
   display: none;
   background: rgba(0, 0, 0, 0.1);
@@ -114,6 +111,10 @@
     opacity: 0;
     transform: translate(0, 100%);
   }
+}
+
+.tagify__input {
+  height: 0;
 }
 
 .modal- .tagify__tag > div {
