@@ -12,6 +12,7 @@
     ></script>
     <title>GROUPING</title>
   </head>
+
   <body>
     <div class="container">
       <div class="title">
@@ -20,28 +21,74 @@
           사람들
         </div>
       </div>
+
+
       <div class="members">
         <div class="members-head">그룹장 {{group.head}}</div>
         {% for member in members %}
-        <div class="members-mem">
-          <div>{{member}}</div>
-          {% if group.head == user%}
-          <div><i class="fa-solid fa-chevrons-right"></i></div>
-          {% endif %}
-        </div>
+
+          <div class="members-mem" id="member{{member.id}}">{{member}}
+            {% if request.user.username == group.head %}
+            {% if member.username == group.head%}
+              <button class="to-blist">
+                <a class="blacklist" href="{% url 'groups:blackList' group.id %}"
+                ><p class="blist-btn"><i class="fa-solid fa-ban"></i></p></a>
+              </button>
+            {% else %}
+              <button class="new-btn">
+              <i class="fa-solid fa-circle-plus fa-lg"></i>
+              </button>
+              <div class="modal">
+                <a class="modal-list" href="javascript:leaveForce({{member.id}},{{group.id}})"
+                >그룹원 삭제</a>
+                <a class="modal-list" href="{% url 'groups:blackList' group.id %}" onclick="return addBlackList({{member.id}}, {{group.id}});"
+                >블랙리스트 추가</a>
+              </div>
+            {% endif %}
+            {% endif %}
+          </div>
         {% endfor %}
-        
-        <button class="new-btn">
-        <i class="fa-solid fa-circle-plus fa-lg"></i>
-        </button>
-        <div class="modal">
-          <a class="modal-list" href="{% url 'groups:create' %}"
-          >그룹원 삭제</a>
-          <a class="modal-list" href="{% url 'groups:blackList' group.id %}"
-          >블랙리스트 관리</a>
-      </div>
+
       </div>
     </div>
   </body>
   <script src="{% static 'js/groups/members.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+      const leaveForce = async(userId, groupId) => {
+        if(confirm("정말 해당 그룹원을 내보내시겠습니까?")){
+          const url = '/groups/group/leaveForce'
+          const {data} = await axios.post(url, {userId, groupId})
+          const name = data.userId 
+          console.log(name)
+          const removed = document.querySelector(`#member${name}`)
+          removed.remove()
+        }else{
+          return false
+        }
+
+      }
+
+      const addBlackList = (userId, groupId) => {
+        if(confirm("정말 해당 그룹원을 블랙리스트에 추가하시겠습니까?")){
+        const abl = async(userId, groupId) => {
+        const url = '/groups/group/addBlackListAxios'
+        const {data} = await axios.post(url, {userId, groupId})
+        const name = data.userId 
+        console.log(name)
+        const removed = document.querySelector(`#member${name}`)
+        removed.remove()
+        
+        }
+        abl(userId, groupId)
+        return true
+      }else{
+        console.log("42424")
+        return false
+      }
+    }
+      
+  </script>
 </html>
+
+

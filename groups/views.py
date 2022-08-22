@@ -238,6 +238,7 @@ def addBlackList(request, id):
         try:
             user = User.objects.get(username=request.POST['username'])
             group.blackList.add(user)
+            group.members.remove(user)
         except:
             messages.error(request, '존재하지 않는 사용자입니다!')
     return redirect('groups:blackList', id)
@@ -253,4 +254,19 @@ def removeBlackList(request):
 
 @csrf_exempt
 def leaveForce(request):
-    pass
+    req = json.loads(request.body)
+    userId = req['userId']
+    groupId = req['groupId']
+    group = Group.objects.get(id=groupId)
+    group.members.remove(userId)
+    return JsonResponse({'userId' : userId})
+
+@csrf_exempt
+def addBlackListAxios(request):
+    req = json.loads(request.body)
+    userId = req['userId']
+    groupId = req['groupId']
+    group = Group.objects.get(id=groupId)
+    group.blackList.add(userId)
+    group.members.remove(userId)
+    return JsonResponse({'userId' : userId})
