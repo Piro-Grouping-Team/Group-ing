@@ -27,9 +27,9 @@
       <div class="img_form">{{userChangeForm.as_p}}</div>
       {% endcomment %}
 
-      <a class="change-btn" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
 
-      <div class="create-box">
+      <a class="change-btn" href="{% url 'logins:changePW' user.id %}">비밀번호 변경하러가기</a>
+     <div class="create-box">
         <div class="form_detail">{{userChangeForm.nickname.label}}</div>
         <div class="form_input">{{userChangeForm.nickname}}</div>
       </div>
