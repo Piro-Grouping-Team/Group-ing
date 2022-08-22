@@ -71,6 +71,13 @@
           </div>
           <div class="create-box">
             <div class="create-quest">그룹을 대표할 이미지를 골라주세요</div>
+            <label
+            id="label_Img"
+            class="create-quest"
+            name="label_Img"
+            for="{{ form.image.id_for_label }}"
+            ><i class="fa-solid fa-folder"></i> 이미지 업로드</label
+          >
             {{ form.image }}
           </div>
           <input type="text" class="head" name="head" style="display:none">
