@@ -59,7 +59,8 @@
           href="{% url 'meetCalendar:main' meetId=meeting.id %}"
           ><i class="fa-regular fa-calendar"></i> 시간표 보러가기</a
         >
-          {% if request.user == meeting.meetHead %}
+        <!-- 미팅id에 해당하는 통계모델이 존재하다면 띄워주기  -->
+          {% if request.user == meeting.meetHead and isExistInfo %}
             <form class="meeting-cal" action="{% url 'meetings:changeStatus' id=group.id meetId=meeting.id %}" method='POST'>
               {%csrf_token%}
               <button>투표 시작하기</button>

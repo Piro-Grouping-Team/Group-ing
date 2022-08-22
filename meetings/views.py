@@ -98,10 +98,21 @@ def detail(request, id,meetId):
     for meetUser in meetUsers:
         myMeetUsers[meetUser.nickname] = meetUser.profileImg
     
+    isExistInfo = False
+    meetType = meeting.meetType
+    if meetType == 'today':
+        if meetDayInfo.objects.filter(meetId=meeting).exists():
+            isExistInfo = True
+    else:
+        if meetTravelInfo.objects.filter(meetId=meeting).exists():
+            isExistInfo = True
+    
+    print(isExistInfo)
     context = {
         'meeting': meeting,
         'group': group,
         'meetUsersName': myMeetUsers,
+        'isExistInfo': isExistInfo,
     }
 
     return render(request, 'meetings/detail.html',context)
