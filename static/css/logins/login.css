@@ -5,19 +5,16 @@
 }
 
 .container{
-    background-color: #C6FC23;
-    
+    background-color: white;
 }
 
+input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active {transition: background-color 5000s; -webkit-text-fill-color: black !important;}
+
 .title{
-    background-color:#C6FC23;
+    background-color: transparent;
     margin-bottom: 70px;
 }
 
-
-.login_idpw input{
-    font-size: 17px;
-}
 
 .login_idpw input::placeholder{
     color: black;
@@ -38,21 +35,23 @@
 .pw_line{
     border: 1px solid black;
 }
+
 .login_btn{
+    width: 100%;
+
     color: black;
     background-color: transparent;
     border: 2px solid black;
-    border-radius: 5px;
-    padding: 10px 20px 10px 20px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+    border-radius: 0.5rem;
+    padding: 0.7rem;
+    margin-bottom: 2rem;
+
     font-weight: bold;
-    width: 82vw;
+    cursor: pointer;
 }
 
 .login_signup_container{
-    margin-bottom: 150px;
+    font-size: 0.75rem;
 }
 
 .login_signup{
@@ -68,4 +67,10 @@
     justify-content: center;
     margin-top: 1.5rem;
 
+}
+
+.msg {
+    padding-bottom: 1rem;
+    font-weight: bold;
+    color: black;
 }

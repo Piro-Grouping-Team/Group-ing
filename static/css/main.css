@@ -43,6 +43,11 @@ body {
   transform: translate(0, 100px);
 }
 
+.form-search {
+  display: flex;
+  flex-direction: column;
+}
+
 /* 
 @keyframe show-text {
   from {

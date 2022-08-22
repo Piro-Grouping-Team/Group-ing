@@ -148,3 +148,12 @@
 
   align-self: center;
 }
+
+form {
+  display: flex;
+  justify-content: center;
+}
+
+.post-btn {
+  margin: 0;
+}

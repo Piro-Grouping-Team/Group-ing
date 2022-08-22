@@ -7,10 +7,8 @@ form {
 
 .signup {
   padding-bottom: 6rem;
-}
-
-.eyes {
-  width: 3.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .create-box {
