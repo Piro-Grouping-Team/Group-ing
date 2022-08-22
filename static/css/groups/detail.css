@@ -138,5 +138,10 @@
   align-self: center;
 
   position: fixed;
-  bottom: 6rem;
+  bottom: 10rem;
+}
+
+.list-btn {
+  position: fixed;
+  bottom: 4rem;
 }
