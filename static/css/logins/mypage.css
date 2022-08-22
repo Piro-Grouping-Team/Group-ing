@@ -7,6 +7,10 @@
   vertical-align: middle;
 }
 
+.container {
+  gap: 1rem;
+}
+
 .profile {
   height: 30vh;
 
