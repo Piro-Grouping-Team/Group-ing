@@ -150,6 +150,9 @@ def create(request):
             placesJson = { 'places': places }
             post.places = placesJson
             post.groupId = post.meetId.meetGroupId
+            post.logStartDate = request.POST.get('startTime')
+            post.logEndDate =  request.POST.get('endTime')
+            print(post.logStartDate)
             post.save()
             
             if postKeywords != '':
@@ -186,7 +189,9 @@ def create(request):
             for user in meetUsers:
                 myMeetMembers.append(user.name)
 
-            
+            print(meeting.meetStartTime)
+            startTime = meeting.meetStartTime.strftime("%Y-%m-%d %H:%M")
+            endTime = meeting.meetEndTime.strftime("%Y-%m-%d %H:%M")
             context = {
                 #'keywords': Post.keyWords,
                 'openRanges': openRanges,
@@ -194,6 +199,8 @@ def create(request):
                 # 'formset': formset,
                 'meeting': meeting,
                 'myMeetMembers': myMeetMembers,
+                'startTime' : startTime,
+                'endTime' : endTime,
             }
             return render(request, 'posts/create.html', context)
         else:
@@ -261,9 +268,13 @@ def update(request, postId):
         myKeywords = []
         for keyword in logKeywords:
             myKeywords.append(keyword.keyword)
+        startTime = nowpost.logStartDate.strftime("%Y-%m-%d %H:%M")
+        endTime = nowpost.logEndDate.strftime("%Y-%m-%d %H:%M")
         meeting = {
             'post': nowpost,
             'nowpostImgs': nowpostImgs,
+            'startTime' : startTime,
+            'endTime' : endTime,
         }
         context = {
                 'post': meeting,
@@ -296,9 +307,11 @@ def loadMeetingMembers(request):
         thisMeet = Meetings.objects.get(id=meetingId)
         meetingPlace = thisMeet.meetPlace
         meeting = Meetings.objects.get(id = meetingId)
+        startTime = meeting.meetStartTime.strftime("%Y-%m-%d %H:%M")
+        endTime = meeting.meetEndTime.strftime("%Y-%m-%d %H:%M")
         allMembers = meeting.meetMembers.all()
         meetingMembers = []
         for member in allMembers:
             meetingMembers.append(member.name)
-        return JsonResponse({'members': meetingMembers, 'place': meetingPlace})
+        return JsonResponse({'members': meetingMembers, 'place': meetingPlace, 'startTime': startTime, 'endTime' : endTime})
         

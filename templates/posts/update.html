@@ -48,7 +48,11 @@
         </div>
         <div class="create-box">
           <div class="create-quest">약속 날짜</div>
-          <input class="log-input" type="date" name="logDate" value="{{post.post.logDate}}" min="2022-01-01" max="2022-12-31" />
+          <p>{{post.startTime}}부터</p>
+          <p>{{post.endTime}}까지</p>
+          <input class="log-input" type="datetime" name="logDate" value="{{post.startTime}}" min="2022-01-01" max="2022-12-31" style="display:none" />
+          <input class="log-input" type="datetime" name="logDate" value="{{post.endTime}}" min="2022-01-01" max="2022-12-31" style="display:none" />
+
         </div>
         <div class='create-box'>
           <div class='create-quest'>태그</div>
