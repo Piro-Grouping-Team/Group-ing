@@ -1,9 +1,11 @@
 import datetime
+import json
 from multiprocessing import context
 from tokenize import group
 from tracemalloc import start
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
+from django.views.decorators.csrf import csrf_exempt
 from meetCalendar.models import meetDayInfo, meetDayVote, meetTravelInfo, meetTravelVote
 from meetCalendar.utils import dateContinue
 from .models import Meetings, Group, User
@@ -105,7 +107,7 @@ def detail(request, id,meetId):
     return render(request, 'meetings/detail.html',context)
 
 @login_required
-def delete(request, id, meetId):
+def delete(request,id,meetId):
     meeting = Meetings.objects.get(id=meetId)
 
     if meeting.meetHead.id != request.user.id:
@@ -114,6 +116,19 @@ def delete(request, id, meetId):
 
     meeting.delete()
     return redirect('groups:detail', id)
+
+@csrf_exempt
+def checkAuth(request,id):
+    groupId= id
+    req = json.loads(request.body)
+    meetId = req['meetId']
+    meeting = Meetings.objects.get(id=meetId)
+    meetHead = meeting.meetHead.id
+
+    if meetHead == request.user.id:
+        return JsonResponse({'auth': True})
+    else:
+        return JsonResponse({'auth': False})
 
 def dayCandidate(meetId):
     #1. meetDayInfo에서 meetId에 해당하는 모든 객체를 블러오기

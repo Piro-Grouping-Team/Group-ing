@@ -9,4 +9,5 @@ urlpatterns = [
     path('detail/<int:meetId>/', views.detail, name='detail'),
     path('delete/<int:meetId>/', views.delete, name='delete'),
     path('changeStatus/<int:meetId>/', views.changeStatus, name='changeStatus'),
+    path('checkAuth/', views.checkAuth, name='checkAuth'),
 ]
