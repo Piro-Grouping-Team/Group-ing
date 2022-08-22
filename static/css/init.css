@@ -8,6 +8,13 @@ body {
 	font-family: 'pretendard';
 }
 
+input {
+  font-family: 'pretendard';
+}
+
+select {
+  font-family: 'pretendard';
+}
 /* @media (max-width: 767px) { */
   /* 모바일 */
 
