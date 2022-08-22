@@ -16,20 +16,24 @@
   <body>
     <div class="container">
       <div class="title">
+        <img class="eyes" src="{% static 'img/eyes.png' %}" alt="" />
         <div class="btitle">로그인</div>
         <div class="stitle">다시 돌아오신 걸 환영해요!</div>
       </div>
 
       <ul class="logins">
         <div class="login">
+          <div class="msg">
           {% if user.is_authenticated %} {% comment %} 로그인성공! <br />
           <a href="{% url 'logins:logout' %}">로그아웃</a>
           {% endcomment %} {% else %}
           {{error_messages}}
+        </div>
           <form class="login_idpw" action="" method="POST">
             {% csrf_token %}
             <div class="login_id">
               <input
+                style="border: none; background: transparent;"
                 name="username"
                 type="text"
                 placeholder="아이디를 입력해주세요"
