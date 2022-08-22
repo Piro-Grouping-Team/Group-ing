@@ -23,6 +23,12 @@ const loadMeetingInfo = async (value) => {
   axios.defaults.xsrfHeaderName = "X-CSRFToken";
   const element = document.querySelector('#meetingsMembers')
   const meetPlaceElement = document.querySelector('#meetPlace')
+
+  const startTimeInputElement = document.querySelector('#startTimeI')
+  const endTimeInputElement = document.querySelector('#endTimeI')
+  const startTimeParagraphElement = document.querySelector('#startTimeP')
+  const endTimeParagraphElement = document.querySelector('#endTimeP')
+
   const {data} = await axios.post(
     '/posts/loadMeetingMembers',
     {
@@ -31,7 +37,12 @@ const loadMeetingInfo = async (value) => {
   for (i = 0; i < data.members.length; i++){
     element.innerHTML = `<div class="user-name">${data.members[i]}</div>`
   }
+  console.log(typeof(data.startTime))
   meetPlaceElement.value = data.place;
+  startTimeInputElement.value = data.startTime;
+  endTimeInputElement.value = data.endTime;
+  startTimeParagraphElement.innerText = data.startTime;
+  endTimeParagraphElement.innerText = data.endTime;
 }
 
 

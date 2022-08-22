@@ -16,7 +16,8 @@ class Post(models.Model):
     groupId = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='groupId')
     meetId = models.ForeignKey(Meetings, on_delete=models.CASCADE)
     userId = models.ForeignKey(User, on_delete=models.CASCADE) #게시자 유저 아이디
-    logDate = models.DateTimeField(blank=True, null=True)
+    logStartDate = models.DateTimeField(blank=True, null=True)
+    logEndDate = models.DateTimeField(blank=True, null=True)
     logLike = models.IntegerField(default=0)
     places = models.JSONField()
     logTitle = models.CharField(max_length=100)

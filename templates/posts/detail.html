@@ -52,7 +52,8 @@
       <div class="log-contents">
         <div class="log-content">
           <div class="log-label">약속 날짜</div>
-          <div>{{ post.logDate }}</div>
+          <div>{{ post.logStartDate }}</div>
+          <div>{{ post.logEndDate }}</div>
         </div>
         <div class="log-content">
           <div class="log-label">누구랑?</div>
@@ -88,8 +89,8 @@
         </div>
 
         <footer>
-          <div class="log-content">생성날짜{{ post.createdAt }}</div>
-          <div class="log-content">업데이트 날짜{{ post.updatedAt }}</div>
+          <div class="log-content">생성날짜{{ post.createAt }}</div>
+          <div class="log-content">업데이트 날짜{{ post.updateAt }}</div>
         </footer>
         <a href="{% url 'posts:main' %}" class="btn">목록으로</a>
       </div>

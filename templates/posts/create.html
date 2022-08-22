@@ -74,7 +74,17 @@
           </div>
           <div class="create-box">
             <div class="create-quest">약속 날짜</div>
-            <!-- 날짜 받아오기 ~ ~ -->
+            {% comment %} {% if postForm.logTitle %} {% endcomment %}
+            <p id="startTimeP">{{startTime}}</p>
+            <p id="endTimeP">{{endTime}}</p>
+            <input type="datetime" id="startTimeI" name="startTime" value="{{startTime}}" style="display:none" >
+            <input type="datetime" id="endTimeI" name="endTime" value="{{endTime}}" style="display:none" >
+            {% comment %} {% else %}
+            <p id='startTimeP'></p>
+            <p id='endTimeP'></p>
+            <input type="datetime" name="startTime" id='startTimeI' style="display:none">
+            <input type="datetime"name="endTime" id='endTimeI' style="display:none">
+            {% endif %} {% endcomment %}
           </div>
           <div class="create-box">
             <div class="create-quest">태그</div>
