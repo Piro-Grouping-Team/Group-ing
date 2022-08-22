@@ -10,22 +10,37 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import os
+import os, environ, json
 from pathlib import Path
-import logins.my_settings
-
+from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+    DEBUG=(bool, True)
+)
 
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, '.env')
+)
+
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
+with open(secret_file, 'r') as file:
+	secrets = json.load(file)
+# def get_secret(setting, secrets=secrets):
+#     try:
+#         return secrets[setting]
+#     except KeyError:
+#         error_msg = "Set the {0} enviroment variable".format(setting)
+#         raise ImproperlyConfigured(error_msg)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w7n#sr1oyltd-v&_%)b^0x7uw#75=djp#r1=qvfedv!j#9%qxl'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -154,18 +169,18 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
 
-SECRET_KEY = logins.my_settings.SECRET_KEY
+SECRET_KEY = secrets
 
-EMAIL_BACKEND = logins.my_settings.EMAIL['EMAIL_BACKEND']
-EMAIL_HOST = logins.my_settings.EMAIL['EMAIL_HOST']
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
 # # 메일을 호스트하는 서버
-EMAIL_PORT = logins.my_settings.EMAIL['EMAIL_PORT']
+EMAIL_PORT = env('EMAIL_PORT')
 # # gmail과의 통신하는 포트
-EMAIL_HOST_USER = logins.my_settings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 # # 발신할 이메일
-EMAIL_HOST_PASSWORD = logins.my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 # # 발신할 메일의 비밀번호
-EMAIL_USE_TLS = logins.my_settings.EMAIL['EMAIL_USE_TLS']
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 # # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

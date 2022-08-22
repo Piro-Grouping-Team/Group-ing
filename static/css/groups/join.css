@@ -17,9 +17,12 @@
 }
 
 .content-core {
+  width: 70vw;
+
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  align-items: center;
 }
 
 .content-input {
@@ -29,5 +32,9 @@
   border-left: 0px;
   border-bottom: 3px solid black;
 
+  width: 80vw;
   color: rgb(#c4c4c4);
+  margin-top: 1rem;
+  text-align: center;
 }
+

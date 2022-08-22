@@ -37,6 +37,18 @@
   text-align: center;
 }
 
+.form-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-search-core {
+  padding-left: 2rem;
+  display: flex;
+}
+
 .search {
   width: 15rem;
   height: 2.5rem;
@@ -44,6 +56,21 @@
 
   border: 2px solid black;
   border-radius: 0.5rem;
+}
+
+.fa-search {
+  padding: 0.5rem;
+}
+
+.form-search-select {
+  width: 6rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+
+  border: 2px solid black;
+  border-radius: 0.5rem;
+
+  text-align: center;
 }
 
 .log-contents {

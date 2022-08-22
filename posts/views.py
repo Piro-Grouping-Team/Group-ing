@@ -20,7 +20,6 @@ def main(request):
     if request.GET.get('titleSearch'):
         search = request.GET.get('titleSearch')
         openRange = request.GET.get('openRange')
-        print(search, openRange)
 
         if openRange == '전체공개':
             posts = Post.objects.filter(logTitle__icontains=search, openRange=openRange)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange)
@@ -36,7 +35,7 @@ def main(request):
                         myGroups.append(group.id)
 
 
-            allposts = Post.objects.filter(logTitle__icontains=search, openRange=openRange)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange)
+            allPosts = Post.objects.filter(logTitle__icontains=search, openRange=openRange)|Post.objects.filter(logKeywords__keyword__contains=search, openRange=openRange)
 
             for post in allPosts:
                 for myGroup in myGroups:
