@@ -29,7 +29,7 @@
 
           <div class="members-mem" id="member{{member.id}}">{{member}}
             {% if request.user.username == group.head %}
-            {% if member.username == group.head%}
+            {% if member.username == group.head %}
               <button class="to-blist">
                 <a class="blacklist" href="{% url 'groups:blackList' group.id %}"
                 ><p class="blist-btn"><i class="fa-solid fa-ban"></i></p></a>
