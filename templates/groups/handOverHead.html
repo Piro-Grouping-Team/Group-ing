@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+        src="https://kit.fontawesome.com/b453b8b1fc.js"
+        crossorigin="anonymous"
+    ></script>
+    <title>handOverHead</title>
+    
+</head>
+<body>
+    <div class="container">
+    <div class="title">
+        <div class="btitle">
+            그룹원들
+        </div>
+    </div>
+    <div><form action="" method = 'POST' name="handOver">
+        {%csrf_token%}
+        <p>그룹장을 받을 아이디</p>
+        <input id='nextHead' type="text" name="nextHead">
+        <button class="submit" type="button" onclick="sumbitHead()">제출하기</button>
+        <p>탈퇴하기</p>
+        <input type="checkbox" id="leaveCheckbox" name='leaveCheck[]' value ='1'>
+        </form>
+    </div>
+        <div>
+            {% for member in members %}
+            <div>{{member}}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const sumbitHead = () => {
+        const nextHead = document.querySelector('#nextHead').value;
+        const groupmember = {{members|safe}};
+        if (!groupmember.includes(nextHead)){
+            alert('해당 그룹에 없는 멤버입니다.')
+            return false;
+        }
+        document.handOver.submit();
+    }
+
+</script>
+</html>
+
