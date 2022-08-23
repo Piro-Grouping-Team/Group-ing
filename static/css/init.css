@@ -1,7 +1,6 @@
 @import url("./reset.css");
 
-/* @media (max-width: 767px) { */
-  /* 모바일 */
+@media (max-width: 767px) {
 
   .container {
     height: 100vh;
@@ -67,7 +66,7 @@
   }
 
   .btn {
-    width: 76vw;
+    width: 17rem;
     padding: 0.7rem 0 0.7rem;
     margin: 1rem;
 
@@ -147,8 +146,161 @@
     border: 1.5px solid #444444;
     border-radius: 0.3rem;
   }
-/* }  */
+} 
 
-/* @media (min-width: 1200px) {
-  데스크탑 일반
- } */
+@media (min-width: 767px) {
+
+  .container {
+    height: 100vh;
+    padding: 2.5rem;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gradient {
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(to top, #eaeaea, transparent 20%);
+    position: fixed;
+    bottom: 0;
+
+    pointer-events: none;
+  }
+
+  .gradient2 {
+    width: 100vw;
+    height: 100vh;
+
+    background: linear-gradient(to top, #c6fc23, transparent 10%);
+    position: fixed;
+    bottom: 0;
+
+    pointer-events: none;
+  }
+
+  .title {
+    width: 100%;
+    padding: 4rem 0 4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    position: sticky;
+    top: 0;
+
+    color: black;
+    background: white;
+
+    z-index: 2;
+  }
+
+  .eyes {
+    width: 3.5rem;
+  }
+
+  .btitle {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2.3rem;
+  }
+
+  .stitle {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: rgb(#545454);
+  }
+
+  .btn {
+    width: 17rem;
+    padding: 0.7rem 0 0.7rem;
+    margin: 1rem;
+
+    position: sticky;
+    bottom: 4rem;
+
+    background-color: white;
+
+    border: 1px solid black;
+    border-radius: 0.3rem;
+
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+
+    align-self: center;
+
+    cursor: pointer;
+  }
+
+  tags {
+    width: 12rem;
+
+    align-items: center;
+    justify-content: left;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+
+    border: none !important;
+  }
+
+  tags > tag {
+    margin: 0 !important;
+  }
+
+  .tagify__tag-text {
+    padding: 0.05rem 0.4rem 0.05rem;
+   }
+  
+  .tagify__input {
+    width: 100%;
+    height: 2.5rem;
+    margin: 0 !important;
+  
+    display: flex;
+  
+    border: 1px solid black;
+    border-radius: 0.5rem;
+  }
+
+  
+  .tagify__input::before,
+  .tagify__input::after {
+    padding-top: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .tagify {
+    width: 100%;
+
+    --tag-bg: rgb(198, 252, 35) !important;
+    --tag-hover: none !important;
+  
+    padding: 1rem;
+    display: flex;
+  }
+  
+  .tagify__tag::after {
+    border: 1px solid black;
+  }
+  
+  .tagify__tag {
+    background-color:rgb(198, 252, 35);
+    font-size: 0.5rem;
+    font-weight: 600;
+  
+    border: 1.5px solid #444444;
+    border-radius: 0.3rem;
+  }
+
+  .all-wraper {
+    width: 100vw;
+    padding: 0 calc((100vw - 390px)/2) 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+ }
