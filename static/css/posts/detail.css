@@ -27,7 +27,7 @@
   flex-direction: column;
 
   align-items: center;
-}
+} 
 
 .title {
   margin-top: 1rem;
@@ -81,8 +81,13 @@
   width: 100%;
 
   display: flex;
-
+  
   font-size: 0.75rem;
+}
+
+.log-date {
+  flex-wrap: wrap;
+  justify-content: flex-end
 }
 
 .log-label {
