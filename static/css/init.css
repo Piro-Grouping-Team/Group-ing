@@ -303,4 +303,18 @@
     justify-content: center;
     align-items: center;
   }
+
+  .main-wrapper {
+    border-left: 1px solid #808080;
+    border-right: 1px solid #808080;
+  }
+
+  .main-container {
+    width: 100%;
+    padding: 0;
+  }
+
+  footer {
+    width: 100%;
+  }
  }
