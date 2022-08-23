@@ -145,3 +145,12 @@
   position: fixed;
   bottom: 4rem;
 }
+
+span.tagify__input {
+  height: 0;
+  min-width: 0;
+}
+
+.customLook {
+  margin-bottom: 1rem;
+}

@@ -9,6 +9,11 @@
 }
 
 .group {
+  padding: 1rem;
+
+  border: 1.5px solid black;
+  border-radius: 0.5rem;
+
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -17,6 +22,7 @@
 .group-img_box {
   width: 3.4rem;
   height: 3.4rem;
+  border: 1.5px solid black;
   border-radius: 70%;
   overflow: hidden;
   flex-shrink: 0;
@@ -113,8 +119,9 @@
   }
 }
 
-.tagify__input {
+span.tagify__input {
   height: 0;
+  min-width: 0;
 }
 
 .modal- .tagify__tag > div {
