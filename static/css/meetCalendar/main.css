@@ -1,7 +1,6 @@
 @import url("../reset.css");
 
-
-body {
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,6 +16,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  align-self: center;
 }
 
 .year-month {
@@ -183,21 +184,12 @@ body {
   color: black;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .btn {
-  width: 7rem;
+  width: 17rem;
   padding: 0.7rem 0 0.7rem;
+  margin: 1rem;
 
-  position: sticky;
-  bottom: 3rem;
+  bottom: 4rem;
 
   background-color: white;
 
@@ -207,4 +199,17 @@ body {
   text-align: center;
   font-size: 0.75rem;
   font-weight: bold;
+
+  align-self: center;
+
+  cursor: pointer;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

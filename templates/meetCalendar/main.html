@@ -33,6 +33,8 @@
   </head>
 
   <body onload="getDates({{ meetId }})">
+    <div class="all-wraper">
+      <div class="container">
     <div class="calendar">
       <div class="navbar">
         <button class="nav-btn go-prev" onclick="prevMonth()">
@@ -70,6 +72,8 @@
       </div>
     </div>
     <a class="btn" href="{% url 'meetings:detail' id=groupId meetId=meetId %}">약속으로 돌아가기</a>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/meetCalendar/cal.js' %}"></script>
   </body>

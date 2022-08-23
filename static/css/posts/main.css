@@ -1,10 +1,11 @@
 @import url(../init.css);
 
 .img-wrapper {
-  height: 100vh;
-  width: 100vw;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
   position: fixed;
-  top: 30vh;
+  top: 30%;
 
   pointer-events: none;
   overflow: hidden;
@@ -35,6 +36,8 @@
   gap: 1.5rem;
 
   text-align: center;
+
+  background: transparent;
 }
 
 .form-search {
@@ -74,14 +77,13 @@
 }
 
 .log-contents {
-  height: 100vh;
-
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .posts {
-  width: 100%;
+  width: 25rem;
   padding-bottom: 8rem;
 
   display: flex;

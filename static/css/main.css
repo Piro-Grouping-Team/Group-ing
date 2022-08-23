@@ -1,11 +1,17 @@
 @import url(./init.css);
 
+html {
+  scroll-behavior:smooth !important;
+}
+
 body {
   background: white;
 }
 
 .main-logo-wrapper {
-  width: 100vw;
+  width: 100%;
+  padding-top: 10%;
+  padding-left: 2%;
 
   overflow: hidden;
 }
@@ -22,23 +28,23 @@ body {
   align-items: center;
   justify-content: center;
 
-  font-size: 4vw;
+  font-size: 1rem;
   font-weight: bold;
 }
 
 .buttons {
-  padding: 5vw;
+  padding: 1rem;
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-end;
 
-  gap: 3vw;
+  gap: 0.75rem;
 }
 
 .button {
-  font-size: 2vw;
+  font-size: 0.5rem;
   font-weight: bold;
   color: white;
   text-decoration: none;
@@ -56,9 +62,8 @@ body {
 }
 
 .ti-up {
-  transform: translate(0, 100px);
-  transition: all ease 1s;
-  transition-delay: 1s;
+  transform: translate(0, 4rem);
+  transition: all ease 2s;
 }
 
 .form-search {
@@ -74,16 +79,33 @@ body {
   background: rgba(198, 252, 35, 0.8);
 }
 
-.start-title {
-  width: 100%;
+.downbtn,
+.upbtn {
+  padding: 2.5rem;
+
+  cursor: pointer;
+
+  font-size: 1.25rem;
+}
+
+.upbtn {
+  padding: 2.5rem;
+
+  cursor: pointer;
+
+  align-self: center;
+  
+  font-size: 1.25rem;
+  color: white;
+}
+
+#start-title {
   padding: 4rem 0 4rem;
 
-  font-size: 10vw;
+  font-size: 2rem;
   font-weight: bold;
-  line-height: 11vw;
+  line-height: 2.5rem;
 
-  font-size: 10vw;
-  font-weight: bold;
   font-family: 'Poppins', sans-serif;
   color: black;
 }
@@ -92,12 +114,10 @@ body {
   width: 100%;
   padding: 4rem 0 4rem;
 
-  font-size: 10vw;
+  font-size: 2rem;
   font-weight: bold;
-  line-height: 11vw;
+  line-height: 2.5rem;
 
-  font-size: 10vw;
-  font-weight: 900;
   color: black;
 
   text-align: right;
@@ -108,91 +128,95 @@ body {
 
   display: flex;
   flex-direction: column;
-  gap: 5vw;
+  gap: 2rem;
 }
 
 .container-intro {
-  padding: 20vw 0 15vw;
+  padding: 4rem 0 4rem;
+
   align-self: center;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .intro-content {
   display: flex;
   flex-direction: column;
-  gap: 5vw;
+  gap: 1.25rem;
 
   text-align: center;
 }
 
 [class^="container"] {
   display: flex;
-  gap: 5vw;
+  gap: 1.75rem;
 }
 
 .line-wrapper {
-  width: 3vw;
-  margin: 1vw;
+  width: 0.75rem;
+  margin: 0.2rem;
 
   overflow: hidden;
 }
 
 .line {
-  width: 3vw;
+  width: 0.75rem;
 }
 
 .content {
-  padding: 7vw 0 7vw;
+  padding: 1.75rem 0 1.75rem;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 3vh;
+  gap: 1rem;
 }
 
 .small-title {
-  font-size: 5vw;
+  font-size: 1.25rem;
   font-weight: bold;
   font-family: 'Poppins', sans-serif;
 }
 
 .text {
-  font-size: 3vw;
+  font-size: 0.75rem;
   font-weight: 600;
-  line-height: 4vw;
+  line-height: 1rem;
 }
 
 .container-group {
-  height: 25vh;
+  height: 8rem;
 }
 
 .container-meet {
-  height: 30vh;
+  height: 11rem;
   justify-content: flex-end;
   text-align: right;
 }
 
 .container-keyword {
-  height: 25vh;
+  height: 8rem;
 }
 
 .container-table {
-  height: 30vh;
+  height: 11rem;
   justify-content: flex-end;
   text-align: right;
 }
 
 .container-vote {
-  height: 25vh;
+  height: 7rem;
 }
 
 .container-log {
-  height: 40vh;
+  height: 14rem;
   justify-content: flex-end;
   text-align: right;
 }
 
 footer {
-  padding: 10vh 0 10vh;
+  padding: 2.5rem 0 2.5rem;
 
   background: linear-gradient(to top, #545454, transparent);
   display: flex;
@@ -201,21 +225,21 @@ footer {
 }
 
 .footer-title {
-  padding: 10vw;
+  padding: 2.5rem;
 
-  font-size: 5vw;
+  font-size: 1.25rem;
   font-family: 'Poppins', sans-serif;
   color: black
 }
 
 .footer-text {
-  padding: 0 10vw 10vw;
+  padding: 0 2.5rem 2.5rem;
 
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 
-  font-size: 3vw;
+  font-size: 0.75rem;
   font-family: 'Poppins', sans-serif;
   color: white;
 }
