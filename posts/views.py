@@ -207,7 +207,7 @@ def create(request):
             postForm = PostForm(initial={'logTitle': '', 'userId': request.user})
             # formset = imgFormSet(queryset=PostImg.objects.none())
 
-            meetings = Meetings.objects.filter(meetMembers__in=[request.user])
+            meetings = Meetings.objects.filter(meetMembers__in=[request.user], meetStatus='3')
             meetingsId = []
             for meeting in meetings:
                 tmp = {}
