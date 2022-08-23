@@ -37,7 +37,7 @@
   width: 10rem;
   padding: 0.5rem 1rem 0.5rem;
 
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-radius: 0.3rem;
 
   font-size: 0.75rem;
@@ -80,7 +80,7 @@
 
 .meetings {
   width: 100%;
-  padding: 0 1rem 7rem;
+  padding: 0 1rem 10rem;
 
   display: flex;
   flex-direction: column;
@@ -103,7 +103,7 @@
   position: relative;
   right: 0.5rem;
 
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-bottom: none;
   border-radius: 0.2rem 0.2rem 0 0;
 
@@ -116,7 +116,7 @@
   width: 100%;
   padding: 1rem;
 
-  border: 1px solid black;
+  border: 1.5px solid black;
   border-radius: 0.5rem;
 }
 
