@@ -88,13 +88,14 @@
           <div class="log-label">다녀온 곳들</div>
           <div class="log-places">
             {% for place in post.places.places %}
-            <div>📍{{ place }}</div>
+            <p>📍{{ place }}</p>
             {% endfor %}
           </div>
         </div>
 
         <div class="log-content">
-          <div>{{ post.logContent }}</div>
+          <div class="log-label">약속 소감</div>
+          <p>{{ post.logContent }}</p>
         </div>
 
         <div class="log-content">
